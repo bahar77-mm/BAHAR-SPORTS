@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Order</title>
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#e23278;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.box{
+background:white;
+padding:25px;
+width:350px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+
+h2{
+text-align:center;
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin:8px 0;
+font-size:16px;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#28a745;
+color:white;
+border:none;
+font-size:18px;
+cursor:pointer;
+border-radius:5px;
+}
+
+button:hover{
+background:#218838;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="box">
+
+<h2>Order Form</h2>
+
+
+<p><b>Product:</b> <span id="product"></span></p>
+
+
+<input type="text" id="name" placeholder="Your Name" required>
+
+<input type="tel" id="phone" placeholder="Phone Number" required>
+
+<input type="text" id="productName" placeholder="Product Code" required>
+
+<input type="text" id="size" placeholder="Product Size" required>
+
+<textarea id="address" placeholder="Your Address" required></textarea>
+
+
+<button onclick="sendWhatsApp()">
+Confirm Order
+</button>
+
+
+</div>
+
+
+
+<script>
+
+// Product name show from URL
+
+const params = new URLSearchParams(window.location.search);
+
+let product = params.get("product");
+
+if(product){
+document.getElementById("product").innerText = product;
+}
+
+
+
+// Send WhatsApp
+
+function sendWhatsApp(){
+
+let name = document.getElementById("name").value;
+let phone = document.getElementById("phone").value;
+let productName = document.getElementById("productName").value;
+let size = document.getElementById("size").value;
+let address = document.getElementById("address").value;
+
+
+let message =
+"🛒 New Order\n\n"+
+"Name: "+name+"\n"+
+"Phone: "+phone+"\n"+
+"Product: "+productName+"\n"+
+"Size: "+size+"\n"+
+"Address: "+address;
+
+
+let whatsapp = "8801616568419";
+
+
+let url = 
+"https://wa.me/"+whatsapp+
+"?text="+encodeURIComponent(message);
+
+
+window.open(url,"_blank");
+
+
+}
+
+</script>
+
+
+</body>
+</html>
