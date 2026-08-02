@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BAHAR SPORTS Order</title>
+
+
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:linear-gradient(135deg,#0f172a,#2563eb,#9333ea);
+
+    padding:20px;
+
+}
+
+
+
+.box{
+
+    width:100%;
+    max-width:420px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:25px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
+
+}
+
+
+
+h2{
+
+    text-align:center;
+
+    color:#1e293b;
+
+    margin-bottom:25px;
+
+    font-size:30px;
+
+}
+
+
+
+.product-box{
+
+    background:#f1f5f9;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    margin-bottom:20px;
+
+    text-align:center;
+
+}
+
+
+
+.product-box span{
+
+    color:#e11d48;
+
+    font-weight:bold;
+
+    font-size:20px;
+
+}
+
+
+
+input,select,textarea{
+
+    width:100%;
+
+    padding:13px;
+
+    margin:10px 0;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:12px;
+
+    font-size:16px;
+
+    outline:none;
+
+}
+
+
+textarea{
+
+    height:100px;
+
+    resize:none;
+
+}
+
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    margin-top:15px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:linear-gradient(135deg,#f97316,#ec4899);
+
+    color:white;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+
+button:hover{
+
+    transform:scale(1.05);
+
+}
+
+
+.note{
+
+    text-align:center;
+
+    margin-top:15px;
+
+    color:#64748b;
+
+    font-size:14px;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="box">
+
+
+<h2>
+BAHAR SPORTS
+</h2>
+
+
+<div class="product-box">
+
+<p>
+Selected Product:
+</p>
+
+<span id="product">
+Loading...
+</span>
+
+</div>
+
+
+
+<input 
+type="text" 
+id="name" 
+placeholder="Your Name">
+
+
+
+<input 
+type="tel" 
+id="phone" 
+placeholder="Phone Number">
+
+
+
+<select id="size">
+
+<option value="">
+Select Jersey Size
+</option>
+
+<option value="S">Size S</option>
+
+<option value="M">Size M</option>
+
+<option value="L">Size L</option>
+
+<option value="XL">Size XL</option>
+
+<option value="XXL">Size XXL</option>
+
+</select>
+
+
+
+<textarea 
+id="address" 
+placeholder="Your Address">
+</textarea>
+
+
+<button onclick="sendOrder()">
+
+Confirm Order
+
+</button>
+
+
+<p class="note">
+
+After clicking, your order will be confirmed and sent.
+
+</p>
+
+
+</div>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import { 
+getFirestore,
+collection,
+addDoc,
+serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+// Firebase Configuration
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
+
+authDomain: "bahar-sports-f2a70.firebaseapp.com",
+
+projectId: "bahar-sports-f2a70",
+
+storageBucket: "bahar-sports-f2a70.firebasestorage.app",
+
+messagingSenderId: "254621686378",
+
+appId: "1:254621686378:web:4edfdf85c40362a51cc813"
+
+};
+
+
+// Firebase Start
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+// EmailJS Start
+
+emailjs.init("A5cuoRzS4yFyf5f_x");
+
+
+
+// Product Get From URL
+
+const params = new URLSearchParams(window.location.search);
+
+let product = params.get("product");
+
+
+if(product){
+
+document.getElementById("product").innerText = product;
+
+}
+
+else{
+
+document.getElementById("product").innerText = "No Product Selected";
+
+}
+
+// Send Order Function
+
+window.sendOrder = async function(){
+
+
+let name = document.getElementById("name").value;
+
+let phone = document.getElementById("phone").value;
+
+let size = document.getElementById("size").value;
+
+let address = document.getElementById("address").value;
+
+
+
+if(
+name=="" ||
+phone=="" ||
+size=="" ||
+address==""
+){
+
+alert("Please fill all information");
+
+return;
+
+}
+
+
+
+try{
+
+
+// Save Order To Firebase
+
+await addDoc(collection(db,"orders"),{
+
+
+name:name,
+
+phone:phone,
+
+product:product,
+
+size:size,
+
+address:address,
+
+time:serverTimestamp()
+
+
+});
+
+
+
+
+// Send Email Notification
+
+await emailjs.send(
+
+"service_r3cn5c2",
+
+"template_2p6xf89",
+
+{
+
+name:name,
+
+phone:phone,
+
+product:product,
+
+size:size,
+
+address:address
+
+}
+
+);
+
+
+
+
+alert("✅ Your Order Confirmed Successfully");
+
+
+
+// Clear Form
+
+
+document.getElementById("name").value="";
+
+document.getElementById("phone").value="";
+
+document.getElementById("size").value="";
+
+document.getElementById("address").value="";
+
+
+}
+
+
+catch(error){
+
+
+alert("Order Failed: "+error.message);
+
+
+}
+
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
