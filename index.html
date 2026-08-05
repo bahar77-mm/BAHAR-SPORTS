@@ -21,11 +21,58 @@ body{
     background:linear-gradient(135deg,#f1f5f9,#dbeafe);
 }
 
+/* TOP NAVIGATION BAR */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.top-nav .nav-left, .top-nav .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.nav-btn.cart-btn-top {
+    background: linear-gradient(135deg, #f97316, #ec4899);
+}
+
 /* PREMIUM HEADER */
 
 header{
 
     position:relative;
+    margin-top: 50px;
 
     background:
     linear-gradient(
@@ -79,14 +126,9 @@ header h1{
 
     -webkit-text-fill-color:transparent;
 
-
-
-
     animation:brand 2s infinite alternate;
 
 }
-
-
 
 @keyframes brand{
 
@@ -100,8 +142,6 @@ header h1{
 
 }
 
-
-
 /* SUB TITLE */
 
 header p{
@@ -114,8 +154,125 @@ header p{
 
     color:#e0f2fe;
 
+}
 
+/* FLASH SALE BANNER & TIMER */
+.flash-sale-banner {
+    max-width: 800px;
+    margin: -35px auto 20px;
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    color: white;
+    border-radius: 15px;
+    padding: 15px 25px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
 
+.flash-sale-banner h3 {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.timer-box {
+    display: flex;
+    gap: 8px;
+    font-weight: bold;
+}
+
+.timer-unit {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+/* SEARCH & CATEGORY FILTER SECTION */
+.search-container{
+    max-width:600px;
+    margin:15px auto 15px;
+    padding:0 20px;
+    position:relative;
+    z-index:10;
+}
+
+.search-bar{
+    width:100%;
+    padding:15px 25px;
+    font-size:16px;
+    border:none;
+    border-radius:50px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    outline:none;
+    transition:.3s;
+}
+
+.search-bar:focus{
+    box-shadow:0 10px 30px rgba(37,99,235,0.3);
+}
+
+/* CATEGORY TABS */
+.category-container{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    padding:0 20px;
+    margin-bottom:20px;
+}
+
+.cat-btn{
+    padding:8px 18px;
+    border:none;
+    background:white;
+    color:#1e293b;
+    font-weight:bold;
+    border-radius:50px;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.05);
+    transition:.3s;
+}
+
+.cat-btn:hover, .cat-btn.active{
+    background:#2563eb;
+    color:white;
+}
+
+/* TRUST FEATURES SECTION */
+.features-section{
+    max-width:1100px;
+    margin:20px auto 10px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:20px;
+    padding:0 20px;
+}
+
+.feature-card{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.feature-card h3{
+    font-size:18px;
+    color:#1e293b;
+    margin-bottom:5px;
+}
+
+.feature-card p{
+    font-size:14px;
+    color:#64748b;
 }
 
 /* PRODUCTS */
@@ -124,7 +281,7 @@ header p{
 
     max-width:1200px;
     margin:auto;
-    padding:40px 20px;
+    padding:30px 20px 40px;
 
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
@@ -132,22 +289,14 @@ header p{
 
 }
 
-
 /* PRODUCT CARD */
-
-.product-link{
-
-    text-decoration:none;
-    color:inherit;
-
-}
-
 
 .card{
 
     background:white;
     border-radius:20px;
     overflow:hidden;
+    position:relative;
 
     box-shadow:0 10px 25px rgba(0,0,0,.15);
 
@@ -157,7 +306,6 @@ header p{
 
 }
 
-
 .card:hover{
 
     transform:translateY(-10px);
@@ -165,7 +313,6 @@ header p{
     box-shadow:0 20px 35px rgba(0,0,0,.25);
 
 }
-
 
 .card img{
 
@@ -175,33 +322,118 @@ header p{
 
 }
 
+/* WISHLIST HEART BUTTON */
+.wishlist-btn {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    z-index: 5;
+    font-size: 18px;
+    transition: .3s;
+}
+
+.wishlist-btn.active {
+    color: red;
+}
+
+/* BADGE */
+.badge{
+    position:absolute;
+    top:15px;
+    right:15px;
+    padding:6px 14px;
+    border-radius:50px;
+    color:white;
+    font-size:12px;
+    font-weight:bold;
+    text-transform:uppercase;
+    z-index:5;
+}
+
+.badge.best{ background:#ef4444; }
+.badge.new{ background:#10b981; }
 
 .card h2{
 
-    padding:15px;
+    padding:15px 15px 5px;
     font-size:21px;
     color:#111827;
 
 }
-
 
 .price{
 
     color:#e11d48;
     font-size:25px;
     font-weight:bold;
-    margin-bottom:15px;
+    margin-bottom:10px;
 
 }
-/* BUY BUTTON */
+
+/* SIZE SELECTOR DROPDOWN */
+.size-selector {
+    margin: 0 20px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.size-selector label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #475569;
+}
+
+.size-selector select {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    outline: none;
+    font-weight: bold;
+    color: #0f172a;
+    cursor: pointer;
+}
+
+/* BUTTONS AREA IN CARD */
+.card-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding:0 20px 25px;
+}
+
+.add-cart-btn {
+    display:block;
+    padding:12px 20px;
+    border-radius:50px;
+    background:#2563eb;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    text-decoration:none;
+    transition:.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.add-cart-btn:hover {
+    background:#1d4ed8;
+}
 
 .buy-btn{
 
-    display:inline-block;
-
-    margin-bottom:25px;
-
-    padding:13px 35px;
+    display:block;
+    padding:12px 20px;
 
     border-radius:50px;
 
@@ -209,22 +441,125 @@ header p{
 
     color:white;
 
-    font-size:18px;
+    font-size:16px;
 
     font-weight:bold;
+
+    text-decoration:none;
 
     transition:.3s;
 
 }
 
-
 .buy-btn:hover{
 
-    transform:scale(1.08);
+    transform:scale(1.03);
 
 }
 
+/* SIDE DRAWER (CART & WISHLIST) */
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 380px;
+    height: 100%;
+    background: #0f172a;
+    color: white;
+    box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+    z-index: 2000;
+    transition: 0.4s ease;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
 
+.drawer-overlay.open {
+    right: 0;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.drawer-header h2 {
+    font-size: 20px;
+}
+
+.close-drawer {
+    font-size: 24px;
+    cursor: pointer;
+    color: #94a3b8;
+}
+
+.drawer-content {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.drawer-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e293b;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.drawer-item div h4 {
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.drawer-item div p {
+    font-size: 13px;
+    color: #38bdf8;
+}
+
+.remove-item {
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px;
+}
+
+.drawer-footer {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.drawer-footer .total-price {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg,#f97316,#ec4899);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
 
 /* FOOTER */
 
@@ -234,14 +569,13 @@ footer{
 
     color:white;
 
-    text-align:center;
-
-    padding:40px 20px;
+    padding:40px 20px 20px;
 
     margin-top:40px;
 
-}
+    text-align:center;
 
+}
 
 footer h2{
 
@@ -249,14 +583,11 @@ footer h2{
 
 }
 
-
 footer p{
 
     margin-top:10px;
 
 }
-
-
 
 /* BUTTON */
 
@@ -280,34 +611,17 @@ footer p{
 
 }
 
-
 .btn:hover{
 
     transform:translateY(-5px);
 
 }
 
-
 .order{
 
     background:#f97316;
 
 }
-
-
-.whatsapp{
-
-    background:#22c55e;
-
-}
-
-
-.facebook{
-
-    background:#2563eb;
-
-}
-
 
 /* COLOR LINE */
 
@@ -317,93 +631,116 @@ footer p{
 
     height:7px;
 
-    margin:5px auto 25px;
+    margin:15px auto 25px;
 
     border-radius:20px;
 
     background:linear-gradient(
         90deg,
         #110571,
-    
+        #2563eb
     );
 
 }
 
+/* SIDEBAR MENU */
+.sidebar{
+    position:fixed;
+    top:0;
+    left:-260px;
+    width:240px;
+    height:100%;
+    background:#0f172a;
+    padding-top:20px;
+    transition:.3s;
+    z-index:2001;
+}
+.sidebar a{display:block;color:#fff;text-decoration:none;padding:15px 20px;font-size:17px;cursor:pointer;}
+.sidebar a:hover{background:#2563eb}
+.sidebar.open{left:0}
 
-/* OWNER CARD */
-
-.owner-card{
-
-    max-width:500px;
-
-    margin:30px auto;
-
-    padding:20px;
-
-    background:rgba(239, 239, 241, 0.701);
-
-    color:#111;
-
-    border-radius:20px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:20px;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.2);
-
+/* OWNER MODAL / POPUP */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 3000;
+    justify-content: center;
+    align-items: center;
 }
 
+.modal-card {
+    background: #0f172a;
+    width: 90%;
+    max-width: 380px;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-.owner-card img{
+.close-modal {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 22px;
+    color: #94a3b8;
+    cursor: pointer;
+}
 
-    width:120px;
+.modal-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    object-fit: cover;
+    margin-bottom: 12px;
+}
 
-    height:120px;
+.modal-card h3 { color: #94a3b8; font-size: 14px; }
+.modal-card h2 { color: #ffffff; font-size: 22px; margin: 5px 0; }
+.modal-card p { color: #38bdf8; font-size: 15px; margin: 4px 0; }
+.modal-card span { color: #fbbf24; font-size: 14px; font-weight: bold; display: block; margin-top: 8px; }
 
+.modal-card .social-icons {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.modal-card .social-icons img {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 0;
+}
+
+/* FLOATING CHAT BUTTON */
+.floating-chat{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:999;
+}
+
+.floating-chat img{
+    width:55px;
+    height:55px;
     border-radius:50%;
-
-    object-fit:cover;
-
-    border:4px solid #2563eb;
-
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    transition:.3s;
 }
 
-
-.owner-info h3{
-
-    color:#64748b;
-
+.floating-chat img:hover{
+    transform:scale(1.1);
 }
 
-
-.owner-info h2{
-
-    margin:8px 0;
-
-    color:#111827;
-
-}
-
-
-.owner-info p{
-
-    margin:5px 0;
-
-    font-size:17px;
-
-}
-
-
-.owner-info span{
-
-    color:#132e68;
-
-    font-weight:bold;
-
-}
 </style>
 
 </head>
@@ -411,6 +748,45 @@ footer p{
 
 <body>
 
+<!-- TOP NAVIGATION -->
+<div class="top-nav">
+    <div class="nav-left">
+        <button class="nav-btn" onclick="document.getElementById('sidebar').classList.add('open')">☰ Menu</button>
+    </div>
+    <div class="nav-right">
+        <button class="nav-btn" onclick="openWishlistDrawer()">❤️ <span id="wishlist-count">0</span></button>
+        <button class="nav-btn cart-btn-top" onclick="openCartDrawer()">🛒 Cart (<span id="cart-count">0</span>)</button>
+    </div>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+    <a href="javascript:void(0)" onclick="document.getElementById('sidebar').classList.remove('open')">✖ Close</a>
+    <a href="index.html">🏠 Home Page</a>
+    <a href="https://bahar77-mm.github.io/BAHAR-SPORTS/admin.html">⚙️ Admin Panel</a>
+    <a href="javascript:void(0)" onclick="openOwnerModal()">👤 Owner Info</a>
+</div>
+
+<!-- OWNER INFO POPUP MODAL -->
+<div id="ownerModal" class="modal-overlay">
+    <div class="modal-card">
+        <span class="close-modal" onclick="closeOwnerModal()">✖</span>
+        <img src="images/owner.jpg.HEIC" alt="Owner">
+        <h3>Owner</h3>
+        <h2>HABIBUL BAHAR</h2>
+        <p>📞 01616568419</p>
+        <p>🏪 BAHAR SPORTS</p>
+        <span>Trusted Online Jersey Seller</span>
+        <div class="social-icons">
+            <a href="https://wa.me/8801616568419" target="_blank">
+                <img src="images/whatsapp.png" alt="WhatsApp">
+            </a>
+            <a href="https://www.facebook.com/share/1BhbzDP7f9/?mibextid=wwXIfr" target="_blank">
+                <img src="images/facebook.png" alt="Facebook">
+            </a>
+        </div>
+    </div>
+</div>
 
 <header>
 
@@ -420,242 +796,332 @@ footer p{
 
 </header>
 
+<!-- FLASH SALE COUNTDOWN BANNER -->
+<div class="flash-sale-banner">
+    <h3>🔥 Special Discount Offer Ending Soon!</h3>
+    <div class="timer-box">
+        <span class="timer-unit" id="hours">08h</span>
+        <span class="timer-unit" id="minutes">45m</span>
+        <span class="timer-unit" id="seconds">30s</span>
+    </div>
+</div>
 
+<!-- LIVE SEARCH BAR -->
+<div class="search-container">
+    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search Jersey " onkeyup="filterProducts()">
+</div>
 
-<section class="products">
+<!-- CATEGORY TABS FILTER -->
+<div class="category-container">
+    <button class="cat-btn active" onclick="filterCategory('all', this)">All</button>
+    <button class="cat-btn" onclick="filterCategory('club', this)">Club Jerseys</button>
+    <button class="cat-btn" onclick="filterCategory('national', this)">National Teams</button>
+</div>
 
+<!-- TRUST FEATURES -->
+<section class="features-section">
+    <div class="feature-card">
+        <h3>💯 Premium Quality</h3>
+        <p>100% Authentic Fabric & Finish</p>
+    </div>
+    <div class="feature-card">
+        <h3>🚚 Fast Delivery</h3>
+        <p>Home Delivery All Over Country</p>
+    </div>
+    <div class="feature-card">
+        <h3>💵 Cash on Delivery</h3>
+        <p>Pay After Receving Product</p>
+    </div>
+</section>
 
+<section class="products" id="productGrid">
+<!-- MANCITY HOME KIT -->
+<div class="card product-card" data-category="club">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'MANCITY HOME KIT', 1000)">🤍</div>
+<img src="images/b15.jpg">
+<h2>MANCITY HOME KIT</h2>
+<p class="price">৳1000</p>
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-mancity">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
+</div>
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('MANCITY HOME KIT', 1000, 'size-mancity')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('MANCITY HOME KIT', 'size-mancity')">Buy Now</a>
+</div>
+</div>
+
+<!-- LIVERPOOL HOME KIT -->
+<div class="card product-card" data-category="club">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'LIVERPOOL HOME KIT', 1000)">🤍</div>
+<img src="images/b16.jpg">
+<h2>LIVERPOOL HOME KIT</h2>
+<p class="price">৳1000</p>
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-liverpool">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
+</div>
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('LIVERPOOL HOME KIT', 1000, 'size-liverpool')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('LIVERPOOL HOME KIT', 'size-liverpool')">Buy Now</a>
+</div>
+</div>
 
 <!-- PORTUGAL -->
-
-<a class="product-link" href="order.html?product=PORTUGAL%20HOME%20KIT">
-
-<div class="card">
-
+<div class="card product-card" data-category="national">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'PORTUGAL HOME KIT [17]', 1000)">🤍</div>
+<span class="badge best">Best Seller</span>
 <img src="images/WhatsApp Image 2026-07-30 at 1.39.22 AM.jpeg">
-
 <h2>PORTUGAL HOME KIT [17]</h2>
-
 <p class="price">৳1000</p>
-
-<span class="buy-btn">
-Buy Now
-</span>
-
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-portugal">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
 </div>
-
-</a>
-
-
-
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('PORTUGAL HOME KIT [17]', 1000, 'size-portugal')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('PORTUGAL HOME KIT [17]', 'size-portugal')">Buy Now</a>
+</div>
+</div>
 
 <!-- AC MILAN -->
-
-<a class="product-link" href="order.html?product=AC%20MILAN%20KIT">
-
-<div class="card">
-
+<div class="card product-card" data-category="club">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'AC MILAN KIT [16]', 350)">🤍</div>
 <img src="images/c3e3a029-70e1-4de1-9edd-480c54930438.jpg">
-
 <h2>AC MILAN KIT [16]</h2>
-
 <p class="price">৳350</p>
-
-<span class="buy-btn">
-Buy Now
-</span>
-
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-milan">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
 </div>
-
-</a>
-
-
-
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('AC MILAN KIT [16]', 350, 'size-milan')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('AC MILAN KIT [16]', 'size-milan')">Buy Now</a>
+</div>
+</div>
 
 <!-- BARCELONA -->
-
-<a class="product-link" href="order.html?product=BARCELONA%20KIT">
-
-<div class="card">
-
+<div class="card product-card" data-category="club">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'BARCELONA NEW KIT [14]', 1000)">🤍</div>
+<span class="badge new">New Arrival</span>
 <img src="images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg">
-
 <h2>BARCELONA NEW KIT [14]</h2>
-
 <p class="price">৳1000</p>
-
-<span class="buy-btn">
-Buy Now
-</span>
-
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-barca">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
 </div>
-
-</a>
-
-
-
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('BARCELONA NEW KIT [14]', 1000, 'size-barca')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('BARCELONA NEW KIT [14]', 'size-barca')">Buy Now</a>
+</div>
+</div>
 
 <!-- ARGENTINA -->
-
-<a class="product-link" href="order.html?product=ARGENTINA%20HOME%20JERSEY">
-
-<div class="card">
-
+<div class="card product-card" data-category="national">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'ARGENTINA HOME JERSEY [13]', 1000)">🤍</div>
+<span class="badge best">Best Seller</span>
 <img src="images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg">
-
 <h2>ARGENTINA HOME JERSEY [13]</h2>
-
 <p class="price">৳1000</p>
-
-<span class="buy-btn">
-Buy Now
-</span>
-
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-arg">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
 </div>
-
-</a>
-
-
-
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('ARGENTINA HOME JERSEY [13]', 1000, 'size-arg')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('ARGENTINA HOME JERSEY [13]', 'size-arg')">Buy Now</a>
+</div>
+</div>
 
 <!-- BRAZIL BLUE -->
-
-<a class="product-link" href="order.html?product=BRAZIL%20BLUE%20JERSEY">
-
-<div class="card">
-
+<div class="card product-card" data-category="national">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'BRAZIL BLUE JERSEY [12]', 350)">🤍</div>
 <img src="images/a39e938b-2472-4128-a9a9-f19282c4ed82.jpg">
-
 <h2>BRAZIL BLUE JERSEY [12]</h2>
-
 <p class="price">৳350</p>
-
-<span class="buy-btn">
-Buy Now
-</span>
-
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-br-blue">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
 </div>
-
-</a>
-
-
-
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('BRAZIL BLUE JERSEY [12]', 350, 'size-br-blue')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('BRAZIL BLUE JERSEY [12]', 'size-br-blue')">Buy Now</a>
+</div>
+</div>
 
 <!-- BRAZIL BLACK -->
-
-<a class="product-link" href="order.html?product=BRAZIL%20BLACK%20JERSEY">
-
-<div class="card">
-
+<div class="card product-card" data-category="national">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'BRAZIL BLACK JERSEY [11]', 350)">🤍</div>
 <img src="images/f732aaed-2f91-437b-a118-1d22dfc04e45.jpg">
-
 <h2>BRAZIL BLACK JERSEY [11]</h2>
-
 <p class="price">৳350</p>
-
-<span class="buy-btn">
-Buy Now
-</span>
-
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-br-black">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
 </div>
-
-</a>
-
-
-
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('BRAZIL BLACK JERSEY [11]', 350, 'size-br-black')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('BRAZIL BLACK JERSEY [11]', 'size-br-black')">Buy Now</a>
+</div>
+</div>
 
 <!-- BARCELONA AWAY -->
-
-<a class="product-link" href="order.html?product=BARCELONA%20AWAY%20JERSEY">
-
-<div class="card">
-
+<div class="card product-card" data-category="club">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'BARCELONA AWAY JERSEY', 1000)">🤍</div>
 <img src="images/b2.jpg">
-
-<h2>BARCELONA AWAY JERSEY </h2>
-
+<h2>BARCELONA AWAY JERSEY</h2>
 <p class="price">৳1000</p>
-
-<span class="buy-btn">
-Buy Now
-</span>
-
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-barca-away">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
 </div>
-
-</a>
-
-
-
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('BARCELONA AWAY JERSEY', 1000, 'size-barca-away')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('BARCELONA AWAY JERSEY', 'size-barca-away')">Buy Now</a>
+</div>
+</div>
 
 <!-- REAL MADRID HOME -->
-
-<a class="product-link" href="order.html?product=REAL MADRID%20HOME%20JERSEY">
-
-<div class="card">
-
+<div class="card product-card" data-category="club">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'REAL MADRID HOME JERSEY', 1000)">🤍</div>
 <img src="images/b1.jpg">
-
-<h2>REAL MADRID HOME JERSEY </h2>
-
+<h2>REAL MADRID HOME JERSEY</h2>
 <p class="price">৳1000</p>
-
-<span class="buy-btn">
-Buy Now
-</span>
-
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-real-home">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
 </div>
-
-</a>
-
-
-
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('REAL MADRID HOME JERSEY', 1000, 'size-real-home')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('REAL MADRID HOME JERSEY', 'size-real-home')">Buy Now</a>
+</div>
+</div>
 
 <!-- REAL MADRID AWAY -->
-
-<a class="product-link" href="order.html?product=REAL MADRID%20AWAY%20JERSEY">
-
-<div class="card">
-
+<div class="card product-card" data-category="club">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'REAL MADRID AWAY JERSEY', 1000)">🤍</div>
 <img src="images/b3.jpg">
-
-<h2>REAL MADRID AWAY JERSEY </h2>
-
+<h2>REAL MADRID AWAY JERSEY</h2>
 <p class="price">৳1000</p>
-
-<span class="buy-btn">
-Buy Now
-</span>
-
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-real-away">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
 </div>
-
-</a>
-
-
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('REAL MADRID AWAY JERSEY', 1000, 'size-real-away')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('REAL MADRID AWAY JERSEY', 'size-real-away')">Buy Now</a>
+</div>
+</div>
 
 
 <!-- CHELSEA HOME -->
-
-<a class="product-link" href="order.html?product=CHELSEA%20HOME%20JERSEY">
-
-<div class="card">
-
+<div class="card product-card" data-category="club">
+<div class="wishlist-btn" onclick="toggleWishlist(this, 'CHELSEA HOME JERSEY', 1000)">🤍</div>
 <img src="images/b4.jpg">
-
-<h2>CHELSEA HOME JERSEY </h2>
-
+<h2>CHELSEA HOME JERSEY</h2>
 <p class="price">৳1000</p>
-
-<span class="buy-btn">
-Buy Now
-</span>
-
+<div class="size-selector">
+    <label>Size:</label>
+    <select id="size-chelsea">
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+    </select>
+</div>
+<div class="card-buttons">
+<button class="add-cart-btn" onclick="addToCart('CHELSEA HOME JERSEY', 1000, 'size-chelsea')">🛒 Add to Cart</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('CHELSEA HOME JERSEY', 'size-chelsea')">Buy Now</a>
+</div>
 </div>
 
-</a>
-
-
-
 </section>
+
+<!-- CART DRAWER -->
+<div id="cartDrawer" class="drawer-overlay">
+    <div class="drawer-header">
+        <h2>🛒 Your Cart</h2>
+        <span class="close-drawer" onclick="closeCartDrawer()">✖</span>
+    </div>
+    <div class="drawer-content" id="cartItemsContainer">
+        <!-- Cart Items Will Render Here -->
+    </div>
+    <div class="drawer-footer">
+        <div class="total-price">
+            <span>Total:</span>
+            <span id="cartTotalPrice">৳0</span>
+        </div>
+        <button class="checkout-btn" onclick="checkoutCartToOrderPage()">Proceed to Order</button>
+    </div>
+</div>
+
+<!-- WISHLIST DRAWER -->
+<div id="wishlistDrawer" class="drawer-overlay">
+    <div class="drawer-header">
+        <h2>❤️ Saved Items</h2>
+        <span class="close-drawer" onclick="closeWishlistDrawer()">✖</span>
+    </div>
+    <div class="drawer-content" id="wishlistItemsContainer">
+        <!-- Wishlist Items Will Render Here -->
+    </div>
+</div>
+
 <footer>
 
 <h2>Contact Us</h2>
@@ -664,65 +1130,221 @@ Buy Now
 Order Your Favourite Jersey Now
 </p>
 
-
 <a class="btn order" href="order.html">
 CLICK AND ORDER
 </a>
 
-
 <div class="color-line"></div>
-
-
-<a class="btn whatsapp"
-href="https://wa.me/8801616568419"
-target="_blank">
-WhatsApp
-</a>
-
-
-<a class="btn facebook"
-href="https://www.facebook.com/share/1BhbzDP7f9/?mibextid=wwXIfr"
-target="_blank">
-Facebook
-</a>
-
-
-<!-- OWNER CARD -->
-
-<div class="owner-card">
-
-<img src="images/owner.jpg.HEIC" alt="Owner">
-
-<div class="owner-info">
-
-<h3>Owner</h3>
-
-<h2>HABIBUL BAHAR</h2>
-
-<p>📞 01616568419</p>
-
-<p>🏪 BAHAR SPORTS</p>
-
-<span>Trusted Online Jersey Seller</span>
-
-</div>
-
-</div>
-
-
 
 <p style="margin-top:25px;color:#60a2f3;">
 © 2026 BAHAR SPORTS
 </p>
 
-
 </footer>
 
+<!-- FLOATING WHATSAPP CHAT -->
+<a href="https://wa.me/8801616568419" target="_blank" class="floating-chat">
+    <img src="images/whatsapp.png" alt="Chat with Us">
+</a>
 
+<script>
+let cart = [];
+let wishlist = [];
+
+// Search function to filter jerseys dynamically
+function filterProducts() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let cards = document.getElementsByClassName('product-card');
+
+    for (let i = 0; i < cards.length; i++) {
+        let title = cards[i].getElementsByTagName('h2')[0].innerText.toLowerCase();
+        if (title.includes(input)) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+// Category Filter Function
+function filterCategory(category, btn) {
+    let buttons = document.getElementsByClassName('cat-btn');
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('active');
+    }
+    btn.classList.add('active');
+
+    let cards = document.getElementsByClassName('product-card');
+    for (let i = 0; i < cards.length; i++) {
+        if (category === 'all' || cards[i].getAttribute('data-category') === category) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+// Wishlist Logic
+function toggleWishlist(btn, productName, price) {
+    if (btn.innerText === "🤍") {
+        btn.innerText = "❤️";
+        btn.classList.add('active');
+        wishlist.push({ name: productName, price: price });
+    } else {
+        btn.innerText = "🤍";
+        btn.classList.remove('active');
+        wishlist = wishlist.filter(item => item.name !== productName);
+    }
+    updateWishlistUI();
+}
+
+function updateWishlistUI() {
+    document.getElementById('wishlist-count').innerText = wishlist.length;
+    let container = document.getElementById('wishlistItemsContainer');
+    container.innerHTML = "";
+
+    if (wishlist.length === 0) {
+        container.innerHTML = "<p style='text-align:center;color:#94a3b8;margin-top:20px;'>No items saved yet.</p>";
+        return;
+    }
+
+    wishlist.forEach((item, index) => {
+        container.innerHTML += `
+            <div class="drawer-item">
+                <div>
+                    <h4>${item.name}</h4>
+                    <p>৳${item.price}</p>
+                </div>
+                <span class="remove-item" onclick="removeWishlist(${index})">✖</span>
+            </div>
+        `;
+    });
+}
+
+function removeWishlist(index) {
+    wishlist.splice(index, 1);
+    updateWishlistUI();
+}
+
+function openWishlistDrawer() {
+    document.getElementById('wishlistDrawer').classList.add('open');
+}
+
+function closeWishlistDrawer() {
+    document.getElementById('wishlistDrawer').classList.remove('open');
+}
+
+// Shopping Cart Logic
+function addToCart(productName, price, sizeSelectId) {
+    let size = document.getElementById(sizeSelectId).value;
+    cart.push({ name: productName, price: price, size: size });
+    updateCartUI();
+    openCartDrawer();
+}
+
+function updateCartUI() {
+    document.getElementById('cart-count').innerText = cart.length;
+    let container = document.getElementById('cartItemsContainer');
+    container.innerHTML = "";
+
+    let total = 0;
+
+    if (cart.length === 0) {
+        container.innerHTML = "<p style='text-align:center;color:#94a3b8;margin-top:20px;'>Your cart is empty.</p>";
+        document.getElementById('cartTotalPrice').innerText = "৳0";
+        return;
+    }
+
+    cart.forEach((item, index) => {
+        total += item.price;
+        container.innerHTML += `
+            <div class="drawer-item">
+                <div>
+                    <h4>${item.name}</h4>
+                    <p>Size: ${item.size} | ৳${item.price}</p>
+                </div>
+                <span class="remove-item" onclick="removeFromCart(${index})">✖</span>
+            </div>
+        `;
+    });
+
+    document.getElementById('cartTotalPrice').innerText = "৳" + total;
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartUI();
+}
+
+function openCartDrawer() {
+    document.getElementById('cartDrawer').classList.add('open');
+}
+
+function closeCartDrawer() {
+    document.getElementById('cartDrawer').classList.remove('open');
+}
+
+// Redirect Cart Items to order.html
+function checkoutCartToOrderPage() {
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    let itemsString = cart.map(item => `${item.name} (${item.size})`).join(", ");
+    let total = cart.reduce((sum, item) => sum + item.price, 0);
+
+    window.location.href = "order.html?product=" + encodeURIComponent(itemsString) + "&total=" + total;
+}
+
+// Dynamic Buy Now with Size
+function buyNow(productName, sizeSelectId) {
+    let size = document.getElementById(sizeSelectId).value;
+    window.location.href = "order.html?product=" + encodeURIComponent(productName) + "&size=" + size;
+}
+
+// Countdown Timer Function
+function startTimer() {
+    let hours = 8, minutes = 45, seconds = 30;
+    setInterval(() => {
+        seconds--;
+        if (seconds < 0) {
+            seconds = 59;
+            minutes--;
+            if (minutes < 0) {
+                minutes = 59;
+                hours--;
+            }
+        }
+        document.getElementById('hours').innerText = (hours < 10 ? "0" : "") + hours + "h";
+        document.getElementById('minutes').innerText = (minutes < 10 ? "0" : "") + minutes + "m";
+        document.getElementById('seconds').innerText = (seconds < 10 ? "0" : "") + seconds + "s";
+    }, 1000);
+}
+startTimer();
+
+// Modal Toggle Functions
+function openOwnerModal() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('ownerModal').style.display = 'flex';
+}
+
+function closeOwnerModal() {
+    document.getElementById('ownerModal').style.display = 'none';
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById('ownerModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
 
 <style>
 
-@media(max-width:600px){
+@media(max-width:768px){
 
 header h1{
     font-size:32px;
@@ -732,7 +1354,6 @@ header p{
     font-size:16px;
 }
 
-
 .products{
 
     padding:25px 15px;
@@ -741,14 +1362,11 @@ header p{
 
 }
 
-
-
 .card img{
 
     height:280px;
 
 }
-
 
 .card h2{
 
@@ -756,13 +1374,11 @@ header p{
 
 }
 
-
 .price{
 
     font-size:22px;
 
 }
-
 
 .buy-btn{
 
@@ -771,8 +1387,6 @@ header p{
     font-size:16px;
 
 }
-
-
 
 .btn{
 
@@ -784,37 +1398,20 @@ header p{
 
 }
 
-
-
 .color-line{
 
     width:200px;
 
 }
 
-
-.owner-card{
-
-    flex-direction:column;
-
-    text-align:center;
-
+.flash-sale-banner {
+    flex-direction: column;
+    text-align: center;
 }
-
-
-.owner-card img{
-
-    width:200px;
-
-    height:200px;
-
-}
-
 
 }
 
 </style>
-
 
 </body>
 

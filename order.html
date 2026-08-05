@@ -59,7 +59,7 @@ h2{
     font-size:20px;
 }
 
-input,select,textarea{
+input,textarea{
     width:100%;
     padding:13px;
     margin:10px 0;
@@ -135,20 +135,6 @@ type="tel"
 id="phone"
 placeholder="Phone Number">
 
-<select id="size">
-
-<option value="">
-Select Jersey Size
-</option>
-
-<option value="S">Size S</option>
-<option value="M">Size M</option>
-<option value="L">Size L</option>
-<option value="XL">Size XL</option>
-<option value="XXL">Size XXL</option>
-
-</select>
-
 <textarea
 id="address"
 placeholder="Your Address">
@@ -163,6 +149,7 @@ After clicking, your order will be confirmed and sent.
 </p>
 
 </div>
+
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -202,19 +189,24 @@ const db = getFirestore(app);
 
 emailjs.init("A5cuoRzS4yFyf5f_x");
 
-// Product Get From URL
+// Product & Size Get From URL
 
 const params = new URLSearchParams(window.location.search);
 
 let product = params.get("product");
+let size = params.get("size");
 
 if(product){
 
-document.getElementById("product").innerText = product;
+    let displayTxt = product;
+    if(size){
+        displayTxt += " (Size: " + size + ")";
+    }
+    document.getElementById("product").innerText = displayTxt;
 
 }else{
 
-document.getElementById("product").innerText = "No Product Selected";
+    document.getElementById("product").innerText = "No Product Selected";
 
 }
 
@@ -231,14 +223,11 @@ let name = document.getElementById("name").value;
 
 let phone = document.getElementById("phone").value;
 
-let size = document.getElementById("size").value;
-
 let address = document.getElementById("address").value;
 
 if(
 name=="" ||
 phone=="" ||
-size=="" ||
 address==""
 ){
 
@@ -254,6 +243,12 @@ btn.innerHTML = "⏳ Processing...";
 btn.style.opacity = "0.7";
 btn.style.cursor = "not-allowed";
 
+// Product Name এর সাথে সাইজ যুক্ত করা
+let finalProduct = product ? product : "N/A";
+if(size){
+    finalProduct += " [Size: " + size + "]";
+}
+
 try{
 
 // Save Order To Firebase
@@ -264,9 +259,7 @@ name:name,
 
 phone:phone,
 
-product:product,
-
-size:size,
+product:finalProduct,
 
 address:address,
 
@@ -288,15 +281,14 @@ name:name,
 
 phone:phone,
 
-product:product,
-
-size:size,
+product:finalProduct,
 
 address:address
 
 }
 
 );
+
 alert("✅ Your Order Confirmed Successfully");
 
 // Button Success
@@ -308,15 +300,13 @@ document.getElementById("name").value = "";
 
 document.getElementById("phone").value = "";
 
-document.getElementById("size").value = "";
-
 document.getElementById("address").value = "";
 
 }
 
 catch(error){
 
-// যদি Error হয় তাহলে Button আবার চালু হবে
+// যদি Error হয় তাহলে Button আবার চালু হবে
 
 btn.disabled = false;
 
@@ -335,5 +325,6 @@ alert("Order Failed: " + error.message);
 </script>
 
 </body>
+
 
 </html>
