@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAHAR SPORTS - Product Details</title>
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0b0f19;
+            --card-bg: #1e293b;
+            --primary-color: #2563eb;
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border-line: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            padding: 20px 15px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-card {
+            width: 100%;
+            max-width: 460px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            border: 1px solid var(--border-line);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        /* HEADER */
+        .header {
+            padding: 18px 20px;
+            background: rgba(15, 23, 42, 0.6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .back-btn {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .content-body {
+            padding: 20px;
+        }
+
+        /* PRODUCT DISPLAY */
+        .image-wrapper {
+            width: 100%;
+            height: 320px;
+            background: #0f172a;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-line);
+            margin-bottom: 15px;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .product-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        /* SIZE SELECTION */
+        .size-section {
+            margin-bottom: 25px;
+        }
+
+        .size-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 0 10px;
+        }
+
+        .size-label {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .size-chart-link {
+            font-size: 13px;
+            color: var(--accent-color);
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .size-options {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .size-btn {
+            width: 50px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-line);
+            color: var(--text-main);
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .size-btn.active, .size-btn:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        /* FORM SECTION */
+        .form-section {
+            border-top: 1px solid var(--border-line);
+            padding-top: 20px;
+        }
+
+        .form-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 13px 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-line);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.2);
+        }
+
+        textarea {
+            height: 85px;
+            resize: none;
+        }
+
+        /* BUTTON */
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #f97316, #ec4899);
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(249, 115, 22, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .note {
+            text-align: center;
+            margin-top: 12px;
+            color: var(--text-sub);
+            font-size: 12px;
+        }
+
+        /* MODAL (SIZE CHART) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-line);
+            padding: 25px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-sub);
+        }
+
+        .size-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+
+        .size-table th, .size-table td {
+            border: 1px solid var(--border-line);
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .size-table th {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-card">
+        <!-- HEADER -->
+        <div class="header">
+            <a href="index.html" class="back-btn">⬅️ Back</a>
+            <div class="brand-title">BAHAR SPORTS</div>
+        </div>
+
+        <div class="content-body">
+            <!-- PRODUCT DETAILS -->
+            <div class="image-wrapper">
+                <img id="productImg" src="" alt="Product">
+            </div>
+
+            <div class="product-info">
+                <h1 id="productName" class="product-title">Loading...</h1>
+                <div id="productPrice" class="product-price">৳0</div>
+            </div>
+
+            <!-- SIZE SELECTOR -->
+            <div class="size-section">
+                <div class="size-header">
+                    <span class="size-label">Select Your Size</span>
+                    <span class="size-chart-link" onclick="openSizeChart()">Size Guide?</span>
+                </div>
+                <div class="size-options">
+                    <button class="size-btn active" onclick="selectSize(this, 'M')">M</button>
+                    <button class="size-btn" onclick="selectSize(this, 'L')">L</button>
+                    <button class="size-btn" onclick="selectSize(this, 'XL')">XL</button>
+                    <button class="size-btn" onclick="selectSize(this, 'XXL')">XXL</button>
+                </div>
+            </div>
+
+            <!-- ORDER FORM -->
+            <div class="form-section">
+                <div class="form-title">📝 Enter Delivery Details</div>
+
+                <div class="input-group">
+                    <input type="text" id="name" placeholder="Your Full Name">
+                </div>
+                <div class="input-group">
+                    <input type="tel" id="phone" placeholder="Phone Number">
+                </div>
+                <div class="input-group">
+                    <textarea id="address" placeholder="Full Delivery Address"></textarea>
+                </div>
+
+                <button id="confirmBtn" class="submit-btn" onclick="sendOrder()">Confirm Order 🚀</button>
+                <p class="note">Cash on delivery available all over Bangladesh.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIZE CHART MODAL -->
+    <div id="sizeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeSizeChart()">✖</span>
+            <h3 style="text-align: center; color: var(--accent-color); margin-bottom: 10px;">Jersey Size Guide (Inches)</h3>
+            <table class="size-table">
+                <thead>
+                    <tr>
+                        <th>Size</th>
+                        <th>Chest (ছাত)</th>
+                        <th>Length (লম্বা)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>M</td><td>38"</td><td>27"</td></tr>
+                    <tr><td>L</td><td>40"</td><td>28"</td></tr>
+                    <tr><td>XL</td><td>42"</td><td>29"</td></tr>
+                    <tr><td>XXL</td><td>44"</td><td>30"</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- FIREBASE & EMAILJS LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
+            authDomain: "bahar-sports-f2a70.firebaseapp.com",
+            projectId: "bahar-sports-f2a70",
+            storageBucket: "bahar-sports-f2a70.firebasestorage.app",
+            messagingSenderId: "254621686378",
+            appId: "1:254621686378:web:4edfdf85c40362a51cc813"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // EmailJS Start
+        emailjs.init("A5cuoRzS4yFyf5f_x");
+
+        let selectedSize = 'M';
+        let currentProduct = {};
+
+        // Load Product Details
+        window.onload = function() {
+            const data = localStorage.getItem('selectedProduct');
+            if (data) {
+                currentProduct = JSON.parse(data);
+                document.getElementById('productName').innerText = currentProduct.name;
+                document.getElementById('productPrice').innerText = '৳' + currentProduct.price;
+                document.getElementById('productImg').src = currentProduct.img;
+            } else {
+                document.getElementById('productName').innerText = "No Product Selected";
+            }
+        };
+
+        // Size Selector
+        window.selectSize = function(btn, size) {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedSize = size;
+        };
+
+        // Modal Functions
+        window.openSizeChart = function() {
+            document.getElementById('sizeModal').style.display = 'flex';
+        };
+
+        window.closeSizeChart = function() {
+            document.getElementById('sizeModal').style.display = 'none';
+        };
+
+        // Send Order Function
+        window.sendOrder = async function() {
+            const btn = document.getElementById("confirmBtn");
+
+            if (btn.disabled) return;
+
+            let name = document.getElementById("name").value.trim();
+            let phone = document.getElementById("phone").value.trim();
+            let address = document.getElementById("address").value.trim();
+
+            if (name == "" || phone == "" || address == "") {
+                alert("Please fill all information");
+                return;
+            }
+
+            // Processing State
+            btn.disabled = true;
+            btn.innerHTML = "⏳ Processing...";
+
+            let productName = currentProduct.name ? currentProduct.name : "N/A";
+            let finalProduct = productName + " [Size: " + selectedSize + "]";
+
+            try {
+                // Save Order To Firebase
+                await addDoc(collection(db, "orders"), {
+                    name: name,
+                    phone: phone,
+                    product: finalProduct,
+                    address: address,
+                    time: serverTimestamp()
+                });
+
+                // Send Email Notification via EmailJS
+                await emailjs.send(
+                    "service_r3cn5c2",
+                    "template_2p6xf89",
+                    {
+                        name: name,
+                        phone: phone,
+                        product: finalProduct,
+                        address: address
+                    }
+                );
+
+                alert("✅ Your Order Confirmed Successfully");
+                btn.innerHTML = "✅ Order Confirmed";
+
+                document.getElementById("name").value = "";
+                document.getElementById("phone").value = "";
+                document.getElementById("address").value = "";
+
+            } catch (error) {
+                btn.disabled = false;
+                btn.innerHTML = "Confirm Order 🚀";
+                alert("Order Failed: " + error.message);
+            }
+        };
+    </script>
+</body>
+</html>

@@ -57,7 +57,7 @@ h1{
 }
 
 
-.login input{
+.login input, .upload-card input, .upload-card select{
 
     width:100%;
 
@@ -94,6 +94,14 @@ button{
 
 }
 
+
+.upload-card {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    border: 1px solid #e2e8f0;
+}
 
 
 table{
@@ -195,6 +203,19 @@ Login
 
 
 <div id="dashboard">
+
+<!-- PRODUCT UPLOAD SECTION -->
+<div class="upload-card">
+    <h2 style="color: #1e293b; margin-bottom: 15px;">➕ Upload New Jersey</h2>
+    <input type="text" id="prodName" placeholder="Jersey Name (e.g., ARSENAL HOME KIT)">
+    <input type="number" id="prodPrice" placeholder="Price in Taka (e.g., 1000)">
+    <select id="prodCategory">
+        <option value="club">Club Jersey</option>
+        <option value="national">National Team</option>
+    </select>
+    <input type="text" id="prodImg" placeholder="Image Path/URL (e.g., images/b15.jpg)">
+    <button onclick="uploadProduct()">Upload Product</button>
+</div>
 
 
 <h2>
