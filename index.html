@@ -330,23 +330,6 @@ header p{
     color: red;
 }
 
-/* BADGE */
-.badge{
-    position:absolute;
-    top:15px;
-    right:15px;
-    padding:6px 14px;
-    border-radius:50px;
-    color:white;
-    font-size:12px;
-    font-weight:bold;
-    text-transform:uppercase;
-    z-index:5;
-}
-
-.badge.best{ background:#ef4444; }
-.badge.new{ background:#10b981; }
-
 .card h2{
     padding:15px 15px 5px;
     font-size:21px;
@@ -836,13 +819,6 @@ footer p{
         font-size: 12px;
     }
 
-    .badge {
-        top: 6px;
-        right: 6px;
-        padding: 2px 6px;
-        font-size: 8px;
-    }
-
     .card h2 {
         padding: 5px 4px 2px;
         font-size: 10px;
@@ -907,7 +883,7 @@ footer p{
     </div>
 
     <a href="index.html">🏠 Home Page</a>
-    <a href="https://bahar77-mm.github.io/BAHAR-SPORTS/admin.html">⚙️ Admin Panel</a>
+    <a href="admin.html">⚙️ Admin Panel</a>
     <a href="javascript:void(0)" onclick="openOwnerModal()">👤 Owner Info</a>
 </div>
 
@@ -1001,274 +977,9 @@ footer p{
     </div>
 </section>
 
+<!-- PRODUCTS SECTION (DYNAMICALLY LOADED FROM FIREBASE) -->
 <section class="products" id="productGrid">
-<!-- MANCITY HOME KIT -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'MANCITY HOME KIT', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('MANCITY HOME KIT', '1000', 'images/b15.jpg')" class="product-link">
-<img src="images/b15.jpg">
-<h2>MANCITY HOME KIT</h2>
-</a>
-<p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-mancity">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('MANCITY HOME KIT', 1000, 'size-mancity')">🛒 Add</button>
-</div>
-</div>
-
-<!-- LIVERPOOL HOME KIT -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'LIVERPOOL HOME KIT', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('LIVERPOOL HOME KIT', '1000', 'images/b16.jpg')" class="product-link">
-<img src="images/b16.jpg">
-<h2>LIVERPOOL HOME KIT</h2>
-</a>
-<p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-liverpool">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('LIVERPOOL HOME KIT', 1000, 'size-liverpool')">🛒 Add</button>
-</div>
-</div>
-
-<!-- PORTUGAL -->
-<div class="card product-card" data-category="national">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'PORTUGAL HOME KIT [17]', 1000)">🤍</div>
-<span class="badge best">Best Seller</span>
-<a href="javascript:void(0)" onclick="openProductPage('PORTUGAL HOME KIT [17]', '1000', 'images/WhatsApp Image 2026-07-30 at 1.39.22 AM.jpeg')" class="product-link">
-<img src="images/WhatsApp Image 2026-07-30 at 1.39.22 AM.jpeg">
-<h2>PORTUGAL HOME KIT [17]</h2>
-</a>
-<p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-portugal">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('PORTUGAL HOME KIT [17]', 1000, 'size-portugal')">🛒 Add</button>
-</div>
-</div>
-
-<!-- AC MILAN -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'AC MILAN KIT [16]', 350)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('AC MILAN KIT [16]', '350', 'images/c3e3a029-70e1-4de1-9edd-480c54930438.jpg')" class="product-link">
-<img src="images/c3e3a029-70e1-4de1-9edd-480c54930438.jpg">
-<h2>AC MILAN KIT [16]</h2>
-</a>
-<p class="price">৳350</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-milan">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('AC MILAN KIT [16]', 350, 'size-milan')">🛒 Add</button>
-</div>
-</div>
-
-<!-- BARCELONA -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'BARCELONA NEW KIT [14]', 1000)">🤍</div>
-<span class="badge new">New</span>
-<a href="javascript:void(0)" onclick="openProductPage('BARCELONA NEW KIT [14]', '1000', 'images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg')" class="product-link">
-<img src="images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg">
-<h2>BARCELONA NEW KIT [14]</h2>
-</a>
-<p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-barca">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('BARCELONA NEW KIT [14]', 1000, 'size-barca')">🛒 Add</button>
-</div>
-</div>
-
-<!-- ARGENTINA -->
-<div class="card product-card" data-category="national">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'ARGENTINA HOME JERSEY [13]', 1000)">🤍</div>
-<span class="badge best">Best Seller</span>
-<a href="javascript:void(0)" onclick="openProductPage('ARGENTINA HOME JERSEY [13]', '1000', 'images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg')" class="product-link">
-<img src="images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg">
-<h2>ARGENTINA HOME JERSEY [13]</h2>
-</a>
-<p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-arg">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('ARGENTINA HOME JERSEY [13]', 1000, 'size-arg')">🛒 Add</button>
-</div>
-</div>
-
-<!-- BRAZIL BLUE -->
-<div class="card product-card" data-category="national">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'BRAZIL BLUE JERSEY [12]', 350)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('BRAZIL BLUE JERSEY [12]', '350', 'images/a39e938b-2472-4128-a9a9-f19282c4ed82.jpg')" class="product-link">
-<img src="images/a39e938b-2472-4128-a9a9-f19282c4ed82.jpg">
-<h2>BRAZIL BLUE JERSEY [12]</h2>
-</a>
-<p class="price">৳350</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-br-blue">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('BRAZIL BLUE JERSEY [12]', 350, 'size-br-blue')">🛒 Add</button>
-</div>
-</div>
-
-<!-- BRAZIL BLACK -->
-<div class="card product-card" data-category="national">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'BRAZIL BLACK JERSEY [11]', 350)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('BRAZIL BLACK JERSEY [11]', '350', 'images/f732aaed-2f91-437b-a118-1d22dfc04e45.jpg')" class="product-link">
-<img src="images/f732aaed-2f91-437b-a118-1d22dfc04e45.jpg">
-<h2>BRAZIL BLACK JERSEY [11]</h2>
-</a>
-<p class="price">৳350</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-br-black">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('BRAZIL BLACK JERSEY [11]', 350, 'size-br-black')">🛒 Add</button>
-</div>
-</div>
-
-<!-- BARCELONA AWAY -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'BARCELONA AWAY JERSEY', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('BARCELONA AWAY JERSEY', '1000', 'images/b2.jpg')" class="product-link">
-<img src="images/b2.jpg">
-<h2>BARCELONA AWAY JERSEY</h2>
-</a>
-<p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-barca-away">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('BARCELONA AWAY JERSEY', 1000, 'size-barca-away')">🛒 Add</button>
-</div>
-</div>
-
-<!-- REAL MADRID HOME -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'REAL MADRID HOME JERSEY', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('REAL MADRID HOME JERSEY', '1000', 'images/b1.jpg')" class="product-link">
-<img src="images/b1.jpg">
-<h2>REAL MADRID HOME JERSEY</h2>
-</a>
-<p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-real-home">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('REAL MADRID HOME JERSEY', 1000, 'size-real-home')">🛒 Add</button>
-</div>
-</div>
-
-<!-- REAL MADRID AWAY -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'REAL MADRID AWAY JERSEY', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('REAL MADRID AWAY JERSEY', '1000', 'images/b3.jpg')" class="product-link">
-<img src="images/b3.jpg">
-<h2>REAL MADRID AWAY JERSEY</h2>
-</a>
-<p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-real-away">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('REAL MADRID AWAY JERSEY', 1000, 'size-real-away')">🛒 Add</button>
-</div>
-</div>
-
-<!-- CHELSEA HOME -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'CHELSEA HOME JERSEY', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('CHELSEA HOME JERSEY', '1000', 'images/b4.jpg')" class="product-link">
-<img src="images/b4.jpg">
-<h2>CHELSEA HOME JERSEY</h2>
-</a>
-<p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-chelsea">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('CHELSEA HOME JERSEY', 1000, 'size-chelsea')">🛒 Add</button>
-</div>
-</div>
-
+    <p style="text-align:center; grid-column: 1/-1;">Loading products...</p>
 </section>
 
 <!-- CART DRAWER -->
@@ -1325,7 +1036,7 @@ CLICK AND ORDER
     <img src="images/whatsapp.png" alt="Chat with Us">
 </a>
 
-<!-- FIREBASE AUTHENTICATION SCRIPT -->
+<!-- FIREBASE SCRIPT & DYNAMIC PRODUCT LOADER -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { 
@@ -1336,8 +1047,13 @@ CLICK AND ORDER
         onAuthStateChanged, 
         signOut 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { 
+        getFirestore, 
+        collection, 
+        getDocs 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // Firebase Configuration
+    // Firebase Configuration[cite: 4]
     const firebaseConfig = {
         apiKey: "AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
         authDomain: "bahar-sports-f2a70.firebaseapp.com",
@@ -1349,7 +1065,54 @@ CLICK AND ORDER
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
     const googleProvider = new GoogleAuthProvider();
+
+    // Load Products From Firebase Firestore
+    async function loadProducts() {
+        const grid = document.getElementById('productGrid');
+        try {
+            const querySnapshot = await getDocs(collection(db, "products"));
+            if (querySnapshot.empty) {
+                grid.innerHTML = "<p style='text-align:center; grid-column: 1/-1;'>No products available right now. Please add from Admin Panel.</p>";
+                return;
+            }
+
+            grid.innerHTML = "";
+            querySnapshot.forEach((docSnap) => {
+                let p = docSnap.data();
+                let cardId = "size-" + docSnap.id;
+
+                grid.innerHTML += `
+                    <div class="card product-card" data-category="${p.category}">
+                        <div class="wishlist-btn" onclick="toggleWishlist(this, '${p.name}', ${p.price})">🤍</div>
+                        <a href="javascript:void(0)" onclick="openProductPage('${p.name}', '${p.price}', '${p.img}')" class="product-link">
+                            <img src="${p.img}" alt="${p.name}">
+                            <h2>${p.name}</h2>
+                        </a>
+                        <p class="price">৳${p.price}</p>
+                        <div class="size-selector">
+                            <label>Size:</label>
+                            <select id="${cardId}">
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                            </select>
+                        </div>
+                        <div class="card-buttons">
+                            <button class="add-cart-btn" onclick="addToCart('${p.name}', ${p.price}, '${cardId}')">🛒 Add</button>
+                        </div>
+                    </div>
+                `;
+            });
+        } catch (error) {
+            console.error("Error loading products:", error);
+            grid.innerHTML = "<p style='text-align:center; grid-column: 1/-1; color:red;'>Failed to load products.</p>";
+        }
+    }
+
+    loadProducts();
 
     // Open & Close Login Modal
     window.openLoginModal = function() {
