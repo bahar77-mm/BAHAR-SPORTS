@@ -1,272 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>BAHAR SPORTS Admin Panel</title>
-
 <style>
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
     font-family:Arial, sans-serif;
 }
-
-
 body{
-
     min-height:100vh;
-
     background:linear-gradient(135deg,#0f172a,#2563eb);
-
     padding:20px;
-
 }
-
-
 .box{
-
     max-width:1000px;
-
     margin:auto;
-
     background:white;
-
     padding:25px;
-
     border-radius:20px;
-
     box-shadow:0 10px 30px rgba(0,0,0,.3);
-
+    margin-bottom: 20px;
 }
-
-
-h1{
-
+h1, h2{
     text-align:center;
-
     color:#1e293b;
-
-    margin-bottom:25px;
-
+    margin-bottom:20px;
 }
-
-
-.login input, .upload-card input, .upload-card select{
-
+.login input, .upload-section input{
     width:100%;
-
     padding:12px;
-
     margin:10px 0;
-
     border-radius:10px;
-
     border:1px solid #ccc;
-
     font-size:16px;
-
 }
-
-
 button{
-
     width:100%;
-
     padding:13px;
-
     border:none;
-
     border-radius:30px;
-
     background:#2563eb;
-
     color:white;
-
     font-size:18px;
-
     cursor:pointer;
-
+    margin-top: 10px;
 }
-
-
-.upload-card {
+button:hover {
+    opacity: 0.9;
+}
+table{
+    width:100%;
+    margin-top:20px;
+    border-collapse:collapse;
+}
+th,td{
+    padding:12px;
+    border:1px solid #ddd;
+    text-align:center;
+}
+th{
+    background:#2563eb;
+    color:white;
+}
+#dashboard{
+    display:none;
+}
+.upload-section {
     background: #f8fafc;
     padding: 20px;
     border-radius: 15px;
-    margin-bottom: 25px;
     border: 1px solid #e2e8f0;
+    margin-bottom: 30px;
 }
-
-
-table{
-
-    width:100%;
-
-    margin-top:20px;
-
-    border-collapse:collapse;
-
-}
-
-
-th,td{
-
-    padding:12px;
-
-    border:1px solid #ddd;
-
-    text-align:center;
-
-}
-
-
-th{
-
-    background:#2563eb;
-
-    color:white;
-
-}
-
-
-
-#dashboard{
-
-    display:none;
-
-}
-
-
 @media(max-width:700px){
-
-table{
-
-font-size:12px;
-
+    table{
+        font-size:12px;
+    }
 }
-
-}
-
-
 </style>
-
-
 </head>
-
-
 <body>
-
-
 <div class="box">
+<h1>BAHAR SPORTS Admin Panel</h1>
 
-
-<h1>
-BAHAR SPORTS Admin Panel
-</h1>
-
-
-
+<!-- Login Section -->
 <div class="login" id="loginBox">
-
-
-<input 
-type="email" 
-id="email"
-placeholder="Admin Email">
-
-
-
-<input 
-type="password"
-id="password"
-placeholder="Password">
-
-
-
-<button onclick="login()">
-
-Login
-
-</button>
-
-
+<input type="email" id="email" placeholder="Admin Email">
+<input type="password" id="password" placeholder="Password">
+<button onclick="login()">Login</button>
 </div>
 
-
-
-
-
+<!-- Dashboard Section -->
 <div id="dashboard">
+    <!-- Product Upload Section -->
+    <div class="upload-section">
+        <h2>🛍️ Upload New Product</h2>
+        <input type="text" id="pName" placeholder="Product Name (e.g. Argentina Home Jersey)">
+        <input type="number" id="pPrice" placeholder="Price in Taka (e.g. 750)">
+        <input type="text" id="pImg" placeholder="Image URL (ImgBB or direct image link)">
+        <button id="uploadBtn" onclick="uploadProduct()">Upload Product 🚀</button>
+    </div>
 
-<!-- PRODUCT UPLOAD SECTION -->
-<div class="upload-card">
-    <h2 style="color: #1e293b; margin-bottom: 15px;">➕ Upload New Jersey</h2>
-    <input type="text" id="prodName" placeholder="Jersey Name (e.g., ARSENAL HOME KIT)">
-    <input type="number" id="prodPrice" placeholder="Price in Taka (e.g., 1000)">
-    <select id="prodCategory">
-        <option value="club">Club Jersey</option>
-        <option value="national">National Team</option>
-    </select>
-    <input type="text" id="prodImg" placeholder="Image Path/URL (e.g., images/b15.jpg)">
-    <button onclick="uploadProduct()">Upload Product</button>
+    <h2>All Orders</h2>
+    <table>
+    <thead>
+    <tr>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>Product</th>
+    <th>Size</th>
+    <th>Address</th>
+    </tr>
+    </thead>
+    <tbody id="orderList">
+    </tbody>
+    </table>
 </div>
 
-
-<h2>
-All Orders
-</h2>
-
-
-<table>
-
-
-<thead>
-
-<tr>
-
-<th>Name</th>
-
-<th>Phone</th>
-
-<th>Product</th>
-
-<th>Size</th>
-
-<th>Address</th>
-
-</tr>
-
-</thead>
-
-
-<tbody id="orderList">
-
-
-</tbody>
-
-
-</table>
-
-
 </div>
-
-
-
-</div>
-
-
-
-
-
 <script type="module" src="admin.js"></script>
-
-
 </body>
-
 </html>
+```[cite: 4, 2]
+
+---
+
+### ২. আপডেট করা `admin.js` ফাইল
+
+আপনার `admin.js` ফাইলে ফায়ারবেস থেকে `addDoc` এবং `serverTimestamp` মডিউলগুলো যুক্ত করে `uploadProduct` ফাংশনটি নিচে বসিয়ে দিন:
+
+```javascript
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { 
+    getFirestore, 
+    collection, 
+    getDocs,
+    addDoc,
+    serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { 
+    getAuth, 
+    signInWithEmailAndPassword 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// Firebase Configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
+    authDomain: "bahar-sports-f2a70.firebaseapp.com",
+    projectId: "bahar-sports-f2a70",
+    storageBucket: "bahar-sports-f2a70.firebasestorage.app",
+    messagingSenderId: "254621686378",
+    appId: "1:254621686378:web:4edfdf85c40362a51cc813"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// Admin Login
+window.login = function() {
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+        alert("✅ Login Successful");
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+        loadOrders();
+    })
+    .catch((error) => {
+        alert("Login Failed: " + error.message);
+    });
+};
+
+// Upload Product Function
+window.uploadProduct = async function() {
+    const btn = document.getElementById("uploadBtn");
+    let name = document.getElementById("pName").value.trim();
+    let price = document.getElementById("pPrice").value.trim();
+    let img = document.getElementById("pImg").value.trim();
+
+    if(!name || !price || !img) {
+        alert("Please fill in all fields!");
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = "⏳ Uploading...";
+
+    try {
+        await addDoc(collection(db, "products"), {
+            name: name,
+            price: price,
+            img: img,
+            time: serverTimestamp()
+        });
+
+        alert("✅ Product Uploaded Successfully!");
+        document.getElementById("pName").value = "";
+        document.getElementById("pPrice").value = "";
+        document.getElementById("pImg").value = "";
+    } catch (error) {
+        alert("❌ Error: " + error.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = "Upload Product 🚀";
+    }
+};
+
+// Load Orders
+async function loadOrders() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "orders"));
+        let list = document.getElementById("orderList");
+        list.innerHTML = "";
+
+        querySnapshot.forEach((doc) => {
+            let data = doc.data();
+            let row = `
+                <tr>
+                    <td>${data.name}</td>
+                    <td>${data.phone}</td>
+                    <td>${data.product}</td>
+                    <td>${data.size}</td>
+                    <td>${data.address}</td>
+                </tr>
+            `;
+            list.innerHTML += row;
+        });
+    } catch (error) {
+        console.error("Error loading orders: ", error);
+    }0
+}
+```[cite: 1]
+
