@@ -22,10 +22,16 @@ async function loadProducts() {
         
         if (!container) return; 
 
+        // আপনি যদি ফায়ারবেসের ডাটা দিয়ে সব আগের কার্ড রিমুভ করে শুধু ফায়ারবেসের প্রোডাক্ট দেখাতে চান, তবে এটি ব্যবহার করতে পারেন:
+        // container.innerHTML = "";
+
         querySnapshot.forEach((doc) => {
             let p = doc.data();
+            // ফায়ারবেসের ক্যাটাগরি লোয়ারকেস করে দেওয়া হলো যাতে ফিল্টারে সমস্যা না হয়
+            let cat = p.category ? p.category.toLowerCase() : "club"; 
+
             let card = `
-                <div class="card product-card" data-category="club">
+                <div class="card product-card" data-category="${cat}">
                     <div class="wishlist-btn" onclick="toggleWishlist(this, '${p.name}', ${p.price})">🤍</div>
                     <a href="product.html?name=${encodeURIComponent(p.name)}&price=${p.price}&img=${encodeURIComponent(p.img)}">
                         <img src="${p.img}" alt="${p.name}">
