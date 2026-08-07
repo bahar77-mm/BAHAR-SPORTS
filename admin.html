@@ -99,12 +99,52 @@ th{
     background:#2563eb;
     color:white;
 }
-@media(max-width:700px){
+
+/* মোবাইল ফ্রেন্ডলি রেসপন্সিভ ডিজাইন (সিএসএস এর একদম শেষে বসাতে হবে) */
+@media(max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .box {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
     .admin-menu {
         flex-direction: column;
+        gap: 10px;
     }
-    table{
-        font-size:12px;
+
+    .menu-btn {
+        width: 100%;
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    .login input, .upload-section input, .upload-section select, button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 8px 10px;
     }
 }
 </style>
@@ -120,7 +160,7 @@ th{
         <button id="loginBtn">Login</button>
     </div>
 
-    <!-- Dashboard Menu (দুটি বাটন) -->
+    <!-- Dashboard Menu -->
     <div id="dashboard">
         <h2>Welcome Admin</h2>
         <div class="admin-menu">
@@ -167,7 +207,6 @@ th{
 </div>
 
 <script>
-    // পেজ বা সেকশন সুইচ করার ফাংশন
     function showSection(sectionId) {
         document.getElementById('dashboard').style.display = 'none';
         document.getElementById('uploadSection').style.display = 'none';
@@ -176,7 +215,6 @@ th{
         document.getElementById(sectionId).style.display = 'block';
     }
 
-    // মেনুতে ফিরে যাওয়ার ফাংশন
     function goBack() {
         document.getElementById('uploadSection').style.display = 'none';
         document.getElementById('orderSection').style.display = 'none';
