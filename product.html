@@ -399,11 +399,19 @@
         let selectedSize = 'M';
         let currentProduct = {};
 
-        // Load Product Details
+        // Load Product Details from URL Parameters
         window.onload = function() {
-            const data = localStorage.getItem('selectedProduct');
-            if (data) {
-                currentProduct = JSON.parse(data);
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            const price = urlParams.get('price');
+            const img = urlParams.get('img');
+
+            if (name && price && img) {
+                currentProduct = {
+                    name: decodeURIComponent(name),
+                    price: price,
+                    img: decodeURIComponent(img)
+                };
                 document.getElementById('productName').innerText = currentProduct.name;
                 document.getElementById('productPrice').innerText = '৳' + currentProduct.price;
                 document.getElementById('productImg').src = currentProduct.img;
