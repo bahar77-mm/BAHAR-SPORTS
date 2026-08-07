@@ -32,7 +32,7 @@ async function loadProducts() {
 
             let card = `
                 <div class="card product-card" data-category="${cat}">
-                    <div class="wishlist-btn" onclick="toggleWishlist(this, '${p.name}', ${p.price})">🤍</div>
+        
                     <a href="product.html?name=${encodeURIComponent(p.name)}&price=${p.price}&img=${encodeURIComponent(p.img)}">
                         <img src="${p.img}" alt="${p.name}">
                     </a>
