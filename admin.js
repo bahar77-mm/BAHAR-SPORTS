@@ -25,10 +25,15 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// Admin Login (window দিয়ে গ্লোবাল করা হয়েছে)
-window.login = function() {
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
+// Admin Login Event Listener
+document.getElementById("loginBtn").addEventListener("click", function() {
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value.trim();
+
+    if (!email || !password) {
+        alert("Please enter both email and password!");
+        return;
+    }
 
     signInWithEmailAndPassword(auth, email, password)
     .then(() => {
@@ -40,10 +45,10 @@ window.login = function() {
     .catch((error) => {
         alert("Login Failed: " + error.message);
     });
-};
+});
 
-// Upload Product (window দিয়ে গ্লোবাল করা হয়েছে)
-window.uploadProduct = async function() {
+// Upload Product Event Listener
+document.getElementById("uploadBtn").addEventListener("click", async function() {
     let name = document.getElementById("prodName").value.trim();
     let price = Number(document.getElementById("prodPrice").value);
     let category = document.getElementById("prodCategory").value;
@@ -72,9 +77,9 @@ window.uploadProduct = async function() {
     } catch (error) {
         alert("❌ Error uploading product: " + error.message);
     }
-};
+});
 
-// Load Orders
+// Load Orders Function
 async function loadOrders() {
     try {
         const querySnapshot = await getDocs(collection(db, "orders"));
@@ -85,11 +90,11 @@ async function loadOrders() {
             let data = doc.data();
             let row = `
                 <tr>
-                    <td>${data.name}</td>
-                    <td>${data.phone}</td>
-                    <td>${data.product}</td>
-                    <td>${data.size}</td>
-                    <td>${data.address}</td>
+                    <td>${data.name || 'N/A'}</td>
+                    <td>${data.phone || 'N/A'}</td>
+                    <td>${data.product || 'N/A'}</td>
+                    <td>${data.size || 'N/A'}</td>
+                    <td>${data.address || 'N/A'}</td>
                 </tr>
             `;
             list.innerHTML += row;
@@ -98,4 +103,3 @@ async function loadOrders() {
         console.error("Error loading orders: ", error);
     }
 }
-```[cite: 5]
