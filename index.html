@@ -300,13 +300,6 @@ header p{
     object-fit:cover;
 }
 
-.card a.product-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    cursor: pointer;
-}
-
 /* WISHLIST HEART BUTTON */
 .wishlist-btn {
     position: absolute;
@@ -388,11 +381,13 @@ header p{
 
 /* BUTTONS AREA IN CARD */
 .card-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
     padding:0 20px 25px;
 }
 
 .add-cart-btn {
-    width: 100%;
     display:block;
     padding:12px 20px;
     border-radius:50px;
@@ -408,7 +403,22 @@ header p{
 
 .add-cart-btn:hover {
     background:#1d4ed8;
-    transform: scale(1.02);
+}
+
+.buy-btn{
+    display:block;
+    padding:12px 20px;
+    border-radius:50px;
+    background:linear-gradient(135deg,#f97316,#ec4899);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.buy-btn:hover{
+    transform:scale(1.03);
 }
 
 /* SIDE DRAWER (CART & WISHLIST) */
@@ -578,106 +588,6 @@ footer p{
 .sidebar a{display:block;color:#fff;text-decoration:none;padding:15px 20px;font-size:17px;cursor:pointer;}
 .sidebar a:hover{background:#2563eb}
 .sidebar.open{left:0}
-
-/* SIDEBAR LOGIN BUTTON STYLE */
-.sidebar-login-btn {
-    margin: 10px 20px 15px;
-    padding: 10px 15px;
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-    transition: 0.3s;
-}
-
-.sidebar-login-btn:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, #1d4ed8, #1e40af);
-}
-
-/* CUSTOMER LOGIN MODAL */
-.modal-login-card {
-    background: #0f172a;
-    width: 90%;
-    max-width: 380px;
-    padding: 25px;
-    border-radius: 20px;
-    text-align: center;
-    color: white;
-    position: relative;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.modal-login-card h3 {
-    font-size: 22px;
-    color: #38bdf8;
-    margin-bottom: 20px;
-}
-
-.input-group-auth {
-    margin-bottom: 15px;
-}
-
-.input-group-auth input {
-    width: 100%;
-    padding: 12px 15px;
-    background: rgba(30, 41, 59, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    color: white;
-    outline: none;
-    font-size: 14px;
-}
-
-.btn-auth-submit {
-    width: 100%;
-    padding: 12px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-top: 5px;
-}
-
-.btn-auth-submit:hover {
-    background: #1d4ed8;
-}
-
-.auth-divider {
-    margin: 18px 0;
-    color: #94a3b8;
-    font-size: 12px;
-}
-
-.btn-auth-google {
-    width: 100%;
-    padding: 12px;
-    background: #ffffff;
-    color: #333;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
 
 /* OWNER MODAL / POPUP */
 .modal-overlay {
@@ -870,10 +780,11 @@ footer p{
     }
 
     .card-buttons {
+        gap: 5px;
         padding: 0 5px 10px;
     }
 
-    .add-cart-btn {
+    .add-cart-btn, .buy-btn {
         padding: 6px 4px;
         font-size: 10px;
         border-radius: 20px;
@@ -900,38 +811,9 @@ footer p{
 <!-- SIDEBAR -->
 <div id="sidebar" class="sidebar">
     <a href="javascript:void(0)" onclick="document.getElementById('sidebar').classList.remove('open')">✖ Close</a>
-    
-    <!-- LOGIN BUTTON SECTION IN MENU -->
-    <div id="sidebarAuthSection">
-        <button class="sidebar-login-btn" onclick="openLoginModal()">🔑 LOGIN</button>
-    </div>
-
     <a href="index.html">🏠 Home Page</a>
     <a href="https://bahar77-mm.github.io/BAHAR-SPORTS/admin.html">⚙️ Admin Panel</a>
     <a href="javascript:void(0)" onclick="openOwnerModal()">👤 Owner Info</a>
-</div>
-
-<!-- CUSTOMER LOGIN MODAL POPUP -->
-<div id="loginModal" class="modal-overlay">
-    <div class="modal-login-card">
-        <span class="close-modal" onclick="closeLoginModal()">✖</span>
-        <h3>Customer Login</h3>
-
-        <div class="input-group-auth">
-            <input type="email" id="loginEmail" placeholder="Gmail / Email">
-        </div>
-        <div class="input-group-auth">
-            <input type="password" id="loginPassword" placeholder="Password">
-        </div>
-        <button class="btn-auth-submit" onclick="loginWithEmail()">Login</button>
-
-        <div class="auth-divider">── OR ──</div>
-
-        <button class="btn-auth-google" onclick="loginWithGoogle()">
-            <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="18" alt="Google">
-            Sign in with Gmail
-        </button>
-    </div>
 </div>
 
 <!-- OWNER INFO POPUP MODAL -->
@@ -1005,10 +887,8 @@ footer p{
 <!-- MANCITY HOME KIT -->
 <div class="card product-card" data-category="club">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'MANCITY HOME KIT', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('MANCITY HOME KIT', '1000', 'images/b15.jpg')" class="product-link">
 <img src="images/b15.jpg">
 <h2>MANCITY HOME KIT</h2>
-</a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1021,16 +901,15 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('MANCITY HOME KIT', 1000, 'size-mancity')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('MANCITY HOME KIT', 'size-mancity')">Buy Now</a>
 </div>
 </div>
 
 <!-- LIVERPOOL HOME KIT -->
 <div class="card product-card" data-category="club">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'LIVERPOOL HOME KIT', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('LIVERPOOL HOME KIT', '1000', 'images/b16.jpg')" class="product-link">
 <img src="images/b16.jpg">
 <h2>LIVERPOOL HOME KIT</h2>
-</a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1043,6 +922,7 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('LIVERPOOL HOME KIT', 1000, 'size-liverpool')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('LIVERPOOL HOME KIT', 'size-liverpool')">Buy Now</a>
 </div>
 </div>
 
@@ -1050,10 +930,8 @@ footer p{
 <div class="card product-card" data-category="national">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'PORTUGAL HOME KIT [17]', 1000)">🤍</div>
 <span class="badge best">Best Seller</span>
-<a href="javascript:void(0)" onclick="openProductPage('PORTUGAL HOME KIT [17]', '1000', 'images/WhatsApp Image 2026-07-30 at 1.39.22 AM.jpeg')" class="product-link">
 <img src="images/WhatsApp Image 2026-07-30 at 1.39.22 AM.jpeg">
 <h2>PORTUGAL HOME KIT [17]</h2>
-</a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1066,16 +944,15 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('PORTUGAL HOME KIT [17]', 1000, 'size-portugal')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('PORTUGAL HOME KIT [17]', 'size-portugal')">Buy Now</a>
 </div>
 </div>
 
 <!-- AC MILAN -->
 <div class="card product-card" data-category="club">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'AC MILAN KIT [16]', 350)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('AC MILAN KIT [16]', '350', 'images/c3e3a029-70e1-4de1-9edd-480c54930438.jpg')" class="product-link">
 <img src="images/c3e3a029-70e1-4de1-9edd-480c54930438.jpg">
 <h2>AC MILAN KIT [16]</h2>
-</a>
 <p class="price">৳350</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1088,6 +965,7 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('AC MILAN KIT [16]', 350, 'size-milan')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('AC MILAN KIT [16]', 'size-milan')">Buy Now</a>
 </div>
 </div>
 
@@ -1095,10 +973,8 @@ footer p{
 <div class="card product-card" data-category="club">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'BARCELONA NEW KIT [14]', 1000)">🤍</div>
 <span class="badge new">New</span>
-<a href="javascript:void(0)" onclick="openProductPage('BARCELONA NEW KIT [14]', '1000', 'images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg')" class="product-link">
 <img src="images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg">
 <h2>BARCELONA NEW KIT [14]</h2>
-</a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1111,6 +987,7 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('BARCELONA NEW KIT [14]', 1000, 'size-barca')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('BARCELONA NEW KIT [14]', 'size-barca')">Buy Now</a>
 </div>
 </div>
 
@@ -1118,10 +995,8 @@ footer p{
 <div class="card product-card" data-category="national">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'ARGENTINA HOME JERSEY [13]', 1000)">🤍</div>
 <span class="badge best">Best Seller</span>
-<a href="javascript:void(0)" onclick="openProductPage('ARGENTINA HOME JERSEY [13]', '1000', 'images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg')" class="product-link">
 <img src="images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg">
 <h2>ARGENTINA HOME JERSEY [13]</h2>
-</a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1134,16 +1009,15 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('ARGENTINA HOME JERSEY [13]', 1000, 'size-arg')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('ARGENTINA HOME JERSEY [13]', 'size-arg')">Buy Now</a>
 </div>
 </div>
 
 <!-- BRAZIL BLUE -->
 <div class="card product-card" data-category="national">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'BRAZIL BLUE JERSEY [12]', 350)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('BRAZIL BLUE JERSEY [12]', '350', 'images/a39e938b-2472-4128-a9a9-f19282c4ed82.jpg')" class="product-link">
 <img src="images/a39e938b-2472-4128-a9a9-f19282c4ed82.jpg">
 <h2>BRAZIL BLUE JERSEY [12]</h2>
-</a>
 <p class="price">৳350</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1156,16 +1030,15 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('BRAZIL BLUE JERSEY [12]', 350, 'size-br-blue')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('BRAZIL BLUE JERSEY [12]', 'size-br-blue')">Buy Now</a>
 </div>
 </div>
 
 <!-- BRAZIL BLACK -->
 <div class="card product-card" data-category="national">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'BRAZIL BLACK JERSEY [11]', 350)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('BRAZIL BLACK JERSEY [11]', '350', 'images/f732aaed-2f91-437b-a118-1d22dfc04e45.jpg')" class="product-link">
 <img src="images/f732aaed-2f91-437b-a118-1d22dfc04e45.jpg">
 <h2>BRAZIL BLACK JERSEY [11]</h2>
-</a>
 <p class="price">৳350</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1178,16 +1051,15 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('BRAZIL BLACK JERSEY [11]', 350, 'size-br-black')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('BRAZIL BLACK JERSEY [11]', 'size-br-black')">Buy Now</a>
 </div>
 </div>
 
 <!-- BARCELONA AWAY -->
 <div class="card product-card" data-category="club">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'BARCELONA AWAY JERSEY', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('BARCELONA AWAY JERSEY', '1000', 'images/b2.jpg')" class="product-link">
 <img src="images/b2.jpg">
 <h2>BARCELONA AWAY JERSEY</h2>
-</a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1200,16 +1072,15 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('BARCELONA AWAY JERSEY', 1000, 'size-barca-away')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('BARCELONA AWAY JERSEY', 'size-barca-away')">Buy Now</a>
 </div>
 </div>
 
 <!-- REAL MADRID HOME -->
 <div class="card product-card" data-category="club">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'REAL MADRID HOME JERSEY', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('REAL MADRID HOME JERSEY', '1000', 'images/b1.jpg')" class="product-link">
 <img src="images/b1.jpg">
 <h2>REAL MADRID HOME JERSEY</h2>
-</a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1222,16 +1093,15 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('REAL MADRID HOME JERSEY', 1000, 'size-real-home')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('REAL MADRID HOME JERSEY', 'size-real-home')">Buy Now</a>
 </div>
 </div>
 
 <!-- REAL MADRID AWAY -->
 <div class="card product-card" data-category="club">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'REAL MADRID AWAY JERSEY', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('REAL MADRID AWAY JERSEY', '1000', 'images/b3.jpg')" class="product-link">
 <img src="images/b3.jpg">
 <h2>REAL MADRID AWAY JERSEY</h2>
-</a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1244,16 +1114,15 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('REAL MADRID AWAY JERSEY', 1000, 'size-real-away')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('REAL MADRID AWAY JERSEY', 'size-real-away')">Buy Now</a>
 </div>
 </div>
 
 <!-- CHELSEA HOME -->
 <div class="card product-card" data-category="club">
 <div class="wishlist-btn" onclick="toggleWishlist(this, 'CHELSEA HOME JERSEY', 1000)">🤍</div>
-<a href="javascript:void(0)" onclick="openProductPage('CHELSEA HOME JERSEY', '1000', 'images/b4.jpg')" class="product-link">
 <img src="images/b4.jpg">
 <h2>CHELSEA HOME JERSEY</h2>
-</a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -1266,6 +1135,7 @@ footer p{
 </div>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('CHELSEA HOME JERSEY', 1000, 'size-chelsea')">🛒 Add</button>
+<a class="buy-btn" href="javascript:void(0)" onclick="buyNow('CHELSEA HOME JERSEY', 'size-chelsea')">Buy Now</a>
 </div>
 </div>
 
@@ -1325,105 +1195,9 @@ CLICK AND ORDER
     <img src="images/whatsapp.png" alt="Chat with Us">
 </a>
 
-<!-- FIREBASE AUTHENTICATION SCRIPT -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { 
-        getAuth, 
-        signInWithEmailAndPassword, 
-        GoogleAuthProvider, 
-        signInWithPopup, 
-        onAuthStateChanged, 
-        signOut 
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    // Firebase Configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
-        authDomain: "bahar-sports-f2a70.firebaseapp.com",
-        projectId: "bahar-sports-f2a70",
-        storageBucket: "bahar-sports-f2a70.firebasestorage.app",
-        messagingSenderId: "254621686378",
-        appId: "1:254621686378:web:4edfdf85c40362a51cc813"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const googleProvider = new GoogleAuthProvider();
-
-    // Open & Close Login Modal
-    window.openLoginModal = function() {
-        document.getElementById('sidebar').classList.remove('open');
-        document.getElementById('loginModal').style.display = 'flex';
-    };
-
-    window.closeLoginModal = function() {
-        document.getElementById('loginModal').style.display = 'none';
-    };
-
-    // Email & Password Login
-    window.loginWithEmail = async function() {
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value.trim();
-
-        if (!email || !password) {
-            alert("Please enter both Email and Password");
-            return;
-        }
-
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            alert("✅ Login Successful!");
-            closeLoginModal();
-        } catch (error) {
-            alert("Login Failed: " + error.message);
-        }
-    };
-
-    // Google Gmail Login
-    window.loginWithGoogle = async function() {
-        try {
-            await signInWithPopup(auth, googleProvider);
-            alert("✅ Gmail Login Successful!");
-            closeLoginModal();
-        } catch (error) {
-            alert("Google Login Failed: " + error.message);
-        }
-    };
-
-    // Check Login State
-    onAuthStateChanged(auth, (user) => {
-        const authSection = document.getElementById('sidebarAuthSection');
-        if (user) {
-            const displayName = user.displayName || user.email.split('@')[0];
-            authSection.innerHTML = `
-                <div style="padding: 12px 20px; background: rgba(56, 189, 248, 0.1); border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size:13px; color:#38bdf8; font-weight:bold;">👤 ${displayName}</span>
-                    <button onclick="logoutUser()" style="background:#ef4444; color:white; border:none; padding:4px 10px; border-radius:20px; cursor:pointer; font-size:11px;">Logout</button>
-                </div>
-            `;
-        } else {
-            authSection.innerHTML = `<button class="sidebar-login-btn" onclick="openLoginModal()">🔑 LOGIN</button>`;
-        }
-    });
-
-    // Logout
-    window.logoutUser = async function() {
-        await signOut(auth);
-        alert("Logged Out Successfully");
-    };
-</script>
-
 <script>
 let cart = [];
 let wishlist = [];
-
-// Open Product Details Page
-function openProductPage(name, price, img) {
-    const productData = { name: name, price: price, img: img };
-    localStorage.setItem('selectedProduct', JSON.stringify(productData));
-    window.location.href = 'product.html';
-}
 
 // Dark & Light Mode Logic
 function toggleTheme() {
@@ -1597,6 +1371,12 @@ function checkoutCartToOrderPage() {
     window.location.href = "order.html?product=" + encodeURIComponent(itemsString) + "&total=" + total;
 }
 
+// Dynamic Buy Now with Size
+function buyNow(productName, sizeSelectId) {
+    let size = document.getElementById(sizeSelectId).value;
+    window.location.href = "order.html?product=" + encodeURIComponent(productName) + "&size=" + size;
+}
+
 // Countdown Timer Function
 function startTimer() {
     let hours = 8, minutes = 45, seconds = 30;
@@ -1629,16 +1409,12 @@ function closeOwnerModal() {
 
 // Close modal when clicking outside of it
 window.onclick = function(event) {
-    let ownerModal = document.getElementById('ownerModal');
-    let loginModal = document.getElementById('loginModal');
-    if (event.target == ownerModal) {
-        ownerModal.style.display = "none";
-    }
-    if (event.target == loginModal) {
-        loginModal.style.display = "none";
+    let modal = document.getElementById('ownerModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
     }
 }
 </script>
 
 </body>
-</html>
+</html> 
