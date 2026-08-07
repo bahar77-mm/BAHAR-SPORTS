@@ -13,21 +13,21 @@
 /* DARK / LIGHT THEME VARIABLES */
 :root {
     --bg-color: linear-gradient(135deg,#f1f5f9,#dbeafe);
-    --card-bg: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.75);
     --text-primary: #111827;
     --text-secondary: #475569;
     --nav-bg: rgba(255, 255, 255, 0.7);
-    --shadow-color: rgba(0,0,0,0.15);
+    --shadow-color: rgba(0,0,0,0.1);
     --input-bg: #ffffff;
 }
 
 [data-theme="dark"] {
     --bg-color: #0b0f19;
-    --card-bg: #1e293b;
+    --card-bg: rgba(30, 41, 59, 0.7);
     --text-primary: #f8fafc;
     --text-secondary: #cbd5e1;
     --nav-bg: rgba(15, 23, 42, 0.85);
-    --shadow-color: rgba(0,0,0,0.5);
+    --shadow-color: rgba(0,0,0,0.4);
     --input-bg: #1e293b;
 }
 
@@ -72,7 +72,7 @@ body{
     border: none;
     padding: 8px 14px;
     border-radius: 50px;
-    font-size: 14px;s
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     transition: .3s;
@@ -87,7 +87,7 @@ body{
 }
 
 .nav-btn.cart-btn-top {
-    background: linear-gradient(135deg, #f97316, #ec4899);
+    background: linear-gradient(135deg, #0d0238);
 }
 
 /* PREMIUM HEADER */
@@ -247,6 +247,9 @@ header p{
 
 .feature-card{
     background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding:20px;
     border-radius:15px;
     text-align:center;
@@ -274,26 +277,35 @@ header p{
     gap:25px;
 }
 
-/* PRODUCT CARD */
+/* PRODUCT CARD - GLASSMORPHISM & BORDER GLOW */
 .card{
     background: var(--card-bg);
-    border-radius:20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius:6px;
     overflow:hidden;
     position:relative;
-    box-shadow:0 10px 25px var(--shadow-color);
-    transition:.4s;
+    box-shadow:0 15px 35px var(--shadow-color);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease;
     text-align:center;
 }
 
 .card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 20px 35px var(--shadow-color);
+    transform:translateY(-12px);
+    border-color: rgba(37, 99, 235, 0.6);
+    box-shadow:0 20px 40px rgba(37, 99, 235, 0.2), 0 0 20px rgba(37, 99, 235, 0.15);
 }
 
 .card img{
     width:100%;
     height:320px;
     object-fit:cover;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.card:hover img {
+    transform: scale(1.08);
 }
 
 /* BADGE */
@@ -344,8 +356,8 @@ header p{
 .size-selector select {
     padding: 6px 12px;
     border-radius: 8px;
-    border: 1px solid #cbd5e1;
-    background: var(--card-bg);
+    border: 1px solid rgba(203, 213, 225, 0.3);
+    background: var(--input-bg);
     color: var(--text-primary);
     outline: none;
     font-weight: bold;
@@ -752,7 +764,7 @@ footer p{
         <button class="nav-btn" onclick="document.getElementById('sidebar').classList.add('open')">☰ Menu</button>
     </div>
     <div class="nav-right">
-        <button class="nav-btn cart-btn-top" onclick="openCartDrawer()">🛒 Cart (<span id="cart-count">0</span>)</button>
+        <button class="nav-btn cart-btn-top" onclick="openCartDrawer()">🛒</button>
     </div>
 </div>
 
@@ -1174,7 +1186,6 @@ function addToCart(productName, price, sizeSelectId) {
 }
 
 function updateCartUI() {
-    document.getElementById('cart-count').innerText = cart.length;
     let container = document.getElementById('cartItemsContainer');
     container.innerHTML = "";
 
