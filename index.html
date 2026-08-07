@@ -67,12 +67,12 @@ body{
 }
 
 .nav-btn {
-    background: #2563eb;
+    background: #031439;
     color: white;
     border: none;
     padding: 8px 14px;
     border-radius: 50px;
-    font-size: 14px;
+    font-size: 14px;s
     font-weight: bold;
     cursor: pointer;
     transition: .3s;
@@ -84,10 +84,6 @@ body{
 .nav-btn:hover {
     background: #1d4ed8;
     transform: translateY(-2px);
-}
-
-.theme-toggle-btn {
-    background: #475569;
 }
 
 .nav-btn.cart-btn-top {
@@ -300,29 +296,6 @@ header p{
     object-fit:cover;
 }
 
-/* WISHLIST HEART BUTTON */
-.wishlist-btn {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background: var(--card-bg);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 10px var(--shadow-color);
-    z-index: 5;
-    font-size: 18px;
-    transition: .3s;
-}
-
-.wishlist-btn.active {
-    color: red;
-}
-
 /* BADGE */
 .badge{
     position:absolute;
@@ -391,7 +364,7 @@ header p{
     display:block;
     padding:12px 20px;
     border-radius:50px;
-    background:#2563eb;
+    background:#061a44;
     color:white;
     font-size:15px;
     font-weight:bold;
@@ -406,7 +379,7 @@ header p{
     background:#1d4ed8;
 }
 
-/* SIDE DRAWER (CART & WISHLIST) */
+/* SIDE DRAWER (CART ONLY) */
 .drawer-overlay {
     position: fixed;
     top: 0;
@@ -657,7 +630,7 @@ footer p{
 }
 
 /* ============================================================ */
-/* MOBILE RESPONSIVE OPTIMIZATION (3 COLUMNS ON MOBILE)          */
+/* MOBILE RESPONSIVE OPTIMIZATION (2 COLUMNS ON MOBILE)          */
 /* ============================================================ */
 @media(max-width:768px){
     .top-nav {
@@ -708,27 +681,19 @@ footer p{
         font-size: 12px;
     }
 
-    /* 3 COLUMNS GRID ON MOBILE */
+    /* 2 COLUMNS GRID ON MOBILE */
     .products {
         padding: 10px;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
     }
 
     .card {
-        border-radius: 10px;
+        border-radius: 12px;
     }
 
     .card img {
-        height: 110px;
-    }
-
-    .wishlist-btn {
-        top: 6px;
-        left: 6px;
-        width: 24px;
-        height: 24px;
-        font-size: 12px;
+        height: 150px;
     }
 
     .badge {
@@ -739,39 +704,39 @@ footer p{
     }
 
     .card h2 {
-        padding: 5px 4px 2px;
-        font-size: 10px;
+        padding: 8px 6px 2px;
+        font-size: 12px;
         line-height: 1.2;
     }
 
     .price {
-        font-size: 12px;
-        margin-bottom: 4px;
+        font-size: 14px;
+        margin-bottom: 6px;
     }
 
     .size-selector {
-        margin: 0 4px 6px;
-        gap: 3px;
+        margin: 0 6px 8px;
+        gap: 4px;
     }
 
     .size-selector label {
-        font-size: 9px;
+        font-size: 10px;
     }
 
     .size-selector select {
-        padding: 2px 4px;
-        font-size: 9px;
+        padding: 3px 6px;
+        font-size: 10px;
         border-radius: 4px;
     }
 
     .card-buttons {
-        gap: 5px;
-        padding: 0 5px 10px;
+        gap: 6px;
+        padding: 0 6px 12px;
     }
 
     .add-cart-btn {
-        padding: 6px 4px;
-        font-size: 10px;
+        padding: 8px 6px;
+        font-size: 11px;
         border-radius: 20px;
     }
 }
@@ -785,10 +750,8 @@ footer p{
 <div class="top-nav">
     <div class="nav-left">
         <button class="nav-btn" onclick="document.getElementById('sidebar').classList.add('open')">☰ Menu</button>
-        <button class="nav-btn theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
     </div>
     <div class="nav-right">
-        <button class="nav-btn" onclick="openWishlistDrawer()">❤️ <span id="wishlist-count">0</span></button>
         <button class="nav-btn cart-btn-top" onclick="openCartDrawer()">🛒 Cart (<span id="cart-count">0</span>)</button>
     </div>
 </div>
@@ -796,7 +759,8 @@ footer p{
 <!-- SIDEBAR -->
 <div id="sidebar" class="sidebar">
     <a href="javascript:void(0)" onclick="document.getElementById('sidebar').classList.remove('open')">✖ Close</a>
-    <a href="index.html">🏠 Home Page</a>
+    <a href="index.html">🏠 Home</a>
+    <a href="javascript:void(0)" onclick="toggleTheme()">🌓 Dark/Light Mode</a>
     <a href="https://bahar77-mm.github.io/BAHAR-SPORTS/admin.html">⚙️ Admin Panel</a>
     <a href="javascript:void(0)" onclick="openOwnerModal()">👤 Owner Info</a>
 </div>
@@ -842,14 +806,13 @@ footer p{
 
 <!-- LIVE SEARCH BAR -->
 <div class="search-container">
-    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search Jersey " onkeyup="filterProducts()">
+    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search Products..." onkeyup="filterProducts()">
 </div>
 
-<!-- CATEGORY TABS FILTER -->
+<!-- CATEGORY TABS FILTER (UPDATED) -->
 <div class="category-container">
-    <button class="cat-btn active" onclick="filterCategory('all', this)">All</button>
-    <button class="cat-btn" onclick="filterCategory('club', this)">Club Jerseys</button>
-    <button class="cat-btn" onclick="filterCategory('national', this)">National Teams</button>
+    <button class="cat-btn active" onclick="filterCategory('jersey', this)">All Jersey</button>
+    <button class="cat-btn" onclick="filterCategory('others', this)">Others Item</button>
 </div>
 
 <!-- TRUST FEATURES -->
@@ -870,8 +833,7 @@ footer p{
 
 <section class="products" id="productGrid">
 <!-- MANCITY HOME KIT -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'MANCITY HOME KIT', 1000)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=MANCITY%20HOME%20KIT&price=1000&img=images/b15.jpg"><img src="images/b15.jpg"></a>
 <a href="product.html?name=MANCITY%20HOME%20KIT&price=1000&img=images/b15.jpg" style="text-decoration:none; color:inherit;"><h2>MANCITY HOME KIT</h2></a>
 <p class="price">৳1000</p>
@@ -890,8 +852,7 @@ footer p{
 </div>
 
 <!-- LIVERPOOL HOME KIT -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'LIVERPOOL HOME KIT', 1000)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=LIVERPOOL%20HOME%20KIT&price=1000&img=images/b16.jpg"><img src="images/b16.jpg"></a>
 <a href="product.html?name=LIVERPOOL%20HOME%20KIT&price=1000&img=images/b16.jpg" style="text-decoration:none; color:inherit;"><h2>LIVERPOOL HOME KIT</h2></a>
 <p class="price">৳1000</p>
@@ -910,8 +871,7 @@ footer p{
 </div>
 
 <!-- PORTUGAL -->
-<div class="card product-card" data-category="national">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'PORTUGAL HOME KIT [17]', 1000)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <span class="badge best">Best Seller</span>
 <a href="product.html?name=PORTUGAL%20HOME%20KIT%20[17]&price=1000&img=images/WhatsApp%20Image%202026-07-30%20at%201.39.22%20AM.jpeg"><img src="images/WhatsApp Image 2026-07-30 at 1.39.22 AM.jpeg"></a>
 <a href="product.html?name=PORTUGAL%20HOME%20KIT%20[17]&price=1000&img=images/WhatsApp%20Image%202026-07-30%20at%201.39.22%20AM.jpeg" style="text-decoration:none; color:inherit;"><h2>PORTUGAL HOME KIT [17]</h2></a>
@@ -931,8 +891,7 @@ footer p{
 </div>
 
 <!-- AC MILAN -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'AC MILAN KIT [16]', 350)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=AC%20MILAN%20KIT%20[16]&price=350&img=images/c3e3a029-70e1-4de1-9edd-480c54930438.jpg"><img src="images/c3e3a029-70e1-4de1-9edd-480c54930438.jpg"></a>
 <a href="product.html?name=AC%20MILAN%20KIT%20[16]&price=350&img=images/c3e3a029-70e1-4de1-9edd-480c54930438.jpg" style="text-decoration:none; color:inherit;"><h2>AC MILAN KIT [16]</h2></a>
 <p class="price">৳350</p>
@@ -951,8 +910,7 @@ footer p{
 </div>
 
 <!-- BARCELONA -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'BARCELONA NEW KIT [14]', 1000)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <span class="badge new">New</span>
 <a href="product.html?name=BARCELONA%20NEW%20KIT%20[14]&price=1000&img=images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg"><img src="images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg"></a>
 <a href="product.html?name=BARCELONA%20NEW%20KIT%20[14]&price=1000&img=images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg" style="text-decoration:none; color:inherit;"><h2>BARCELONA NEW KIT [14]</h2></a>
@@ -972,8 +930,7 @@ footer p{
 </div>
 
 <!-- ARGENTINA -->
-<div class="card product-card" data-category="national">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'ARGENTINA HOME JERSEY [13]', 1000)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <span class="badge best">Best Seller</span>
 <a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20[13]&price=1000&img=images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg"><img src="images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg"></a>
 <a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20[13]&price=1000&img=images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg" style="text-decoration:none; color:inherit;"><h2>ARGENTINA HOME JERSEY [13]</h2></a>
@@ -993,8 +950,7 @@ footer p{
 </div>
 
 <!-- BRAZIL BLUE -->
-<div class="card product-card" data-category="national">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'BRAZIL BLUE JERSEY [12]', 350)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=BRAZIL%20BLUE%20JERSEY%20[12]&price=350&img=images/a39e938b-2472-4128-a9a9-f19282c4ed82.jpg"><img src="images/a39e938b-2472-4128-a9a9-f19282c4ed82.jpg"></a>
 <a href="product.html?name=BRAZIL%20BLUE%20JERSEY%20[12]&price=350&img=images/a39e938b-2472-4128-a9a9-f19282c4ed82.jpg" style="text-decoration:none; color:inherit;"><h2>BRAZIL BLUE JERSEY [12]</h2></a>
 <p class="price">৳350</p>
@@ -1013,8 +969,7 @@ footer p{
 </div>
 
 <!-- BRAZIL BLACK -->
-<div class="card product-card" data-category="national">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'BRAZIL BLACK JERSEY [11]', 350)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=BRAZIL%20BLACK%20JERSEY%20[11]&price=350&img=images/f732aaed-2f91-437b-a118-1d22dfc04e45.jpg"><img src="images/f732aaed-2f91-437b-a118-1d22dfc04e45.jpg"></a>
 <a href="product.html?name=BRAZIL%20BLACK%20JERSEY%20[11]&price=350&img=images/f732aaed-2f91-437b-a118-1d22dfc04e45.jpg" style="text-decoration:none; color:inherit;"><h2>BRAZIL BLACK JERSEY [11]</h2></a>
 <p class="price">৳350</p>
@@ -1033,8 +988,7 @@ footer p{
 </div>
 
 <!-- BARCELONA AWAY -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'BARCELONA AWAY JERSEY', 1000)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=BARCELONA%20AWAY%20JERSEY&price=1000&img=images/b2.jpg"><img src="images/b2.jpg"></a>
 <a href="product.html?name=BARCELONA%20AWAY%20JERSEY&price=1000&img=images/b2.jpg" style="text-decoration:none; color:inherit;"><h2>BARCELONA AWAY JERSEY</h2></a>
 <p class="price">৳1000</p>
@@ -1053,8 +1007,7 @@ footer p{
 </div>
 
 <!-- REAL MADRID HOME -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'REAL MADRID HOME JERSEY', 1000)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=REAL%20MADRID%20HOME%20JERSEY&price=1000&img=images/b1.jpg"><img src="images/b1.jpg"></a>
 <a href="product.html?name=REAL%20MADRID%20HOME%20JERSEY&price=1000&img=images/b1.jpg" style="text-decoration:none; color:inherit;"><h2>REAL MADRID HOME JERSEY</h2></a>
 <p class="price">৳1000</p>
@@ -1073,8 +1026,7 @@ footer p{
 </div>
 
 <!-- REAL MADRID AWAY -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'REAL MADRID AWAY JERSEY', 1000)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=REAL%20MADRID%20AWAY%20JERSEY&price=1000&img=images/b3.jpg"><img src="images/b3.jpg"></a>
 <a href="product.html?name=REAL%20MADRID%20AWAY%20JERSEY&price=1000&img=images/b3.jpg" style="text-decoration:none; color:inherit;"><h2>REAL MADRID AWAY JERSEY</h2></a>
 <p class="price">৳1000</p>
@@ -1093,8 +1045,7 @@ footer p{
 </div>
 
 <!-- CHELSEA HOME -->
-<div class="card product-card" data-category="club">
-<div class="wishlist-btn" onclick="toggleWishlist(this, 'CHELSEA HOME JERSEY', 1000)">🤍</div>
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=CHELSEA%20HOME%20JERSEY&price=1000&img=images/b4.jpg"><img src="images/b4.jpg"></a>
 <a href="product.html?name=CHELSEA%20HOME%20JERSEY&price=1000&img=images/b4.jpg" style="text-decoration:none; color:inherit;"><h2>CHELSEA HOME JERSEY</h2></a>
 <p class="price">৳1000</p>
@@ -1132,17 +1083,6 @@ footer p{
     </div>
 </div>
 
-<!-- WISHLIST DRAWER -->
-<div id="wishlistDrawer" class="drawer-overlay">
-    <div class="drawer-header">
-        <h2>❤️ Saved Items</h2>
-        <span class="close-drawer" onclick="closeWishlistDrawer()">✖</span>
-    </div>
-    <div class="drawer-content" id="wishlistItemsContainer">
-        <!-- Wishlist Items Will Render Here -->
-    </div>
-</div>
-
 <footer>
 
 <h2>Contact Us</h2>
@@ -1170,20 +1110,16 @@ CLICK AND ORDER
 
 <script>
 let cart = [];
-let wishlist = [];
 
 // Dark & Light Mode Logic
 function toggleTheme() {
     const currentTheme = document.body.getAttribute('data-theme');
-    const themeBtn = document.getElementById('themeToggleBtn');
     
     if (currentTheme === 'dark') {
         document.body.removeAttribute('data-theme');
-        themeBtn.innerText = '🌙';
         localStorage.setItem('theme', 'light');
     } else {
         document.body.setAttribute('data-theme', 'dark');
-        themeBtn.innerText = '☀️';
         localStorage.setItem('theme', 'dark');
     }
 }
@@ -1191,14 +1127,12 @@ function toggleTheme() {
 // Load Saved Theme
 (function loadTheme() {
     const savedTheme = localStorage.getItem('theme');
-    const themeBtn = document.getElementById('themeToggleBtn');
     if (savedTheme === 'dark') {
         document.body.setAttribute('data-theme', 'dark');
-        if(themeBtn) themeBtn.innerText = '☀️';
     }
 })();
 
-// Search function to filter jerseys dynamically
+// Search function to filter products dynamically
 function filterProducts() {
     let input = document.getElementById('searchInput').value.toLowerCase();
     let cards = document.getElementsByClassName('product-card');
@@ -1213,7 +1147,7 @@ function filterProducts() {
     }
 }
 
-// Category Filter Function
+// Category Filter Function (Updated for All Jersey & Others Item)
 function filterCategory(category, btn) {
     let buttons = document.getElementsByClassName('cat-btn');
     for (let i = 0; i < buttons.length; i++) {
@@ -1223,62 +1157,12 @@ function filterCategory(category, btn) {
 
     let cards = document.getElementsByClassName('product-card');
     for (let i = 0; i < cards.length; i++) {
-        if (category === 'all' || cards[i].getAttribute('data-category') === category) {
+        if (cards[i].getAttribute('data-category') === category) {
             cards[i].style.display = "";
         } else {
             cards[i].style.display = "none";
         }
     }
-}
-
-// Wishlist Logic
-function toggleWishlist(btn, productName, price) {
-    if (btn.innerText === "🤍") {
-        btn.innerText = "❤️";
-        btn.classList.add('active');
-        wishlist.push({ name: productName, price: price });
-    } else {
-        btn.innerText = "🤍";
-        btn.classList.remove('active');
-        wishlist = wishlist.filter(item => item.name !== productName);
-    }
-    updateWishlistUI();
-}
-
-function updateWishlistUI() {
-    document.getElementById('wishlist-count').innerText = wishlist.length;
-    let container = document.getElementById('wishlistItemsContainer');
-    container.innerHTML = "";
-
-    if (wishlist.length === 0) {
-        container.innerHTML = "<p style='text-align:center;color:#94a3b8;margin-top:20px;'>No items saved yet.</p>";
-        return;
-    }
-
-    wishlist.forEach((item, index) => {
-        container.innerHTML += `
-            <div class="drawer-item">
-                <div>
-                    <h4>${item.name}</h4>
-                    <p>৳${item.price}</p>
-                </div>
-                <span class="remove-item" onclick="removeWishlist(${index})">✖</span>
-            </div>
-        `;
-    });
-}
-
-function removeWishlist(index) {
-    wishlist.splice(index, 1);
-    updateWishlistUI();
-}
-
-function openWishlistDrawer() {
-    document.getElementById('wishlistDrawer').classList.add('open');
-}
-
-function closeWishlistDrawer() {
-    document.getElementById('wishlistDrawer').classList.remove('open');
 }
 
 // Shopping Cart Logic
