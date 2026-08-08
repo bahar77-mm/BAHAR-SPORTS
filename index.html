@@ -12,23 +12,23 @@
 
 /* DARK / LIGHT THEME VARIABLES */
 :root {
-    --bg-color: linear-gradient(135deg,#f1f5f9,#dbeafe);
-    --card-bg: rgba(255, 255, 255, 0.75);
+    --bg-color: #f8fafc;
+    --card-bg: rgba(255, 255, 255, 0.85);
     --text-primary: #111827;
     --text-secondary: #475569;
-    --nav-bg: rgba(255, 255, 255, 0.7);
-    --shadow-color: rgba(0,0,0,0.1);
+    --nav-bg: rgba(255, 255, 255, 0.9);
+    --shadow-color: rgba(0,0,0,0.12);
     --input-bg: #ffffff;
 }
 
 [data-theme="dark"] {
-    --bg-color: #0b0f19;
-    --card-bg: rgba(30, 41, 59, 0.7);
+    --bg-color: #030712;
+    --card-bg: rgba(15, 23, 42, 0.85);
     --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
-    --nav-bg: rgba(15, 23, 42, 0.85);
-    --shadow-color: rgba(0,0,0,0.4);
-    --input-bg: #1e293b;
+    --text-secondary: #94a3b8;
+    --nav-bg: rgba(3, 7, 18, 0.9);
+    --shadow-color: rgba(0,0,0,0.6);
+    --input-bg: #0f172a;
 }
 
 *{
@@ -42,6 +42,31 @@ body{
     background: var(--bg-color);
     color: var(--text-primary);
     transition: background 0.3s ease, color 0.3s ease;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* HIGH-INTENSITY STADIUM FLOODLIGHT ATMOSPHERE OVERLAY */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.5), transparent 45%),
+        radial-gradient(circle at 85% 10%, rgba(6, 182, 212, 0.45), transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(29, 78, 216, 0.35), transparent 55%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+[data-theme="dark"] body::before {
+    background: 
+        radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.7), transparent 50%),
+        radial-gradient(circle at 85% 10%, rgba(14, 165, 233, 0.65), transparent 50%),
+        radial-gradient(circle at 50% 90%, rgba(37, 99, 235, 0.5), transparent 60%);
 }
 
 /* TOP NAVIGATION BAR */
@@ -51,7 +76,7 @@ body{
     left: 0;
     width: 100%;
     background: var(--nav-bg);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -90,57 +115,83 @@ body{
     background: linear-gradient(135deg, #0d0238);
 }
 
-/* PREMIUM HEADER */
-header{
-    position:relative;
+/* PREMIUM HEADER WITH VIDEO BACKGROUND */
+header {
+    position: relative;
     margin-top: 50px;
-    background:
-    linear-gradient(
-    rgba(2,6,23,0.55),
-    rgba(30,64,175,0.55)
-    ),
-    url("images/baner.png");
-    background-size:cover;
-    background-position:center;
-    height:420px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    color:white;
-    overflow:hidden;
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+    z-index: 2;
+    background: #020617;
+}
+
+/* VIDEO BACKGROUND STYLES */
+.header-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: 1;
+}
+
+/* VIDEO OVERLAY TO MAKE TEXT CLEAR */
+.header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(2, 6, 23, 0.55), rgba(30, 64, 175, 0.55));
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* HEADER CONTENT */
+.header-content {
+    position: relative;
+    z-index: 3;
 }
 
 /* BRAND NAME */
-header h1{
-    font-size:75px;
-    font-weight:1000;
-    letter-spacing:10px;
-    text-transform:uppercase;
-    background:linear-gradient(
+.header-content h1 {
+    font-size: 75px;
+    font-weight: 1000;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    background: linear-gradient(
         90deg,
         #ffffff,
         #f1f2f3,
         #ffffff,
         #ffffff
     );
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation:brand 2s infinite alternate;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: brand 2s infinite alternate;
 }
 
-@keyframes brand{
-    from{ transform:scale(1); }
-    to{ transform:scale(1.08); }
+@keyframes brand {
+    from { transform: scale(1); }
+    to { transform: scale(1.08); }
 }
 
 /* SUB TITLE */
-header p{
-    margin-top:15px;
-    font-size:22px;
-    letter-spacing:3px;
-    color:#e0f2fe;
+.header-content p {
+    margin-top: 15px;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: #e0f2fe;
 }
 
 /* FLASH SALE BANNER & TIMER */
@@ -205,7 +256,7 @@ header p{
 }
 
 .search-bar:focus{
-    box-shadow:0 10px 30px rgba(37,99,235,0.3);
+    box-shadow:0 10px 30px rgba(37,99,235,0.4);
 }
 
 /* CATEGORY TABS */
@@ -216,6 +267,8 @@ header p{
     flex-wrap:wrap;
     padding:0 20px;
     margin-bottom:20px;
+    position: relative;
+    z-index: 2;
 }
 
 .cat-btn{
@@ -243,13 +296,15 @@ header p{
     grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
     gap:20px;
     padding:0 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .feature-card{
     background: var(--card-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     padding:20px;
     border-radius:15px;
     text-align:center;
@@ -275,6 +330,8 @@ header p{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
     gap:25px;
+    position: relative;
+    z-index: 2;
 }
 
 /* PRODUCT CARD - GLASSMORPHISM & BORDER GLOW */
@@ -282,8 +339,8 @@ header p{
     background: var(--card-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius:6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius:10px;
     overflow:hidden;
     position:relative;
     box-shadow:0 15px 35px var(--shadow-color);
@@ -293,8 +350,8 @@ header p{
 
 .card:hover{
     transform:translateY(-12px);
-    border-color: rgba(37, 99, 235, 0.6);
-    box-shadow:0 20px 40px rgba(37, 99, 235, 0.2), 0 0 20px rgba(37, 99, 235, 0.15);
+    border-color: rgba(37, 99, 235, 0.8);
+    box-shadow:0 22px 45px rgba(37, 99, 235, 0.25), 0 0 25px rgba(37, 99, 235, 0.2);
 }
 
 .card img{
@@ -356,7 +413,7 @@ header p{
 .size-selector select {
     padding: 6px 12px;
     border-radius: 8px;
-    border: 1px solid rgba(203, 213, 225, 0.3);
+    border: 1px solid rgba(203, 213, 225, 0.4);
     background: var(--input-bg);
     color: var(--text-primary);
     outline: none;
@@ -502,6 +559,8 @@ footer{
     padding:40px 20px 20px;
     margin-top:40px;
     text-align:center;
+    position: relative;
+    z-index: 2;
 }
 
 footer h2{
@@ -658,12 +717,12 @@ footer p{
         height: 260px;
     }
 
-    header h1{
+    .header-content h1{
         font-size: 28px;
         letter-spacing: 3px;
     }
 
-    header p{
+    .header-content p{
         font-size: 13px;
         letter-spacing: 1px;
     }
@@ -799,11 +858,20 @@ footer p{
 </div>
 
 <header>
+    <!-- VIDEO BACKGROUND -->
+    <video autoplay muted loop playsinline class="header-video">
+        <source src="images/4k.MP4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
 
-<h1> 𝘽𝘼𝙃𝘼𝙍 𝙎𝙋𝙊𝙍𝙏𝙎 </h1>
+    <!-- OVERLAY -->
+    <div class="header-overlay"></div>
 
-<p>Best Sports Collection</p>
-
+    <!-- HEADER CONTENT -->
+    <div class="header-content">
+        <h1> 𝘽𝘼𝙃𝘼𝙍 𝙎𝙋𝙊𝙍𝙏𝙎 </h1>
+        <p>Best Sports Collection</p>
+    </div>
 </header>
 
 <!-- FLASH SALE COUNTDOWN BANNER -->
@@ -821,7 +889,7 @@ footer p{
     <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search Products..." onkeyup="filterProducts()">
 </div>
 
-<!-- CATEGORY TABS FILTER (UPDATED) -->
+<!-- CATEGORY TABS FILTER -->
 <div class="category-container">
     <button class="cat-btn active" onclick="filterCategory('jersey', this)">All Jersey</button>
     <button class="cat-btn" onclick="filterCategory('others', this)">Others Item</button>
@@ -886,7 +954,7 @@ footer p{
 <div class="card product-card" data-category="jersey">
 <span class="badge best">Best Seller</span>
 <a href="product.html?name=PORTUGAL%20HOME%20KIT%20&price=1000&img=images/WhatsApp%20Image%202026-07-30%20at%201.39.22%20AM.jpeg"><img src="images/WhatsApp Image 2026-07-30 at 1.39.22 AM.jpeg"></a>
-<a href="product.html?name=PORTUGAL%20HOME%20KIT%20&price=1000&img=images/WhatsApp%20Image%202026-07-30%20at%201.39.22%20AM.jpeg" style="text-decoration:none; color:inherit;"><h2>PORTUGAL HOME KIT [17]</h2></a>
+<a href="product.html?name=PORTUGAL%20HOME%20KIT%20&price=1000&img=images/WhatsApp%20Image%202026-07-30%20at%201.39.22%20AM.jpeg" style="text-decoration:none; color:inherit;"><h2>PORTUGAL HOME KIT </h2></a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -898,26 +966,7 @@ footer p{
     </select>
 </div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('PORTUGAL HOME KIT ', 1000, 'size-portugal')">🛒 Add to Cart</button>
-</div>
-</div>
-
-<!-- AC MILAN -->
-<div class="card product-card" data-category="jersey">
-<a href="product.html?name=AC%20MILAN%20KIT%20&price=350&img=images/c3e3a029-70e1-4de1-9edd-480c54930438.jpg"><img src="images/c3e3a029-70e1-4de1-9edd-480c54930438.jpg"></a>
-<a href="product.html?name=AC%20MILAN%20KIT%20&price=350&img=images/c3e3a029-70e1-4de1-9edd-480c54930438.jpg" style="text-decoration:none; color:inherit;"><h2>AC MILAN KIT [16]</h2></a>
-<p class="price">৳350</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-milan">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('AC MILAN KIT ', 350, 'size-milan')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('PORTUGAL HOME KIT', 1000, 'size-portugal')">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -925,7 +974,7 @@ footer p{
 <div class="card product-card" data-category="jersey">
 <span class="badge new">New</span>
 <a href="product.html?name=BARCELONA%20NEW%20KIT%20&price=1000&img=images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg"><img src="images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg"></a>
-<a href="product.html?name=BARCELONA%20NEW%20KIT%20&price=1000&img=images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg" style="text-decoration:none; color:inherit;"><h2>BARCELONA NEW KIT [14]</h2></a>
+<a href="product.html?name=BARCELONA%20NEW%20KIT%20&price=1000&img=images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg" style="text-decoration:none; color:inherit;"><h2>BARCELONA NEW KIT </h2></a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -937,7 +986,7 @@ footer p{
     </select>
 </div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('BARCELONA NEW KIT ', 1000, 'size-barca')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('BARCELONA NEW KIT', 1000, 'size-barca')">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -945,7 +994,7 @@ footer p{
 <div class="card product-card" data-category="jersey">
 <span class="badge best">Best Seller</span>
 <a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20&price=1000&img=images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg"><img src="images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg"></a>
-<a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20&price=1000&img=images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg" style="text-decoration:none; color:inherit;"><h2>ARGENTINA HOME JERSEY [13]</h2></a>
+<a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20&price=1000&img=images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg" style="text-decoration:none; color:inherit;"><h2>ARGENTINA HOME JERSEY </h2></a>
 <p class="price">৳1000</p>
 <div class="size-selector">
     <label>Size:</label>
@@ -957,45 +1006,7 @@ footer p{
     </select>
 </div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('ARGENTINA HOME JERSEY ', 1000, 'size-arg')">🛒 Add to Cart</button>
-</div>
-</div>
-
-<!-- BRAZIL BLUE -->
-<div class="card product-card" data-category="jersey">
-<a href="product.html?name=BRAZIL%20BLUE%20JERSEY%20&price=350&img=images/a39e938b-2472-4128-a9a9-f19282c4ed82.jpg"><img src="images/a39e938b-2472-4128-a9a9-f19282c4ed82.jpg"></a>
-<a href="product.html?name=BRAZIL%20BLUE%20JERSEY%20&price=350&img=images/a39e938b-2472-4128-a9a9-f19282c4ed82.jpg" style="text-decoration:none; color:inherit;"><h2>BRAZIL BLUE JERSEY [12]</h2></a>
-<p class="price">৳350</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-br-blue">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('BRAZIL BLUE JERSEY ', 350, 'size-br-blue')">🛒 Add to Cart</button>
-</div>
-</div>
-
-<!-- BRAZIL BLACK -->
-<div class="card product-card" data-category="jersey">
-<a href="product.html?name=BRAZIL%20BLACK%20JERSEY%20&price=350&img=images/f732aaed-2f91-437b-a118-1d22dfc04e45.jpg"><img src="images/f732aaed-2f91-437b-a118-1d22dfc04e45.jpg"></a>
-<a href="product.html?name=BRAZIL%20BLACK%20JERSEY%20&price=350&img=images/f732aaed-2f91-437b-a118-1d22dfc04e45.jpg" style="text-decoration:none; color:inherit;"><h2>BRAZIL BLACK JERSEY [11]</h2></a>
-<p class="price">৳350</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-br-black">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
-<div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('BRAZIL BLACK JERSEY ', 350, 'size-br-black')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('ARGENTINA HOME JERSEY', 1000, 'size-arg')">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -1159,7 +1170,7 @@ function filterProducts() {
     }
 }
 
-// Category Filter Function (Updated for All Jersey & Others Item)
+// Category Filter Function
 function filterCategory(category, btn) {
     let buttons = document.getElementsByClassName('cat-btn');
     for (let i = 0; i < buttons.length; i++) {
