@@ -3,7 +3,9 @@ import {
     getFirestore, 
     collection, 
     getDocs,
-    addDoc 
+    addDoc,
+    doc,
+    deleteDoc 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { 
     getAuth, 
@@ -86,15 +88,20 @@ async function loadOrders() {
         let list = document.getElementById("orderList");
         list.innerHTML = "";
 
-        querySnapshot.forEach((doc) => {
-            let data = doc.data();
+        querySnapshot.forEach((documentSnapshot) => {
+            let data = documentSnapshot.data();
+            let docId = documentSnapshot.id; // ফায়ারবেসের অটো-জেনারেটেড ডকুমেন্ট আইডি
+            
             let row = `
-                <tr>
+                <tr id="order-row-${docId}">
                     <td>${data.name || 'N/A'}</td>
                     <td>${data.phone || 'N/A'}</td>
                     <td>${data.product || 'N/A'}</td>
                     <td>${data.size || 'N/A'}</td>
                     <td>${data.address || 'N/A'}</td>
+                    <td>
+                        <button class="table-confirm-btn" onclick="confirmAndDeleteOrder('${docId}')">Confirm</button>
+                    </td>
                 </tr>
             `;
             list.innerHTML += row;
@@ -103,3 +110,24 @@ async function loadOrders() {
         console.error("Error loading orders: ", error);
     }
 }
+
+// Global function to Confirm and Delete Order from Firestore and UI
+window.confirmAndDeleteOrder = async function(docId) {
+    if (confirm("Are you sure you want to confirm and delete this order?")) {
+        try {
+            // ফায়ারবেস ফায়ারস্টোর থেকে ডকুমেন্ট ডিলিট করা
+            await deleteDoc(doc(db, "orders", docId));
+            
+            // সফলভাবে ডিলিট হলে টেবিল থেকে রো রিমুভ করা
+            let rowElement = document.getElementById(`order-row-${docId}`);
+            if (rowElement) {
+                rowElement.remove();
+            }
+            
+            alert("✅ Order confirmed and deleted successfully!");
+        } catch (error) {
+            console.error("Error deleting order: ", error);
+            alert("❌ Failed to delete the order.");
+        }
+    }
+};
