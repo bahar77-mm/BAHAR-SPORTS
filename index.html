@@ -16,7 +16,6 @@
     --card-bg: rgba(255, 255, 255, 0.85);
     --text-primary: #111827;
     --text-secondary: #475569;
-    --nav-bg: rgba(255, 255, 255, 0.9);
     --shadow-color: rgba(0,0,0,0.12);
     --input-bg: #ffffff;
 }
@@ -26,7 +25,6 @@
     --card-bg: rgba(15, 23, 42, 0.85);
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
-    --nav-bg: rgba(3, 7, 18, 0.9);
     --shadow-color: rgba(0,0,0,0.6);
     --input-bg: #0f172a;
 }
@@ -69,20 +67,27 @@ body::before {
         radial-gradient(circle at 50% 90%, rgba(37, 99, 235, 0.5), transparent 60%);
 }
 
-/* TOP NAVIGATION BAR */
+/* TOP NAVIGATION BAR (Thicker with Soft Glass Effect & No Shadow) */
 .top-nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background: var(--nav-bg);
-    backdrop-filter: blur(12px);
+    background: rgba(15, 23, 42, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 22px 20px;
     z-index: 1000;
-    box-shadow: 0 4px 15px var(--shadow-color);
+    box-shadow: none;
+}
+
+[data-theme="dark"] .top-nav {
+    background: rgba(2, 6, 23, 0.35);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .top-nav .nav-left, .top-nav .nav-right {
@@ -91,11 +96,33 @@ body::before {
     gap: 8px;
 }
 
+/* NAVBAR CENTER LOGO (Bigger, No Shadow, With Animation) */
+.nav-center-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.nav-logo {
+    max-height: 65px;
+    width: auto;
+    filter: none;
+    animation: navBrand 2s infinite alternate;
+}
+
+@keyframes navBrand {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
 .nav-btn {
     background: #031439;
     color: white;
     border: none;
-    padding: 8px 14px;
+    padding: 10px 18px;
     border-radius: 50px;
     font-size: 14px;
     font-weight: bold;
@@ -116,6 +143,63 @@ body::before {
     position: relative;
 }
 
+/* HEADER SEARCH ICON BESIDE CART */
+.nav-search-btn {
+    background: transparent;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .3s;
+}
+
+.nav-search-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.nav-search-btn img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* POPUP SEARCH BAR STYLING */
+.popup-search-container {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 15px;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px var(--shadow-color);
+    display: none;
+    z-index: 1100;
+    width: 260px;
+    margin-top: 10px;
+}
+
+.popup-search-container.active {
+    display: block;
+}
+
+.popup-search-input {
+    width: 100%;
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 50px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    outline: none;
+}
+
 /* CART BADGE COUNT */
 .cart-badge {
     position: absolute;
@@ -129,11 +213,11 @@ body::before {
     font-weight: bold;
 }
 
-/* PREMIUM HEADER WITH VIDEO BACKGROUND */
+/* PREMIUM HEADER WITH VIDEO BACKGROUND (Pushed Downwards) */
 header {
     position: relative;
-    margin-top: 50px;
-    height: 420px;
+    margin-top: 85px;
+    height: 380px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -159,14 +243,14 @@ header {
     z-index: 1;
 }
 
-/* VIDEO OVERLAY TO MAKE TEXT CLEAR */
+/* VIDEO OVERLAY */
 .header-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(2, 6, 23, 0.55), rgba(30, 64, 175, 0.55));
+    background: rgba(2, 6, 23, 0.60);
     z-index: 2;
     pointer-events: none;
 }
@@ -177,35 +261,13 @@ header {
     z-index: 3;
 }
 
-/* BRAND NAME */
-.header-content h1 {
-    font-size: 75px;
-    font-weight: 1000;
-    letter-spacing: 10px;
-    text-transform: uppercase;
-    background: linear-gradient(
-        90deg,
-        #ffffff,
-        #f1f2f3,
-        #ffffff,
-        #ffffff
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: brand 2s infinite alternate;
-}
-
-@keyframes brand {
-    from { transform: scale(1); }
-    to { transform: scale(1.08); }
-}
-
 /* SUB TITLE */
 .header-content p {
-    margin-top: 15px;
-    font-size: 22px;
+    font-size: 15px;
+    font-weight: bold;
     letter-spacing: 3px;
     color: #e0f2fe;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
 }
 
 /* FLASH SALE BANNER & TIMER */
@@ -247,32 +309,6 @@ header {
     font-size: 16px;
 }
 
-/* SEARCH & CATEGORY FILTER SECTION */
-.search-container{
-    max-width:600px;
-    margin:15px auto 15px;
-    padding:0 20px;
-    position:relative;
-    z-index:10;
-}
-
-.search-bar{
-    width:100%;
-    padding:15px 25px;
-    font-size:16px;
-    border:none;
-    border-radius:50px;
-    background: var(--input-bg);
-    color: var(--text-primary);
-    box-shadow:0 10px 25px var(--shadow-color);
-    outline:none;
-    transition:.3s;
-}
-
-.search-bar:focus{
-    box-shadow:0 10px 30px rgba(37,99,235,0.4);
-}
-
 /* CATEGORY TABS */
 .category-container{
     display:flex;
@@ -280,7 +316,7 @@ header {
     gap:10px;
     flex-wrap:wrap;
     padding:0 20px;
-    margin-bottom:20px;
+    margin: 25px 0 20px;
     position: relative;
     z-index: 2;
 }
@@ -690,29 +726,29 @@ footer p{
 }
 
 /* ============================================================ */
-/* MOBILE RESPONSIVE OPTIMIZATION (2 COLUMNS ON MOBILE)          */
+/* MOBILE RESPONSIVE OPTIMIZATION                                */
 /* ============================================================ */
 @media(max-width:768px){
     .top-nav {
-        padding: 8px 10px;
+        padding: 16px 10px;
     }
 
     .nav-btn {
-        padding: 6px 10px;
+        padding: 8px 12px;
         font-size: 11px;
     }
 
-    header {
-        height: 260px;
+    .nav-logo {
+        max-height: 48px;
     }
 
-    .header-content h1{
-        font-size: 28px;
-        letter-spacing: 3px;
+    header {
+        height: 240px;
+        margin-top: 75px;
     }
 
     .header-content p{
-        font-size: 13px;
+        font-size: 16px;
         letter-spacing: 1px;
     }
 
@@ -729,11 +765,6 @@ footer p{
     .timer-unit {
         padding: 4px 8px;
         font-size: 12px;
-    }
-
-    .search-bar {
-        padding: 10px 18px;
-        font-size: 13px;
     }
 
     .cat-btn {
@@ -796,7 +827,20 @@ footer p{
     <div class="nav-left">
         <button class="nav-btn" onclick="document.getElementById('sidebar').classList.add('open')">☰ Menu</button>
     </div>
+    <!-- LOGO PLACED EXACTLY IN THE MIDDLE OF MENU & CART WITH ANIMATION & NO SHADOW -->
+    <div class="nav-center-logo">
+        <img src="images/blogo.PNG" alt="BAHAR SPORTS Logo" class="nav-logo">
+    </div>
     <div class="nav-right">
+        <div style="position: relative;">
+            <button class="nav-search-btn" onclick="togglePopupSearch()">
+                <img src="images/sarch.png" alt="Search">
+            </button>
+            <!-- Popup Search Input Line -->
+            <div id="popupSearchBox" class="popup-search-container">
+                <input type="text" id="searchInput" class="popup-search-input" placeholder=" Search Products..." onkeyup="filterProducts()">
+            </div>
+        </div>
         <button class="nav-btn cart-btn-top" onclick="openCartDrawer()">🛒 <span id="cartCount" class="cart-badge">0</span></button>
     </div>
 </div>
@@ -850,25 +894,9 @@ footer p{
 
     <!-- HEADER CONTENT -->
     <div class="header-content">
-        <h1> 𝘽𝘼𝙃𝘼𝙍  𝙎𝙋𝙊𝙍𝙏𝙎 </h1>
-        <p>Best Sports Collection</p>
+        <p>© 2026 BAHAR SPORTS All RIGHT RESERVED.</p>
     </div>
 </header>
-
-<!-- FLASH SALE COUNTDOWN BANNER -->
-<div class="flash-sale-banner">
-    <h3>🔥 Special Discount Offer Ending Soon!</h3>
-    <div class="timer-box">
-        <span class="timer-unit" id="hours">08h</span>
-        <span class="timer-unit" id="minutes">45m</span>
-        <span class="timer-unit" id="seconds">30s</span>
-    </div>
-</div>
-
-<!-- LIVE SEARCH BAR -->
-<div class="search-container">
-    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search Products..." onkeyup="filterProducts()">
-</div>
 
 <!-- CATEGORY TABS FILTER -->
 <div class="category-container">
@@ -1076,6 +1104,15 @@ function toggleSound() {
     }
 }
 
+// Toggle Popup Search Bar
+function togglePopupSearch() {
+    let searchBox = document.getElementById('popupSearchBox');
+    searchBox.classList.toggle('active');
+    if (searchBox.classList.contains('active')) {
+        document.getElementById('searchInput').focus();
+    }
+}
+
 // Search function to filter products dynamically
 function filterProducts() {
     let input = document.getElementById('searchInput').value.toLowerCase();
@@ -1109,7 +1146,7 @@ function filterCategory(category, btn) {
     }
 }
 
-// Shopping Cart Logic (সাইজ সিলেকশন অপশন বাদ দেওয়া হয়েছে)
+// Shopping Cart Logic
 function addToCart(productName, price) {
     cart.push({ name: productName, price: price });
     updateCartUI();
@@ -1158,7 +1195,7 @@ function closeCartDrawer() {
     document.getElementById('cartDrawer').classList.remove('open');
 }
 
-// Redirect Cart Items to product.html (sending individual product names, total price & individual images)
+// Redirect Cart Items to product.html
 function checkoutCartToOrderPage() {
     if (cart.length === 0) {
         alert("Your cart is empty!");
@@ -1168,7 +1205,6 @@ function checkoutCartToOrderPage() {
     let names = cart.map(item => item.name).join(",");
     let prices = cart.reduce((sum, item) => sum + item.price, 0);
     
-    // কার্টের প্রতিটা প্রোডাক্টের নিজস্ব ছবি আলাদা করে কালেক্ট করা
     let images = cart.map(item => {
         let card = Array.from(document.querySelectorAll('.product-card')).find(c => c.querySelector('h2').innerText.includes(item.name));
         return card ? card.querySelector('img').src : 'images/b15.jpg';
@@ -1176,26 +1212,6 @@ function checkoutCartToOrderPage() {
 
     window.location.href = `product.html?name=${encodeURIComponent(names)}&price=${prices}&img=${encodeURIComponent(images)}`;
 }
-
-// Countdown Timer Function
-function startTimer() {
-    let hours = 8, minutes = 45, seconds = 30;
-    setInterval(() => {
-        seconds--;
-        if (seconds < 0) {
-            seconds = 59;
-            minutes--;
-            if (minutes < 0) {
-                minutes = 59;
-                hours--;
-            }
-        }
-        document.getElementById('hours').innerText = (hours < 10 ? "0" : "") + hours + "h";
-        document.getElementById('minutes').innerText = (minutes < 10 ? "0" : "") + minutes + "m";
-        document.getElementById('seconds').innerText = (seconds < 10 ? "0" : "") + seconds + "s";
-    }, 1000);
-}
-startTimer();
 
 // Modal Toggle Functions
 function openOwnerModal() {
@@ -1207,7 +1223,6 @@ function closeOwnerModal() {
     document.getElementById('ownerModal').style.display = 'none';
 }
 
-// Close modal when clicking outside of it
 window.onclick = function(event) {
     let modal = document.getElementById('ownerModal');
     if (event.target == modal) {
