@@ -38,7 +38,7 @@
 
         .main-card {
             width: 100%;
-            max-width: 460px;
+            max-width: 480px;
             background: var(--card-bg);
             border-radius: 24px;
             border: 1px solid var(--border-line);
@@ -76,7 +76,11 @@
             padding: 20px;
         }
 
-        /* PRODUCT DISPLAY */
+        /* SINGLE PRODUCT DISPLAY */
+        .single-product-view {
+            display: none;
+        }
+
         .image-wrapper {
             width: 100%;
             height: 320px;
@@ -111,7 +115,51 @@
             color: var(--accent-color);
         }
 
-        /* SIZE SELECTION */
+        /* MULTIPLE PRODUCTS DISPLAY CONTAINER */
+        #productsListContainer {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .product-item-card {
+            display: flex;
+            gap: 12px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 12px;
+            border-radius: 16px;
+            border: 1px solid var(--border-line);
+            align-items: center;
+        }
+
+        .product-item-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid var(--border-line);
+        }
+
+        .product-item-info {
+            flex: 1;
+        }
+
+        .product-item-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .product-item-price {
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 6px;
+        }
+
+        /* SIZE SELECTION & QUANTITY */
         .size-section {
             margin-bottom: 25px;
         }
@@ -140,28 +188,80 @@
             font-weight: bold;
         }
 
-        .size-options {
+        #dynamicSizesContainer {
             display: flex;
-            justify-content: center;
-            gap: 12px;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
         }
 
-        .size-btn {
-            width: 50px;
-            height: 42px;
-            background: rgba(255, 255, 255, 0.05);
+        .size-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 10px 15px;
+            border-radius: 12px;
             border: 1px solid var(--border-line);
-            color: var(--text-main);
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
         }
 
-        .size-btn.active, .size-btn:hover {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        .size-row span {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-sub);
+        }
+
+        /* ড্রপডাউন এবং এর অপশনগুলোর জন্য ডার্ক ব্যাকগ্রাউন্ড ও সাদা লেখা নিশ্চিত করা হলো */
+        .size-row select, .size-select-box select, select {
+            background: #0f172a !important;
+            border: 1px solid var(--border-line);
+            color: #ffffff !important;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* ড্রপডাউনের ভেতরের অপশনগুলোর কালার ফিক্স */
+        .size-row select option, .size-select-box select option, select option {
+            background-color: #0f172a !important;
+            color: #ffffff !important;
+        }
+
+        .size-select-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .size-select-box span {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--text-sub);
+        }
+
+        /* TOTAL PRICE SECTION */
+        .total-summary {
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            padding: 12px 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .total-summary span {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #grandTotalPrice {
+            color: var(--accent-color);
+            font-size: 18px;
         }
 
         /* FORM SECTION */
@@ -303,28 +403,37 @@
         </div>
 
         <div class="content-body">
-            <!-- PRODUCT DETAILS -->
-            <div class="image-wrapper">
-                <img id="productImg" src="" alt="Product">
+            <!-- 1. SINGLE PRODUCT VIEW -->
+            <div id="singleProductView" class="single-product-view">
+                <div class="image-wrapper">
+                    <img id="productImg" src="" alt="Product">
+                </div>
+
+                <div class="product-info">
+                    <h1 id="productName" class="product-title">Loading...</h1>
+                    <div id="productPrice" class="product-price">৳0</div>
+                </div>
+
+                <div class="size-section">
+                    <div class="size-header">
+                        <span class="size-label">Select Quantity & Size</span>
+                        <span class="size-chart-link" onclick="openSizeChart()">Size Guide?</span>
+                    </div>
+
+                    <div class="input-group" style="margin-bottom: 12px;">
+                        <input type="number" id="quantityInput" value="1" min="1" max="10" placeholder="Quantity" onchange="renderSizeSelectors()">
+                    </div>
+
+                    <div id="dynamicSizesContainer"></div>
+                </div>
             </div>
 
-            <div class="product-info">
-                <h1 id="productName" class="product-title">Loading...</h1>
-                <div id="productPrice" class="product-price">৳0</div>
-            </div>
+            <!-- 2. MULTIPLE PRODUCTS VIEW (CART CHECKOUT) -->
+            <div id="productsListContainer"></div>
 
-            <!-- SIZE SELECTOR -->
-            <div class="size-section">
-                <div class="size-header">
-                    <span class="size-label">Select Your Size</span>
-                    <span class="size-chart-link" onclick="openSizeChart()">Size Guide?</span>
-                </div>
-                <div class="size-options">
-                    <button class="size-btn active" onclick="selectSize(this, 'M')">M</button>
-                    <button class="size-btn" onclick="selectSize(this, 'L')">L</button>
-                    <button class="size-btn" onclick="selectSize(this, 'XL')">XL</button>
-                    <button class="size-btn" onclick="selectSize(this, 'XXL')">XXL</button>
-                </div>
+            <div id="totalSummaryBox" class="total-summary">
+                <span>Total Amount:</span>
+                <span id="grandTotalPrice">৳0</span>
             </div>
 
             <!-- ORDER FORM -->
@@ -380,7 +489,6 @@
             serverTimestamp
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
             authDomain: "bahar-sports-f2a70.firebaseapp.com",
@@ -393,41 +501,139 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // EmailJS Start
         emailjs.init("A5cuoRzS4yFyf5f_x");
 
-        let selectedSize = 'M';
+        let isMultiple = false;
+        let basePrice = 0;
         let currentProduct = {};
+        let cartProducts = [];
+        let grandTotal = 0;
 
-        // Load Product Details from URL Parameters
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const name = urlParams.get('name');
-            const price = urlParams.get('price');
-            const img = urlParams.get('img');
+            const nameParam = urlParams.get('name');
+            const priceParam = urlParams.get('price');
+            const imgParam = urlParams.get('img');
 
-            if (name && price && img) {
-                currentProduct = {
-                    name: decodeURIComponent(name),
-                    price: price,
-                    img: decodeURIComponent(img)
-                };
-                document.getElementById('productName').innerText = currentProduct.name;
-                document.getElementById('productPrice').innerText = '৳' + currentProduct.price;
-                document.getElementById('productImg').src = currentProduct.img;
+            if (nameParam && priceParam && imgParam) {
+                let decodedNames = decodeURIComponent(nameParam);
+                let decodedImgs = decodeURIComponent(imgParam);
+                let totalVal = parseFloat(priceParam) || 0;
+
+                let namesArr = decodedNames.split(',');
+                let imgsArr = decodedImgs.split(',');
+
+                // যদি একটিমাত্র প্রোডাক্ট হয় (হোমপেজ থেকে ক্লিক করা)
+                if (namesArr.length === 1) {
+                    isMultiple = false;
+                    currentProduct = {
+                        name: decodedNames.trim(),
+                        price: totalVal,
+                        img: decodedImgs.trim()
+                    };
+                    basePrice = currentProduct.price;
+
+                    document.getElementById('singleProductView').style.display = 'block';
+                    document.getElementById('productsListContainer').style.display = 'none';
+                    document.getElementById('totalSummaryBox').style.display = 'none';
+
+                    document.getElementById('productName').innerText = currentProduct.name;
+                    document.getElementById('productPrice').innerText = '৳' + basePrice;
+                    document.getElementById('productImg').src = currentProduct.img;
+
+                    renderSizeSelectors();
+                } 
+                // যদি একাধিক প্রোডাক্ট হয় (কার্ট থেকে প্রসিড করা)
+                else {
+                    isMultiple = true;
+                    document.getElementById('singleProductView').style.display = 'none';
+                    document.getElementById('productsListContainer').style.display = 'flex';
+                    document.getElementById('totalSummaryBox').style.display = 'flex';
+
+                    let eachPrice = totalVal / namesArr.length;
+                    for (let i = 0; i < namesArr.length; i++) {
+                        cartProducts.push({
+                            name: namesArr[i].trim(),
+                            price: eachPrice,
+                            img: imgsArr[i] ? imgsArr[i].trim() : imgsArr[0].trim(),
+                            size: 'M'
+                        });
+                    }
+                    renderProductsList();
+                }
             } else {
+                document.getElementById('singleProductView').style.display = 'block';
                 document.getElementById('productName').innerText = "No Product Selected";
             }
         };
 
-        // Size Selector
-        window.selectSize = function(btn, size) {
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            selectedSize = size;
+        // সিঙ্গেল প্রোডাক্টের কোয়ান্টিটি অনুযায়ী সাইজ রো রেন্ডার করা
+        window.renderSizeSelectors = function() {
+            if (isMultiple) return;
+            let qtyInput = document.getElementById('quantityInput');
+            let qty = parseInt(qtyInput.value) || 1;
+            if (qty < 1) qty = 1;
+            if (qty > 10) qty = 10;
+            qtyInput.value = qty;
+
+            let container = document.getElementById('dynamicSizesContainer');
+            container.innerHTML = "";
+
+            for (let i = 1; i <= qty; i++) {
+                container.innerHTML += `
+                    <div class="size-row">
+                        <span>Item ${i} Size:</span>
+                        <select class="item-size-choice">
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                        </select>
+                    </div>
+                `;
+            }
+
+            if (basePrice > 0) {
+                let totalPrice = basePrice * qty;
+                document.getElementById('productPrice').innerText = '৳' + totalPrice;
+            }
         };
 
-        // Modal Functions
+        // কার্টের মাল্টিপল প্রোডাক্ট লিস্ট রেন্ডার করা (নিজেদের আলাদা ছবিসহ)
+        window.renderProductsList = function() {
+            let container = document.getElementById('productsListContainer');
+            container.innerHTML = "";
+
+            grandTotal = 0;
+            cartProducts.forEach((item, index) => {
+                grandTotal += item.price;
+                container.innerHTML += `
+                    <div class="product-item-card">
+                        <img src="${item.img}" alt="Product">
+                        <div class="product-item-info">
+                            <div class="product-item-title">${item.name}</div>
+                            <div class="product-item-price">৳${item.price}</div>
+                            <div class="size-select-box">
+                                <span>Size:</span>
+                                <select onchange="updateSize(${index}, this.value)">
+                                    <option value="M" ${item.size === 'M' ? 'selected' : ''}>M</option>
+                                    <option value="L" ${item.size === 'L' ? 'selected' : ''}>L</option>
+                                    <option value="XL" ${item.size === 'XL' ? 'selected' : ''}>XL</option>
+                                    <option value="XXL" ${item.size === 'XXL' ? 'selected' : ''}>XXL</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('grandTotalPrice').innerText = '৳' + grandTotal;
+        };
+
+        window.updateSize = function(index, newSize) {
+            cartProducts[index].size = newSize;
+        };
+
         window.openSizeChart = function() {
             document.getElementById('sizeModal').style.display = 'flex';
         };
@@ -436,10 +642,9 @@
             document.getElementById('sizeModal').style.display = 'none';
         };
 
-        // Send Order Function
+        // অর্ডার কনফার্ম ও ফায়ারবেস/ইমেইল পাঠানোর ফাংশন
         window.sendOrder = async function() {
             const btn = document.getElementById("confirmBtn");
-
             if (btn.disabled) return;
 
             let name = document.getElementById("name").value.trim();
@@ -451,31 +656,49 @@
                 return;
             }
 
-            // Processing State
+            let finalProductStr = "";
+            let sizesList = "";
+
+            if (!isMultiple) {
+                let sizeSelects = document.getElementsByClassName('item-size-choice');
+                let selectedSizesList = [];
+                for (let i = 0; i < sizeSelects.length; i++) {
+                    selectedSizesList.push(sizeSelects[i].value);
+                }
+                let qty = sizeSelects.length;
+                let totalPrice = basePrice * qty;
+                let productName = currentProduct.name ? currentProduct.name : "N/A";
+                
+                finalProductStr = `${productName} (Qty: ${qty}, Total: ৳${totalPrice})`;
+                sizesList = selectedSizesList.join(", ");
+            } else {
+                let productNamesList = cartProducts.map(item => `${item.name} (Size: ${item.size})`).join(" | ");
+                sizesList = cartProducts.map(item => item.size).join(", ");
+                let totalCount = cartProducts.length;
+                finalProductStr = `${productNamesList} [Total Items: ${totalCount}, Total: ৳${grandTotal}]`;
+            }
+
             btn.disabled = true;
             btn.innerHTML = "⏳ Processing...";
 
-            let productName = currentProduct.name ? currentProduct.name : "N/A";
-            let finalProduct = productName + " [Size: " + selectedSize + "]";
-
             try {
-                // Save Order To Firebase
                 await addDoc(collection(db, "orders"), {
                     name: name,
                     phone: phone,
-                    product: finalProduct,
+                    product: finalProductStr,
+                    size: sizesList,
                     address: address,
                     time: serverTimestamp()
                 });
 
-                // Send Email Notification via EmailJS
                 await emailjs.send(
                     "service_r3cn5c2",
                     "template_2p6xf89",
                     {
                         name: name,
                         phone: phone,
-                        product: finalProduct,
+                        product: finalProductStr,
+                        size: sizesList,
                         address: address
                     }
                 );

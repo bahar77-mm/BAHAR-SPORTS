@@ -113,6 +113,20 @@ body::before {
 
 .nav-btn.cart-btn-top {
     background: linear-gradient(135deg, #0d0238);
+    position: relative;
+}
+
+/* CART BADGE COUNT */
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
 }
 
 /* PREMIUM HEADER WITH VIDEO BACKGROUND */
@@ -392,33 +406,7 @@ header {
     color:#e11d48;
     font-size:25px;
     font-weight:bold;
-    margin-bottom:10px;
-}
-
-/* SIZE SELECTOR DROPDOWN */
-.size-selector {
-    margin: 0 20px 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.size-selector label {
-    font-size: 14px;
-    font-weight: bold;
-    color: var(--text-secondary);
-}
-
-.size-selector select {
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(203, 213, 225, 0.4);
-    background: var(--input-bg);
-    color: var(--text-primary);
-    outline: none;
-    font-weight: bold;
-    cursor: pointer;
+    margin-bottom:15px;
 }
 
 /* BUTTONS AREA IN CARD */
@@ -514,6 +502,7 @@ header {
 .drawer-item div p {
     font-size: 13px;
     color: #38bdf8;
+    font-weight: bold;
 }
 
 .remove-item {
@@ -782,22 +771,7 @@ footer p{
 
     .price {
         font-size: 14px;
-        margin-bottom: 6px;
-    }
-
-    .size-selector {
-        margin: 0 6px 8px;
-        gap: 4px;
-    }
-
-    .size-selector label {
-        font-size: 10px;
-    }
-
-    .size-selector select {
-        padding: 3px 6px;
-        font-size: 10px;
-        border-radius: 4px;
+        margin-bottom: 10px;
     }
 
     .card-buttons {
@@ -823,7 +797,7 @@ footer p{
         <button class="nav-btn" onclick="document.getElementById('sidebar').classList.add('open')">☰ Menu</button>
     </div>
     <div class="nav-right">
-        <button class="nav-btn cart-btn-top" onclick="openCartDrawer()">🛒</button>
+        <button class="nav-btn cart-btn-top" onclick="openCartDrawer()">🛒 <span id="cartCount" class="cart-badge">0</span></button>
     </div>
 </div>
 
@@ -924,17 +898,8 @@ footer p{
 <a href="product.html?name=MANCITY%20HOME%20KIT&price=1000&img=images/b15.jpg"><img src="images/b15.jpg"></a>
 <a href="product.html?name=MANCITY%20HOME%20KIT&price=1000&img=images/b15.jpg" style="text-decoration:none; color:inherit;"><h2>MANCITY HOME KIT</h2></a>
 <p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-mancity">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('MANCITY HOME KIT', 1000, 'size-mancity')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('MANCITY HOME KIT', 1000)">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -943,17 +908,8 @@ footer p{
 <a href="product.html?name=LIVERPOOL%20HOME%20KIT&price=1000&img=images/b16.jpg"><img src="images/b16.jpg"></a>
 <a href="product.html?name=LIVERPOOL%20HOME%20KIT&price=1000&img=images/b16.jpg" style="text-decoration:none; color:inherit;"><h2>LIVERPOOL HOME KIT</h2></a>
 <p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-liverpool">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('LIVERPOOL HOME KIT', 1000, 'size-liverpool')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('LIVERPOOL HOME KIT', 1000)">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -963,17 +919,8 @@ footer p{
 <a href="product.html?name=PORTUGAL%20HOME%20KIT%20&price=1000&img=images/WhatsApp%20Image%202026-07-30%20at%201.39.22%20AM.jpeg"><img src="images/WhatsApp Image 2026-07-30 at 1.39.22 AM.jpeg"></a>
 <a href="product.html?name=PORTUGAL%20HOME%20KIT%20&price=1000&img=images/WhatsApp%20Image%202026-07-30%20at%201.39.22%20AM.jpeg" style="text-decoration:none; color:inherit;"><h2>PORTUGAL HOME KIT </h2></a>
 <p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-portugal">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('PORTUGAL HOME KIT', 1000, 'size-portugal')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('PORTUGAL HOME KIT', 1000)">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -983,17 +930,8 @@ footer p{
 <a href="product.html?name=BARCELONA%20NEW%20KIT%20&price=1000&img=images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg"><img src="images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg"></a>
 <a href="product.html?name=BARCELONA%20NEW%20KIT%20&price=1000&img=images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg" style="text-decoration:none; color:inherit;"><h2>BARCELONA NEW KIT </h2></a>
 <p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-barca">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('BARCELONA NEW KIT', 1000, 'size-barca')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('BARCELONA NEW KIT', 1000)">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -1003,17 +941,8 @@ footer p{
 <a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20&price=1000&img=images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg"><img src="images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg"></a>
 <a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20&price=1000&img=images/9d066291-730e-4336-a2fd-cc8ea98d6929.jpg" style="text-decoration:none; color:inherit;"><h2>ARGENTINA HOME JERSEY </h2></a>
 <p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-arg">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('ARGENTINA HOME JERSEY', 1000, 'size-arg')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('ARGENTINA HOME JERSEY', 1000)">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -1022,17 +951,8 @@ footer p{
 <a href="product.html?name=BARCELONA%20AWAY%20JERSEY&price=1000&img=images/b2.jpg"><img src="images/b2.jpg"></a>
 <a href="product.html?name=BARCELONA%20AWAY%20JERSEY&price=1000&img=images/b2.jpg" style="text-decoration:none; color:inherit;"><h2>BARCELONA AWAY JERSEY</h2></a>
 <p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-barca-away">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('BARCELONA AWAY JERSEY', 1000, 'size-barca-away')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('BARCELONA AWAY JERSEY', 1000)">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -1041,17 +961,8 @@ footer p{
 <a href="product.html?name=REAL%20MADRID%20HOME%20JERSEY&price=1000&img=images/b1.jpg"><img src="images/b1.jpg"></a>
 <a href="product.html?name=REAL%20MADRID%20HOME%20JERSEY&price=1000&img=images/b1.jpg" style="text-decoration:none; color:inherit;"><h2>REAL MADRID HOME JERSEY</h2></a>
 <p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-real-home">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('REAL MADRID HOME JERSEY', 1000, 'size-real-home')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('REAL MADRID HOME JERSEY', 1000)">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -1060,17 +971,8 @@ footer p{
 <a href="product.html?name=REAL%20MADRID%20AWAY%20JERSEY&price=1000&img=images/b3.jpg"><img src="images/b3.jpg"></a>
 <a href="product.html?name=REAL%20MADRID%20AWAY%20JERSEY&price=1000&img=images/b3.jpg" style="text-decoration:none; color:inherit;"><h2>REAL MADRID AWAY JERSEY</h2></a>
 <p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-real-away">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('REAL MADRID AWAY JERSEY', 1000, 'size-real-away')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('REAL MADRID AWAY JERSEY', 1000)">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -1079,17 +981,8 @@ footer p{
 <a href="product.html?name=CHELSEA%20HOME%20JERSEY&price=1000&img=images/b4.jpg"><img src="images/b4.jpg"></a>
 <a href="product.html?name=CHELSEA%20HOME%20JERSEY&price=1000&img=images/b4.jpg" style="text-decoration:none; color:inherit;"><h2>CHELSEA HOME JERSEY</h2></a>
 <p class="price">৳1000</p>
-<div class="size-selector">
-    <label>Size:</label>
-    <select id="size-chelsea">
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-    </select>
-</div>
 <div class="card-buttons">
-<button class="add-cart-btn" onclick="addToCart('CHELSEA HOME JERSEY', 1000, 'size-chelsea')">🛒 Add to Cart</button>
+<button class="add-cart-btn" onclick="addToCart('CHELSEA HOME JERSEY', 1000)">🛒 Add to Cart</button>
 </div>
 </div>
 
@@ -1216,10 +1109,9 @@ function filterCategory(category, btn) {
     }
 }
 
-// Shopping Cart Logic
-function addToCart(productName, price, sizeSelectId) {
-    let size = document.getElementById(sizeSelectId).value;
-    cart.push({ name: productName, price: price, size: size });
+// Shopping Cart Logic (সাইজ সিলেকশন অপশন বাদ দেওয়া হয়েছে)
+function addToCart(productName, price) {
+    cart.push({ name: productName, price: price });
     updateCartUI();
     openCartDrawer();
 }
@@ -1229,6 +1121,7 @@ function updateCartUI() {
     container.innerHTML = "";
 
     let total = 0;
+    document.getElementById('cartCount').innerText = cart.length;
 
     if (cart.length === 0) {
         container.innerHTML = "<p style='text-align:center;color:#94a3b8;margin-top:20px;'>Your cart is empty.</p>";
@@ -1242,7 +1135,7 @@ function updateCartUI() {
             <div class="drawer-item">
                 <div>
                     <h4>${item.name}</h4>
-                    <p>Size: ${item.size} | ৳${item.price}</p>
+                    <p>৳${item.price}</p>
                 </div>
                 <span class="remove-item" onclick="removeFromCart(${index})">✖</span>
             </div>
@@ -1265,17 +1158,23 @@ function closeCartDrawer() {
     document.getElementById('cartDrawer').classList.remove('open');
 }
 
-// Redirect Cart Items to order.html
+// Redirect Cart Items to product.html (sending individual product names, total price & individual images)
 function checkoutCartToOrderPage() {
     if (cart.length === 0) {
         alert("Your cart is empty!");
         return;
     }
 
-    let itemsString = cart.map(item => `${item.name} (${item.size})`).join(", ");
-    let total = cart.reduce((sum, item) => sum + item.price, 0);
+    let names = cart.map(item => item.name).join(",");
+    let prices = cart.reduce((sum, item) => sum + item.price, 0);
+    
+    // কার্টের প্রতিটা প্রোডাক্টের নিজস্ব ছবি আলাদা করে কালেক্ট করা
+    let images = cart.map(item => {
+        let card = Array.from(document.querySelectorAll('.product-card')).find(c => c.querySelector('h2').innerText.includes(item.name));
+        return card ? card.querySelector('img').src : 'images/b15.jpg';
+    }).join(",");
 
-    window.location.href = "order.html?product=" + encodeURIComponent(itemsString) + "&total=" + total;
+    window.location.href = `product.html?name=${encodeURIComponent(names)}&price=${prices}&img=${encodeURIComponent(images)}`;
 }
 
 // Countdown Timer Function
