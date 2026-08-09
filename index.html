@@ -832,9 +832,16 @@ footer p{
     <a href="javascript:void(0)" onclick="document.getElementById('sidebar').classList.remove('open')">✖ Close</a>
     <a href="index.html">🏠 Home</a>
     <a href="javascript:void(0)" onclick="toggleTheme()">🌓 Dark/Light Mode</a>
+    <a href="javascript:void(0)" onclick="toggleSound()" id="soundMenuBtn">🔊 Play Sound</a>
     <a href="https://bahar77-mm.github.io/BAHAR-SPORTS/admin.html">⚙️ Admin Panel</a>
     <a href="javascript:void(0)" onclick="openOwnerModal()">👤 Owner Info</a>
 </div>
+
+<!-- BACKGROUND AUDIO ELEMENT -->
+<audio id="bgSound" loop>
+    <source src="images/sound.mpeg" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
 
 <!-- OWNER INFO POPUP MODAL -->
 <div id="ownerModal" class="modal-overlay">
@@ -1154,6 +1161,27 @@ function toggleTheme() {
         document.body.setAttribute('data-theme', 'dark');
     }
 })();
+
+// Sound Toggle Logic
+let isPlaying = false;
+function toggleSound() {
+    let sound = document.getElementById('bgSound');
+    let soundBtn = document.getElementById('soundMenuBtn');
+
+    if (isPlaying) {
+        sound.pause();
+        soundBtn.innerHTML = "🔊 Play Sound";
+        isPlaying = false;
+    } else {
+        sound.play().then(() => {
+            soundBtn.innerHTML = "🔇 Stop Sound";
+            isPlaying = true;
+        }).catch(error => {
+            console.log("Audio play failed: ", error);
+            alert("Please check the audio file path or interact with the page first.");
+        });
+    }
+}
 
 // Search function to filter products dynamically
 function filterProducts() {
