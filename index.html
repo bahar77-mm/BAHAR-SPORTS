@@ -36,6 +36,12 @@
     font-family:'Arial',sans-serif;
 }
 
+/* সব ধরনের বোতাম, লিংক এবং ইনপুটে মোবাইলের নীল টাচ হাইলাইট স্থায়ীভাবে বন্ধ করা হলো */
+button, a, input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
 body{
     background: var(--bg-color);
     color: var(--text-primary);
@@ -143,7 +149,7 @@ body::before {
     position: relative;
 }
 
-/* HEADER SEARCH ICON BESIDE CART (Transparent background & fixed mobile tap highlight) */
+/* HEADER SEARCH ICON BESIDE CART */
 .nav-search-btn {
     background: transparent;
     border: none;
@@ -154,8 +160,6 @@ body::before {
     align-items: center;
     justify-content: center;
     transition: .3s;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
 }
 
 .nav-search-btn:hover {
@@ -167,8 +171,6 @@ body::before {
     width: 20px;
     height: 20px;
     object-fit: contain;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
 }
 
 /* POPUP SEARCH BAR STYLING */
@@ -751,7 +753,6 @@ footer p{
         margin-top: 75px;
     }
 
-    /* মোবাইলে ভিডিওর ওপরের টেক্সট ছোট করার জন্য ফন্ট সাইজ কমানো হয়েছে */
     .header-content p{
         font-size: 10px;
         letter-spacing: 1px;
@@ -777,7 +778,6 @@ footer p{
         font-size: 12px;
     }
 
-    /* 2 COLUMNS GRID ON MOBILE */
     .products {
         padding: 10px;
         grid-template-columns: repeat(2, 1fr);
@@ -821,7 +821,6 @@ footer p{
         border-radius: 20px;
     }
 
-    /* CART DRAWER 50% WIDTH ON MOBILE */
     .drawer-overlay {
         max-width: 50% !important;
         width: 50% !important;
@@ -839,7 +838,6 @@ footer p{
     <div class="nav-left">
         <button class="nav-btn" onclick="document.getElementById('sidebar').classList.add('open')">☰ Menu</button>
     </div>
-    <!-- LOGO PLACED EXACTLY IN THE MIDDLE OF MENU & CART WITH ANIMATION & NO SHADOW -->
     <div class="nav-center-logo">
         <img src="images/blogo.PNG" alt="BAHAR SPORTS Logo" class="nav-logo">
     </div>
@@ -848,7 +846,6 @@ footer p{
             <button class="nav-search-btn" onclick="togglePopupSearch()">
                 <img src="images/sarch.png" alt="Search">
             </button>
-            <!-- Popup Search Input Line -->
             <div id="popupSearchBox" class="popup-search-container">
                 <input type="text" id="searchInput" class="popup-search-input" placeholder=" Search Products..." onkeyup="filterProducts()">
             </div>
@@ -895,16 +892,13 @@ footer p{
 </div>
 
 <header>
-    <!-- VIDEO BACKGROUND -->
     <video autoplay muted loop playsinline class="header-video">
         <source src="images/4k.MP4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
 
-    <!-- OVERLAY -->
     <div class="header-overlay"></div>
 
-    <!-- HEADER CONTENT -->
     <div class="header-content">
         <p>© 2026 BAHAR SPORTS All RIGHT RESERVED.</p>
     </div>
@@ -1035,7 +1029,6 @@ footer p{
         <span class="close-drawer" onclick="closeCartDrawer()">✖</span>
     </div>
     <div class="drawer-content" id="cartItemsContainer">
-        <!-- Cart Items Will Render Here -->
     </div>
     <div class="drawer-footer">
         <div class="total-price">
@@ -1074,7 +1067,6 @@ CLICK AND ORDER
 <script>
 let cart = [];
 
-// Dark & Light Mode Logic
 function toggleTheme() {
     const currentTheme = document.body.getAttribute('data-theme');
     
@@ -1087,7 +1079,6 @@ function toggleTheme() {
     }
 }
 
-// Load Saved Theme
 (function loadTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
@@ -1095,7 +1086,6 @@ function toggleTheme() {
     }
 })();
 
-// Sound Toggle Logic
 let isPlaying = false;
 function toggleSound() {
     let sound = document.getElementById('bgSound');
@@ -1116,7 +1106,6 @@ function toggleSound() {
     }
 }
 
-// Toggle Popup Search Bar
 function togglePopupSearch() {
     let searchBox = document.getElementById('popupSearchBox');
     searchBox.classList.toggle('active');
@@ -1125,7 +1114,6 @@ function togglePopupSearch() {
     }
 }
 
-// Search function to filter products dynamically
 function filterProducts() {
     let input = document.getElementById('searchInput').value.toLowerCase();
     let cards = document.getElementsByClassName('product-card');
@@ -1140,7 +1128,6 @@ function filterProducts() {
     }
 }
 
-// Category Filter Function
 function filterCategory(category, btn) {
     let buttons = document.getElementsByClassName('cat-btn');
     for (let i = 0; i < buttons.length; i++) {
@@ -1158,7 +1145,6 @@ function filterCategory(category, btn) {
     }
 }
 
-// Shopping Cart Logic
 function addToCart(productName, price) {
     cart.push({ name: productName, price: price });
     updateCartUI();
@@ -1207,7 +1193,6 @@ function closeCartDrawer() {
     document.getElementById('cartDrawer').classList.remove('open');
 }
 
-// Redirect Cart Items to product.html
 function checkoutCartToOrderPage() {
     if (cart.length === 0) {
         alert("Your cart is empty!");
@@ -1225,7 +1210,6 @@ function checkoutCartToOrderPage() {
     window.location.href = `product.html?name=${encodeURIComponent(names)}&price=${prices}&img=${encodeURIComponent(images)}`;
 }
 
-// Modal Toggle Functions
 function openOwnerModal() {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('ownerModal').style.display = 'flex';
