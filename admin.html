@@ -17,7 +17,7 @@ body{
     padding:20px;
 }
 .box{
-    max-width:1000px;
+    max-width:1100px;
     margin:auto;
     background:white;
     padding:25px;
@@ -94,6 +94,7 @@ th,td{
     padding:12px;
     border:1px solid #ddd;
     text-align:center;
+    font-size: 14px;
 }
 th{
     background:#2563eb;
@@ -116,7 +117,7 @@ th{
     background: #16a34a;
 }
 
-/* মোবাইল ফ্রেন্ডলি রেসপন্সিভ ডিজাইন (সিএসএস এর একদম শেষে বসাতে হবে) */
+/* মোবাইল ফ্রেন্ডলি রেসপন্সিভ ডিজাইন */
 @media(max-width: 768px) {
     body {
         padding: 10px;
@@ -171,8 +172,8 @@ th{
 
     <!-- Login Box -->
     <div class="login" id="loginBox">
-        <input type="email" id="email" placeholder="Admin Email">
-        <input type="password" id="password" placeholder="Password">
+        <input type="email" id="email" placeholder="Admin Email"[cite: 5]>
+        <input type="password" id="password" placeholder="Password"[cite: 5]>
         <button id="loginBtn">Login</button>
     </div>
 
@@ -190,14 +191,14 @@ th{
         <button class="back-btn" onclick="goBack()">⬅️ Back to Menu</button>
         <div class="upload-section">
             <h2>🛍️ Upload New Product</h2>
-            <input type="text" id="prodName" placeholder="Product Name (e.g. Argentina Jersey)">
-            <input type="number" id="prodPrice" placeholder="Price (e.g. 750)">
+            <input type="text" id="prodName" placeholder="Product Name (e.g. Argentina Jersey)"[cite: 5]>
+            <input type="number" id="prodPrice" placeholder="Price (e.g. 750)"[cite: 5]>
             <select id="prodCategory">
                 <option value="Jersey">Jersey</option>
                 <option value="Boots">Boots</option>
                 <option value="Accessories">Accessories</option>
             </select>
-            <input type="text" id="prodImg" placeholder="Image URL (ImgBB / Direct Link)">
+            <input type="text" id="prodImg" placeholder="Image URL (ImgBB / Direct Link)"[cite: 5]>
             <button id="uploadBtn">Upload Product 🚀</button>
         </div>
     </div>
@@ -214,6 +215,7 @@ th{
             <th>Product</th>
             <th>Size</th>
             <th>Address</th>
+            <th>Payment Info</th> <!-- পেমেন্ট তথ্যের নতুন কলাম -->
             <th>Action</th>
         </tr>
         </thead>

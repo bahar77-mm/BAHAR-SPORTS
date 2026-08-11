@@ -350,6 +350,37 @@
             resize: none;
         }
 
+        /* PAYMENT METHOD STYLING */
+        .payment-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-line);
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+        }
+
+        .payment-box label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+        }
+
+        #onlinePaymentDetails {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border-line);
+        }
+
+        .payment-instruction {
+            font-size: 12px;
+            color: #fbbf24;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
         /* BUTTON */
         .submit-btn {
             width: 100%;
@@ -499,8 +530,28 @@
                     <textarea id="address" placeholder="Full Delivery Address"></textarea>
                 </div>
 
+                <!-- PAYMENT METHOD SELECTION -->
+                <div class="payment-box">
+                    <label>Select Payment Method</label>
+                    <select id="paymentMethod" onchange="togglePaymentFields()">
+                        <option value="Cash on Delivery">Cash on Delivery (COD)</option>
+                        <option value="bKash">bKash (Online Payment)</option>
+                        <option value="Nagad">Nagad (Online Payment)</option>
+                    </select>
+
+                    <div id="onlinePaymentDetails">
+                        <div id="payInstruction" class="payment-instruction">Send money to our Personal/Merchant number: <b>01616568419</b></div>
+                        <div class="input-group" style="margin-bottom: 8px;">
+                            <input type="text" id="senderNumber" placeholder="Your Sender Number (e.g. 017xxxxxxxx)">
+                        </div>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <input type="text" id="trxId" placeholder="Transaction ID (TrxID)">
+                        </div>
+                    </div>
+                </div>
+
                 <button id="confirmBtn" class="submit-btn" onclick="sendOrder()">Confirm Order 🚀</button>
-                <p class="note">Cash on delivery available all over Bangladesh.</p>
+                <p class="note">Cash on delivery & Online payment available.</p>
             </div>
         </div>
     </div>
@@ -616,6 +667,20 @@
             }
         };
 
+        // পেমেন্ট মেথড পরিবর্তন হলে ইনপুট ফিল্ড দেখানো বা লুਕানো
+        window.togglePaymentFields = function() {
+            let method = document.getElementById("paymentMethod").value;
+            let detailsBox = document.getElementById("onlinePaymentDetails");
+            let instruction = document.getElementById("payInstruction");
+
+            if (method === "Cash on Delivery") {
+                detailsBox.style.display = "none";
+            } else {
+                detailsBox.style.display = "block";
+                instruction.innerHTML = `Send money to our ${method} personal/merchant number: <b>01616568419</b>`;
+            }
+        };
+
         // কোয়ান্টিটি প্লাস-মাইনাস বাটন হ্যান্ডেল করার ফাংশন
         window.changeQty = function(amount) {
             let qtyInput = document.getElementById('quantityInput');
@@ -708,10 +773,20 @@
             let name = document.getElementById("name").value.trim();
             let phone = document.getElementById("phone").value.trim();
             let address = document.getElementById("address").value.trim();
+            let paymentMethod = document.getElementById("paymentMethod").value;
+            let senderNumber = document.getElementById("senderNumber").value.trim();
+            let trxId = document.getElementById("trxId").value.trim();
 
             if (name == "" || phone == "" || address == "") {
                 alert("Please fill all information");
                 return;
+            }
+
+            if (paymentMethod !== "Cash on Delivery") {
+                if (senderNumber == "" || trxId == "") {
+                    alert("Please provide your Sender Number and Transaction ID (TrxID) for online payment.");
+                    return;
+                }
             }
 
             let finalProductStr = "";
@@ -736,6 +811,8 @@
                 finalProductStr = `${productNamesList} [Total Items: ${totalCount}, Total: ৳${grandTotal}]`;
             }
 
+            let paymentInfoStr = paymentMethod === "Cash on Delivery" ? "Cash on Delivery" : `${paymentMethod} | Sender: ${senderNumber} | TrxID: ${trxId}`;
+
             btn.disabled = true;
             btn.innerHTML = "⏳ Processing...";
 
@@ -746,6 +823,7 @@
                     product: finalProductStr,
                     size: sizesList,
                     address: address,
+                    payment: paymentInfoStr,
                     time: serverTimestamp()
                 });
 
@@ -757,7 +835,8 @@
                         phone: phone,
                         product: finalProductStr,
                         size: sizesList,
-                        address: address
+                        address: address,
+                        payment: paymentInfoStr
                     }
                 );
 
@@ -767,6 +846,8 @@
                 document.getElementById("name").value = "";
                 document.getElementById("phone").value = "";
                 document.getElementById("address").value = "";
+                document.getElementById("senderNumber").value = "";
+                document.getElementById("trxId").value = "";
 
             } catch (error) {
                 btn.disabled = false;

@@ -99,6 +99,7 @@ async function loadOrders() {
                     <td>${data.product || 'N/A'}</td>
                     <td>${data.size || 'N/A'}</td>
                     <td>${data.address || 'N/A'}</td>
+                    <td><strong style="color: #2563eb;">${data.payment || 'Cash on Delivery'}</strong></td>
                     <td>
                         <button class="table-confirm-btn" onclick="confirmAndDeleteOrder('${docId}')">Confirm</button>
                     </td>
