@@ -154,6 +154,7 @@ body::before {
     align-items: center;
     justify-content: center;
     transition: .3s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .nav-search-btn:hover {
@@ -192,7 +193,7 @@ body::before {
 .popup-search-input {
     width: 100%;
     padding: 8px 15px;
-    font-size: 14px;
+    font-size: 16px;
     border: none;
     border-radius: 50px;
     background: var(--input-bg);
@@ -748,7 +749,7 @@ footer p{
     }
 
     .header-content p{
-        font-size: 10px;
+        font-size: 16px;
         letter-spacing: 1px;
     }
 
@@ -814,6 +815,13 @@ footer p{
         padding: 8px 6px;
         font-size: 11px;
         border-radius: 20px;
+    }
+
+    /* CART DRAWER 50% WIDTH ON MOBILE */
+    .drawer-overlay {
+        max-width: 50% !important;
+        width: 50% !important;
+        padding: 12px;
     }
 }
 </style>
@@ -966,8 +974,8 @@ footer p{
 <!-- ARGENTINA -->
 <div class="card product-card" data-category="jersey">
 <span class="badge best">Best Seller</span>
-<a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20&price=1000&img=images/IMG_3348.jpeg"><img src="images/IMG_3348.jpeg"></a>
-<a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20&price=1000&img=images/IMG_3348.jpeg" style="text-decoration:none; color:inherit;"><h2>ARGENTINA HOME JERSEY </h2></a>
+<a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20&price=1000&img=images/IMG_3348.JPG.jpeg"><img src="images/IMG_3348.JPG.jpeg"></a>
+<a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20&price=1000&img=images/IMG_3348.JPG.jpeg" style="text-decoration:none; color:inherit;"><h2>ARGENTINA HOME JERSEY </h2></a>
 <p class="price">৳1000</p>
 <div class="card-buttons">
 <button class="add-cart-btn" onclick="addToCart('ARGENTINA HOME JERSEY', 1000)">🛒 Add to Cart</button>
