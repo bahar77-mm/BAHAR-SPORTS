@@ -34,12 +34,13 @@
     padding:0;
     box-sizing:border-box;
     font-family:'Arial',sans-serif;
+    -webkit-tap-highlight-color: transparent !important; /* মোবাইলের নীল টাচ ওভারলে ১০০% বন্ধ করতে */
+    -webkit-touch-callout: none;
 }
 
-/* সব ধরনের বোতাম, লিংক এবং ইনপুটে মোবাইলের নীল টাচ হাইলাইট স্থায়ীভাবে বন্ধ করা হলো */
-button, a, input, select, textarea {
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
+/* ফোকাস বা ক্লিকে নীল আউটলাইন বা বর্ডার স্থায়ীভাবে বন্ধ করতে */
+button:focus, a:focus, input:focus, select:focus, textarea:focus, *:focus {
+    outline: none !important;
 }
 
 body{
