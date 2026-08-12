@@ -138,6 +138,7 @@ body::before {
     display: flex;
     align-items: center;
     gap: 6px;
+    text-decoration: none;
 }
 
 .nav-btn:hover {
@@ -275,45 +276,6 @@ header {
     letter-spacing: 3px;
     color: #e0f2fe;
     text-shadow: 0 2px 10px rgba(0,0,0,0.6);
-}
-
-/* FLASH SALE BANNER & TIMER */
-.flash-sale-banner {
-    max-width: 800px;
-    margin: -35px auto 20px;
-    background: linear-gradient(135deg, #ef4444, #b91c1c);
-    color: white;
-    border-radius: 15px;
-    padding: 15px 25px;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
-    position: relative;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.flash-sale-banner h3 {
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.timer-box {
-    display: flex;
-    gap: 8px;
-    font-weight: bold;
-}
-
-.timer-unit {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 16px;
 }
 
 /* CATEGORY TABS */
@@ -759,21 +721,6 @@ footer p{
         letter-spacing: 1px;
     }
 
-    .flash-sale-banner {
-        margin: -20px 10px 15px;
-        padding: 10px;
-        justify-content: center;
-    }
-
-    .flash-sale-banner h3 {
-        font-size: 13px;
-    }
-
-    .timer-unit {
-        padding: 4px 8px;
-        font-size: 12px;
-    }
-
     .cat-btn {
         padding: 6px 12px;
         font-size: 12px;
@@ -859,6 +806,10 @@ footer p{
 <div id="sidebar" class="sidebar">
     <a href="javascript:void(0)" onclick="document.getElementById('sidebar').classList.remove('open')">✖ Close</a>
     <a href="index.html">🏠 Home</a>
+    
+    <!-- এখানে id="sidebarLoginBtn" যোগ করা হয়েছে -->
+    <a href="login.html" id="sidebarLoginBtn">👤 Login / Register</a>
+    
     <a href="javascript:void(0)" onclick="toggleTheme()">🌓 Dark/Light Mode</a>
     <a href="javascript:void(0)" onclick="toggleSound()" id="soundMenuBtn">🔊 Play Sound</a>
     <a href="https://bahar77-mm.github.io/BAHAR-SPORTS/admin.html">⚙️ Admin Panel</a>
@@ -1226,6 +1177,43 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+// লগইন করা থাকলে সাইডবারের নাম পরিবর্তন এবং নামের ওপর ক্লিক করলে লগআউট করার স্ক্রিপ্ট
+window.addEventListener('DOMContentLoaded', () => {
+    let savedUser = localStorage.getItem('loggedInUser');
+    let loginBtn = document.getElementById('sidebarLoginBtn');
+
+    if (savedUser && loginBtn) {
+        loginBtn.innerHTML = `👤 ${savedUser} <span style="font-size: 11px; color: #ef4444; display: block;">(Click to Logout)</span>`;
+        loginBtn.href = "javascript:void(0)";
+        loginBtn.onclick = async function() {
+            if (confirm("Are you sure you want to logout?")) {
+                try {
+                    import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js").then(async ({ initializeApp }) => {
+                        import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js").then(async ({ getAuth, signOut }) => {
+                            const app = initializeApp({
+                                apiKey: "AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
+                                authDomain: "bahar-sports-f2a70.firebaseapp.com",
+                                projectId: "bahar-sports-f2a70",
+                                storageBucket: "bahar-sports-f2a70.firebasestorage.app",
+                                messagingSenderId: "254621686378",
+                                appId: "1:254621686378:web:4edfdf85c40362a51cc813"
+                            });
+                            const auth = getAuth(app);
+                            await signOut(auth);
+                            localStorage.removeItem('loggedInUser');
+                            alert("Logged out successfully!");
+                            window.location.reload();
+                        });
+                    });
+                } catch (error) {
+                    localStorage.removeItem('loggedInUser');
+                    window.location.reload();
+                }
+            }
+        };
+    }
+});
 
 </script>
 <script type="module" src="index.js"></script>

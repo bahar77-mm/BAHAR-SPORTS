@@ -257,7 +257,6 @@
             color: var(--text-sub);
         }
 
-        /* ড্রপডাউন এবং এর অপশনগুলোর জন্য ডার্ক ব্যাকগ্রাউন্ড ও সাদা লেখা নিশ্চিত করা হলো */
         .size-row select, .size-select-box select, select {
             background: #0f172a !important;
             border: 1px solid var(--border-line);
@@ -269,7 +268,6 @@
             cursor: pointer;
         }
 
-        /* ড্রপডাউনের ভেতরের অপশনগুলোর কালার ফিক্স */
         .size-row select option, .size-select-box select option, select option {
             background-color: #0f172a !important;
             color: #ffffff !important;
@@ -348,6 +346,35 @@
         textarea {
             height: 85px;
             resize: none;
+        }
+
+        /* COUPON SECTION */
+        .coupon-box {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .coupon-btn {
+            padding: 0 15px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .coupon-btn:hover {
+            background: #1d4ed8;
+        }
+
+        #couponMessage {
+            font-size: 12px;
+            margin-bottom: 12px;
+            margin-top: -6px;
+            font-weight: bold;
         }
 
         /* PAYMENT METHOD STYLING */
@@ -497,7 +524,6 @@
                         <span class="size-chart-link" onclick="openSizeChart()">Size Guide?</span>
                     </div>
 
-                    <!-- মডার্ন প্লাস-মাইনাস কোয়ান্টিটি কন্ট্রোল -->
                     <div class="qty-wrapper">
                         <button type="button" class="qty-btn" onclick="changeQty(-1)">-</button>
                         <input type="number" id="quantityInput" value="1" min="1" max="10" readonly>
@@ -529,6 +555,13 @@
                 <div class="input-group">
                     <textarea id="address" placeholder="Full Delivery Address"></textarea>
                 </div>
+
+                <!-- COUPON CODE SECTION -->
+                <div class="coupon-box">
+                    <input type="text" id="couponInput" placeholder="Coupon Code " style="margin-bottom: 0;">
+                    <button type="button" class="coupon-btn" onclick="applyCoupon()">Apply</button>
+                </div>
+                <div id="couponMessage"></div>
 
                 <!-- PAYMENT METHOD SELECTION -->
                 <div class="payment-box">
@@ -574,6 +607,7 @@
                     <tr><td>L</td><td>40"</td><td>28"</td></tr>
                     <tr><td>XL</td><td>42"</td><td>29"</td></tr>
                     <tr><td>XXL</td><td>44"</td><td>30"</td></tr>
+                    <tr><td>3XL</td><td>46"</td><td>31"</td></tr>
                 </tbody>
             </table>
         </div>
@@ -608,6 +642,7 @@
         let currentProduct = {};
         let cartProducts = [];
         let grandTotal = 0;
+        let discountPercent = 0; // কুপন ডিসকাউন্ট ট্র্যাক করার জন্য
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -623,7 +658,6 @@
                 let namesArr = decodedNames.split(',');
                 let imgsArr = decodedImgs.split(',');
 
-                // যদি একটিমাত্র প্রোডাক্ট হয় (হোমপেজ থেকে ক্লিক করা)
                 if (namesArr.length === 1) {
                     isMultiple = false;
                     currentProduct = {
@@ -638,13 +672,11 @@
                     document.getElementById('totalSummaryBox').style.display = 'none';
 
                     document.getElementById('productName').innerText = currentProduct.name;
-                    document.getElementById('productPrice').innerText = '৳' + basePrice;
+                    updateDisplayPrice();
                     document.getElementById('productImg').src = currentProduct.img;
 
                     renderSizeSelectors();
-                } 
-                // যদি একাধিক প্রোডাক্ট হয় (কার্ট থেকে প্রসিড করা)
-                else {
+                } else {
                     isMultiple = true;
                     document.getElementById('singleProductView').style.display = 'none';
                     document.getElementById('productsListContainer').style.display = 'flex';
@@ -667,7 +699,6 @@
             }
         };
 
-        // পেমেন্ট মেথড পরিবর্তন হলে ইনপুট ফিল্ড দেখানো বা লুਕানো
         window.togglePaymentFields = function() {
             let method = document.getElementById("paymentMethod").value;
             let detailsBox = document.getElementById("onlinePaymentDetails");
@@ -681,7 +712,6 @@
             }
         };
 
-        // কোয়ান্টিটি প্লাস-মাইনাস বাটন হ্যান্ডেল করার ফাংশন
         window.changeQty = function(amount) {
             let qtyInput = document.getElementById('quantityInput');
             let currentQty = parseInt(qtyInput.value) || 1;
@@ -693,7 +723,6 @@
             }
         };
 
-        // সিঙ্গেল প্রোডাক্টের কোয়ান্টিটি অনুযায়ী সাইজ রো রেন্ডার করা
         window.renderSizeSelectors = function() {
             if (isMultiple) return;
             let qtyInput = document.getElementById('quantityInput');
@@ -711,18 +740,15 @@
                             <option value="L">L</option>
                             <option value="XL">XL</option>
                             <option value="XXL">XXL</option>
+                            <option value="3XL">3XL</option>
                         </select>
                     </div>
                 `;
             }
 
-            if (basePrice > 0) {
-                let totalPrice = basePrice * qty;
-                document.getElementById('productPrice').innerText = '৳' + totalPrice;
-            }
+            updateDisplayPrice();
         };
 
-        // কার্টের মাল্টিপল প্রোডাক্ট লিস্ট রেন্ডার করা (নিজেদের আলাদা ছবিসহ)
         window.renderProductsList = function() {
             let container = document.getElementById('productsListContainer');
             container.innerHTML = "";
@@ -743,6 +769,7 @@
                                     <option value="L" ${item.size === 'L' ? 'selected' : ''}>L</option>
                                     <option value="XL" ${item.size === 'XL' ? 'selected' : ''}>XL</option>
                                     <option value="XXL" ${item.size === 'XXL' ? 'selected' : ''}>XXL</option>
+                                    <option value="3XL" ${item.size === '3XL' ? 'selected' : ''}>3XL</option>
                                 </select>
                             </div>
                         </div>
@@ -750,11 +777,65 @@
                 `;
             });
 
-            document.getElementById('grandTotalPrice').innerText = '৳' + grandTotal;
+            updateDisplayPrice();
         };
 
         window.updateSize = function(index, newSize) {
             cartProducts[index].size = newSize;
+        };
+
+        // কুপন অ্যাপ্লাই করার ফাংশন
+        window.applyCoupon = function() {
+            let code = document.getElementById("couponInput").value.trim().toUpperCase();
+            let msgBox = document.getElementById("couponMessage");
+
+            if (code === "BAHARN") {
+                discountPercent = 10; // ১০% ডিসকাউন্ট
+                msgBox.style.color = "#22c55e";
+                msgBox.innerText = "🎉 Coupon applied successfully! 10% discount added.";
+                updateDisplayPrice();
+            } else if (code === "BAHARNN") {
+                discountPercent = 20; // চাইলে অন্য কুপনও যোগ করতে পারেন (২০%)
+                msgBox.style.color = "#22c55e";
+                msgBox.innerText = "🎉 Coupon applied successfully! 20% discount added.";
+                updateDisplayPrice();
+            } else if (code === "BAHARNNN") {
+                discountPercent = 30; // চাইলে অন্য কুপনও যোগ করতে পারেন (৩০%)
+                msgBox.style.color = "#22c55e";
+                msgBox.innerText = "🎉 Coupon applied successfully! 30% discount added.";
+                updateDisplayPrice();
+            } else {
+                discountPercent = 0;
+                msgBox.style.color = "#ef4444";
+                msgBox.innerText = "❌ Invalid Coupon Code!";
+                updateDisplayPrice();
+            }
+        };
+
+        // প্রাইস আপডেট ও ডিসকাউন্ট ক্যালকুলেশন
+        window.updateDisplayPrice = function() {
+            if (!isMultiple) {
+                let qty = parseInt(document.getElementById('quantityInput').value) || 1;
+                let subTotal = basePrice * qty;
+                let discountVal = (subTotal * discountPercent) / 100;
+                let finalPrice = subTotal - discountVal;
+
+                if (discountPercent > 0) {
+                    document.getElementById('productPrice').innerHTML = `<span style="text-decoration: line-through; font-size: 18px; color: #94a3b8;">৳${subTotal}</span> ৳${finalPrice}`;
+                } else {
+                    document.getElementById('productPrice').innerText = '৳' + subTotal;
+                }
+            } else {
+                let subTotal = grandTotal;
+                let discountVal = (subTotal * discountPercent) / 100;
+                let finalPrice = subTotal - discountVal;
+
+                if (discountPercent > 0) {
+                    document.getElementById('grandTotalPrice').innerHTML = `<span style="text-decoration: line-through; font-size: 14px; color: #94a3b8;">৳${subTotal}</span> ৳${finalPrice}`;
+                } else {
+                    document.getElementById('grandTotalPrice').innerText = '৳' + subTotal;
+                }
+            }
         };
 
         window.openSizeChart = function() {
@@ -765,7 +846,6 @@
             document.getElementById('sizeModal').style.display = 'none';
         };
 
-        // অর্ডার কনফার্ম ও ফায়ারবেস/ইমেইল পাঠানোর ফাংশন
         window.sendOrder = async function() {
             const btn = document.getElementById("confirmBtn");
             if (btn.disabled) return;
@@ -791,6 +871,7 @@
 
             let finalProductStr = "";
             let sizesList = "";
+            let calculatedTotal = 0;
 
             if (!isMultiple) {
                 let sizeSelects = document.getElementsByClassName('item-size-choice');
@@ -799,16 +880,22 @@
                     selectedSizesList.push(sizeSelects[i].value);
                 }
                 let qty = sizeSelects.length;
-                let totalPrice = basePrice * qty;
+                let subTotal = basePrice * qty;
+                let discountVal = (subTotal * discountPercent) / 100;
+                calculatedTotal = subTotal - discountVal;
                 let productName = currentProduct.name ? currentProduct.name : "N/A";
                 
-                finalProductStr = `${productName} (Qty: ${qty}, Total: ৳${totalPrice})`;
+                finalProductStr = `${productName} (Qty: ${qty}, Total: ৳${calculatedTotal}${discountPercent > 0 ? `, Discount: ${discountPercent}%` : ''})`;
                 sizesList = selectedSizesList.join(", ");
             } else {
+                let subTotal = grandTotal;
+                let discountVal = (subTotal * discountPercent) / 100;
+                calculatedTotal = subTotal - discountVal;
+
                 let productNamesList = cartProducts.map(item => `${item.name} (Size: ${item.size})`).join(" | ");
                 sizesList = cartProducts.map(item => item.size).join(", ");
                 let totalCount = cartProducts.length;
-                finalProductStr = `${productNamesList} [Total Items: ${totalCount}, Total: ৳${grandTotal}]`;
+                finalProductStr = `${productNamesList} [Total Items: ${totalCount}, Total: ৳${calculatedTotal}${discountPercent > 0 ? `, Discount: ${discountPercent}%` : ''}]`;
             }
 
             let paymentInfoStr = paymentMethod === "Cash on Delivery" ? "Cash on Delivery" : `${paymentMethod} | Sender: ${senderNumber} | TrxID: ${trxId}`;
@@ -840,14 +927,9 @@
                     }
                 );
 
-                alert("✅ Your Order Confirmed Successfully");
-                btn.innerHTML = "✅ Order Confirmed";
-
-                document.getElementById("name").value = "";
-                document.getElementById("phone").value = "";
-                document.getElementById("address").value = "";
-                document.getElementById("senderNumber").value = "";
-                document.getElementById("trxId").value = "";
+                let successUrl = `success.html?name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&product=${encodeURIComponent(finalProductStr)}&size=${encodeURIComponent(sizesList)}&address=${encodeURIComponent(address)}&payment=${encodeURIComponent(paymentInfoStr)}`;
+                
+                window.location.href = successUrl;
 
             } catch (error) {
                 btn.disabled = false;
