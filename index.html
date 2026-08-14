@@ -34,10 +34,11 @@
     padding:0;
     box-sizing:border-box;
     font-family:'Arial',sans-serif;
-    -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: transparent !important; /* মোবাইলের নীল টাচ ওভারলে ১০০% বন্ধ করতে */
     -webkit-touch-callout: none;
 }
 
+/* ফোকাস বা ক্লিকে নীল আউটলাইন বা বর্ডার স্থায়ীভাবে বন্ধ করতে */
 button:focus, a:focus, input:focus, select:focus, textarea:focus, *:focus {
     outline: none !important;
 }
@@ -50,6 +51,7 @@ body{
     min-height: 100vh;
 }
 
+/* HIGH-INTENSITY STADIUM FLOODLIGHT ATMOSPHERE OVERLAY */
 body::before {
     content: "";
     position: fixed;
@@ -72,6 +74,7 @@ body::before {
         radial-gradient(circle at 50% 90%, rgba(37, 99, 235, 0.5), transparent 60%);
 }
 
+/* TOP NAVIGATION BAR (Thicker with Soft Glass Effect & No Shadow) */
 .top-nav {
     position: fixed;
     top: 0;
@@ -100,6 +103,7 @@ body::before {
     gap: 8px;
 }
 
+/* NAVBAR CENTER LOGO (Bigger, No Shadow, With Animation) */
 .nav-center-logo {
     display: flex;
     align-items: center;
@@ -147,6 +151,7 @@ body::before {
     position: relative;
 }
 
+/* HEADER SEARCH ICON BESIDE CART */
 .nav-search-btn {
     background: transparent;
     border: none;
@@ -170,6 +175,7 @@ body::before {
     object-fit: contain;
 }
 
+/* POPUP SEARCH BAR STYLING */
 .popup-search-container {
     position: absolute;
     top: 100%;
@@ -202,6 +208,7 @@ body::before {
     outline: none;
 }
 
+/* CART BADGE COUNT */
 .cart-badge {
     position: absolute;
     top: -5px;
@@ -214,6 +221,7 @@ body::before {
     font-weight: bold;
 }
 
+/* PREMIUM HEADER WITH VIDEO BACKGROUND (Pushed Downwards) */
 header {
     position: relative;
     margin-top: 85px;
@@ -229,6 +237,7 @@ header {
     background: #020617;
 }
 
+/* VIDEO BACKGROUND STYLES */
 .header-video {
     position: absolute;
     top: 50%;
@@ -242,6 +251,7 @@ header {
     z-index: 1;
 }
 
+/* VIDEO OVERLAY */
 .header-overlay {
     position: absolute;
     top: 0;
@@ -253,11 +263,13 @@ header {
     pointer-events: none;
 }
 
+/* HEADER CONTENT */
 .header-content {
     position: relative;
     z-index: 3;
 }
 
+/* SUB TITLE */
 .header-content p {
     font-size: 10px;
     font-weight: bold;
@@ -266,6 +278,7 @@ header {
     text-shadow: 0 2px 10px rgba(0,0,0,0.6);
 }
 
+/* CATEGORY TABS */
 .category-container{
     display:flex;
     justify-content:center;
@@ -294,6 +307,7 @@ header {
     color:white;
 }
 
+/* TRUST FEATURES SECTION */
 .features-section{
     max-width:1100px;
     margin:20px auto 10px;
@@ -327,6 +341,7 @@ header {
     color: var(--text-secondary);
 }
 
+/* PRODUCTS GRID */
 .products{
     max-width:1200px;
     margin:auto;
@@ -338,6 +353,7 @@ header {
     z-index: 2;
 }
 
+/* PRODUCT CARD - GLASSMORPHISM & BORDER GLOW */
 .card{
     background: var(--card-bg);
     backdrop-filter: blur(16px);
@@ -368,6 +384,7 @@ header {
     transform: scale(1.08);
 }
 
+/* BADGE */
 .badge{
     position:absolute;
     top:15px;
@@ -392,25 +409,23 @@ header {
 
 .price{
     color:#e11d48;
-    font-size:22px;
+    font-size:25px;
     font-weight:bold;
     margin-bottom:15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Discount and Strikethrough Price Styles */
-.old-price {
-    text-decoration: line-through;
+.price .old-price {
+    font-size: 18px;
     color: #94a3b8;
-    font-size: 16px;
-    margin-right: 8px;
+    text-decoration: line-through;
     font-weight: normal;
 }
-.new-price {
-    color: #e11d48;
-    font-size: 22px;
-    font-weight: bold;
-}
 
+/* BUTTONS AREA IN CARD */
 .card-buttons{
     display:flex;
     flex-direction:column;
@@ -437,6 +452,7 @@ header {
     background:#1d4ed8;
 }
 
+/* SIDE DRAWER (CART ONLY) */
 .drawer-overlay {
     position: fixed;
     top: 0;
@@ -541,6 +557,7 @@ header {
     display: block;
 }
 
+/* FOOTER */
 footer{
     background:#020617;
     color:white;
@@ -590,6 +607,7 @@ footer p{
     );
 }
 
+/* SIDEBAR MENU */
 .sidebar{
     position:fixed;
     top:0;
@@ -605,6 +623,7 @@ footer p{
 .sidebar a:hover{background:#2563eb}
 .sidebar.open{left:0}
 
+/* OWNER MODAL / POPUP */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -666,6 +685,7 @@ footer p{
     margin-bottom: 0;
 }
 
+/* FLOATING CHAT BUTTON */
 .floating-chat{
     position:fixed;
     bottom:20px;
@@ -685,6 +705,9 @@ footer p{
     transform:scale(1.1);
 }
 
+/* ============================================================ */
+/* MOBILE RESPONSIVE OPTIMIZATION                                */
+/* ============================================================ */
 @media(max-width:768px){
     .top-nav {
         padding: 16px 10px;
@@ -746,12 +769,8 @@ footer p{
         margin-bottom: 10px;
     }
 
-    .old-price {
+    .price .old-price {
         font-size: 11px;
-    }
-
-    .new-price {
-        font-size: 14px;
     }
 
     .card-buttons {
@@ -777,6 +796,7 @@ footer p{
 
 <body>
 
+<!-- TOP NAVIGATION -->
 <div class="top-nav">
     <div class="nav-left">
         <button class="nav-btn" onclick="document.getElementById('sidebar').classList.add('open')">☰ Menu</button>
@@ -797,21 +817,27 @@ footer p{
     </div>
 </div>
 
+<!-- SIDEBAR -->
 <div id="sidebar" class="sidebar">
     <a href="javascript:void(0)" onclick="document.getElementById('sidebar').classList.remove('open')">✖ Close</a>
     <a href="index.html">🏠 Home</a>
+    
+    <!-- এখানে id="sidebarLoginBtn" যোগ করা হয়েছে -->
     <a href="Login.html" id="sidebarLoginBtn">👤 Login / Register</a>
+    
     <a href="javascript:void(0)" onclick="toggleTheme()">🌓 Dark/Light Mode</a>
     <a href="javascript:void(0)" onclick="toggleSound()" id="soundMenuBtn">🔊 Play Sound</a>
     <a href="https://bahar77-mm.github.io/BAHAR-SPORTS/admin.html">⚙️ Admin Panel</a>
     <a href="javascript:void(0)" onclick="openOwnerModal()">👤 Owner Info</a>
 </div>
 
+<!-- BACKGROUND AUDIO ELEMENT -->
 <audio id="bgSound" loop>
     <source src="images/sound.mpeg" type="audio/mpeg">
     Your browser does not support the audio element.
 </audio>
 
+<!-- OWNER INFO POPUP MODAL -->
 <div id="ownerModal" class="modal-overlay">
     <div class="modal-card">
         <span class="close-modal" onclick="closeOwnerModal()">✖</span>
@@ -845,11 +871,13 @@ footer p{
     </div>
 </header>
 
+<!-- CATEGORY TABS FILTER -->
 <div class="category-container">
     <button class="cat-btn active" onclick="filterCategory('jersey', this)">All Jersey</button>
     <button class="cat-btn" onclick="filterCategory('others', this)">Others Item</button>
 </div>
 
+<!-- TRUST FEATURES -->
 <section class="features-section">
     <div class="feature-card">
         <h3>💯 Premium Quality</h3>
@@ -865,10 +893,9 @@ footer p{
     </div>
 </section>
 
-<!-- PRODUCT GRID (Dynamic Firebase & Static Support with Discount Feature) -->
 <section class="products" id="productGrid">
 <!-- MANCITY HOME KIT -->
-<div class="card product-card" data-category="jersey" data-name="MANCITY HOME KIT" data-price="1000">
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=MANCITY%20HOME%20KIT&price=1000&img=images/b15.jpg"><img src="images/b15.jpg"></a>
 <a href="product.html?name=MANCITY%20HOME%20KIT&price=1000&img=images/b15.jpg" style="text-decoration:none; color:inherit;"><h2>MANCITY HOME KIT</h2></a>
 <p class="price">৳1000</p>
@@ -878,7 +905,7 @@ footer p{
 </div>
 
 <!-- LIVERPOOL HOME KIT -->
-<div class="card product-card" data-category="jersey" data-name="LIVERPOOL HOME KIT" data-price="1000">
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=LIVERPOOL%20HOME%20KIT&price=1000&img=images/b16.jpg"><img src="images/b16.jpg"></a>
 <a href="product.html?name=LIVERPOOL%20HOME%20KIT&price=1000&img=images/b16.jpg" style="text-decoration:none; color:inherit;"><h2>LIVERPOOL HOME KIT</h2></a>
 <p class="price">৳1000</p>
@@ -888,7 +915,7 @@ footer p{
 </div>
 
 <!-- PORTUGAL -->
-<div class="card product-card" data-category="jersey" data-name="PORTUGAL HOME KIT" data-price="1000">
+<div class="card product-card" data-category="jersey">
 <span class="badge best">Best Seller</span>
 <a href="product.html?name=PORTUGAL%20HOME%20KIT%20&price=1000&img=images/WhatsApp%20Image%202026-07-30%20at%201.39.22%20AM.jpeg"><img src="images/WhatsApp Image 2026-07-30 at 1.39.22 AM.jpeg"></a>
 <a href="product.html?name=PORTUGAL%20HOME%20KIT%20&price=1000&img=images/WhatsApp%20Image%202026-07-30%20at%201.39.22%20AM.jpeg" style="text-decoration:none; color:inherit;"><h2>PORTUGAL HOME KIT </h2></a>
@@ -899,7 +926,7 @@ footer p{
 </div>
 
 <!-- BARCELONA -->
-<div class="card product-card" data-category="jersey" data-name="BARCELONA NEW KIT" data-price="1000">
+<div class="card product-card" data-category="jersey">
 <span class="badge new">New</span>
 <a href="product.html?name=BARCELONA%20NEW%20KIT%20&price=1000&img=images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg"><img src="images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg"></a>
 <a href="product.html?name=BARCELONA%20NEW%20KIT%20&price=1000&img=images/ad977159-c7e9-461e-8d2b-0d0700012ecc.jpg" style="text-decoration:none; color:inherit;"><h2>BARCELONA NEW KIT </h2></a>
@@ -910,7 +937,7 @@ footer p{
 </div>
 
 <!-- ARGENTINA -->
-<div class="card product-card" data-category="jersey" data-name="ARGENTINA HOME JERSEY" data-price="1000">
+<div class="card product-card" data-category="jersey">
 <span class="badge best">Best Seller</span>
 <a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20&price=1000&img=images/IMG_3348.JPG.jpeg"><img src="images/IMG_3348.JPG.jpeg"></a>
 <a href="product.html?name=ARGENTINA%20HOME%20JERSEY%20&price=1000&img=images/IMG_3348.JPG.jpeg" style="text-decoration:none; color:inherit;"><h2>ARGENTINA HOME JERSEY </h2></a>
@@ -921,7 +948,7 @@ footer p{
 </div>
 
 <!-- BARCELONA AWAY -->
-<div class="card product-card" data-category="jersey" data-name="BARCELONA AWAY JERSEY" data-price="1000">
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=BARCELONA%20AWAY%20JERSEY&price=1000&img=images/b2.jpg"><img src="images/b2.jpg"></a>
 <a href="product.html?name=BARCELONA%20AWAY%20JERSEY&price=1000&img=images/b2.jpg" style="text-decoration:none; color:inherit;"><h2>BARCELONA AWAY JERSEY</h2></a>
 <p class="price">৳1000</p>
@@ -931,7 +958,7 @@ footer p{
 </div>
 
 <!-- REAL MADRID HOME -->
-<div class="card product-card" data-category="jersey" data-name="REAL MADRID HOME JERSEY" data-price="1000">
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=REAL%20MADRID%20HOME%20JERSEY&price=1000&img=images/b1.jpg"><img src="images/b1.jpg"></a>
 <a href="product.html?name=REAL%20MADRID%20HOME%20JERSEY&price=1000&img=images/b1.jpg" style="text-decoration:none; color:inherit;"><h2>REAL MADRID HOME JERSEY</h2></a>
 <p class="price">৳1000</p>
@@ -941,7 +968,7 @@ footer p{
 </div>
 
 <!-- REAL MADRID AWAY -->
-<div class="card product-card" data-category="jersey" data-name="REAL MADRID AWAY JERSEY" data-price="1000">
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=REAL%20MADRID%20AWAY%20JERSEY&price=1000&img=images/b3.jpg"><img src="images/b3.jpg"></a>
 <a href="product.html?name=REAL%20MADRID%20AWAY%20JERSEY&price=1000&img=images/b3.jpg" style="text-decoration:none; color:inherit;"><h2>REAL MADRID AWAY JERSEY</h2></a>
 <p class="price">৳1000</p>
@@ -951,7 +978,7 @@ footer p{
 </div>
 
 <!-- CHELSEA HOME -->
-<div class="card product-card" data-category="jersey" data-name="CHELSEA HOME JERSEY" data-price="1000">
+<div class="card product-card" data-category="jersey">
 <a href="product.html?name=CHELSEA%20HOME%20JERSEY&price=1000&img=images/b4.jpg"><img src="images/b4.jpg"></a>
 <a href="product.html?name=CHELSEA%20HOME%20JERSEY&price=1000&img=images/b4.jpg" style="text-decoration:none; color:inherit;"><h2>CHELSEA HOME JERSEY</h2></a>
 <p class="price">৳1000</p>
@@ -962,6 +989,7 @@ footer p{
 
 </section>
 
+<!-- CART DRAWER -->
 <div id="cartDrawer" class="drawer-overlay">
     <div class="drawer-header">
         <h2>🛒 Your Cart</h2>
@@ -998,6 +1026,7 @@ CLICK AND ORDER
 
 </footer>
 
+<!-- FLOATING WHATSAPP CHAT -->
 <a href="https://wa.me/8801616568419" target="_blank" class="floating-chat">
     <img src="images/whatsapp.png" alt="Chat with Us">
 </a>
@@ -1164,81 +1193,7 @@ window.onclick = function(event) {
     }
 }
 
-// Firebase থেকে প্রোডাক্ট লোড এবং ডিসকাউন্ট সহ দাম দেখানোর স্ক্রিপ্ট
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
-    authDomain: "bahar-sports-f2a70.firebaseapp.com",
-    projectId: "bahar-sports-f2a70",
-    storageBucket: "bahar-sports-f2a70.firebasestorage.app",
-    messagingSenderId: "254621686378",
-    appId: "1:254621686378:web:4edfdf85c40362a51cc813"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-async function loadFirebaseProducts() {
-    try {
-        const querySnapshot = await getDocs(collection(db, "products"));
-        const productGrid = document.getElementById('productGrid');
-        
-        querySnapshot.forEach((docSnap) => {
-            let data = docSnap.data();
-            let name = data.name || "Product";
-            let price = Number(data.price) || 0;
-            let discount = Number(data.discount) || 0;
-            let img = data.img || "images/b15.jpg";
-            let category = (data.category || "Jersey").toLowerCase();
-            if(category.includes('jersey')) category = "jersey";
-            else category = "others";
-
-            let finalPrice = price;
-            let priceHTML = `৳${price}`;
-
-            if (discount > 0) {
-                finalPrice = Math.round(price - (price * discount / 100));
-                priceHTML = `<span class="old-price">৳${price}</span><span class="new-price">৳${finalPrice}</span>`;
-            }
-
-            // চেক করা যদি ইতিমধ্যে স্ট্যাটিক লিস্টে এই প্রোডাক্ট থাকে তবে আপডেট করবে, না হলে নতুন যোগ করবে
-            let existingCard = Array.from(productGrid.querySelectorAll('.product-card')).find(card => {
-                let h2 = card.querySelector('h2');
-                return h2 && h2.innerText.trim().toLowerCase() === name.trim().toLowerCase();
-            });
-
-            if (existingCard) {
-                let priceP = existingCard.querySelector('.price');
-                priceP.innerHTML = priceHTML;
-                let btn = existingCard.querySelector('.add-cart-btn');
-                btn.setAttribute('onclick', `addToCart('${name}', ${finalPrice})`);
-                let links = existingCard.querySelectorAll('a');
-                links.forEach(a => {
-                    let url = `product.html?name=${encodeURIComponent(name)}&price=${finalPrice}&img=${encodeURIComponent(img)}`;
-                    a.setAttribute('href', url);
-                });
-            } else {
-                let cardDiv = document.createElement('div');
-                cardDiv.className = "card product-card";
-                cardDiv.setAttribute('data-category', category);
-                cardDiv.innerHTML = `
-                    <a href="product.html?name=${encodeURIComponent(name)}&price=${finalPrice}&img=${encodeURIComponent(img)}"><img src="${img}"></a>
-                    <a href="product.html?name=${encodeURIComponent(name)}&price=${finalPrice}&img=${encodeURIComponent(img)}" style="text-decoration:none; color:inherit;"><h2>${name}</h2></a>
-                    <p class="price">${priceHTML}</p>
-                    <div class="card-buttons">
-                    <button class="add-cart-btn" onclick="addToCart('${name}', ${finalPrice})">🛒 Add to Cart</button>
-                    </div>
-                `;
-                productGrid.appendChild(cardDiv);
-            }
-        });
-    } catch (e) {
-        console.error("Error loading firebase products: ", e);
-    }
-}
-
+// লগইন করা থাকলে সাইডবারের নাম পরিবর্তন এবং নামের ওপর ক্লিক করলে লগআউট করার স্ক্রিপ্ট
 window.addEventListener('DOMContentLoaded', () => {
     let savedUser = localStorage.getItem('loggedInUser');
     let loginBtn = document.getElementById('sidebarLoginBtn');
@@ -1249,12 +1204,22 @@ window.addEventListener('DOMContentLoaded', () => {
         loginBtn.onclick = async function() {
             if (confirm("Are you sure you want to logout?")) {
                 try {
-                    import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js").then(async ({ getAuth, signOut }) => {
-                        const auth = getAuth(app);
-                        await signOut(auth);
-                        localStorage.removeItem('loggedInUser');
-                        alert("Logged out successfully!");
-                        window.location.reload();
+                    import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js").style ? null : import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js").then(async ({ initializeApp }) => {
+                        import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js").then(async ({ getAuth, signOut }) => {
+                            const app = initializeApp({
+                                apiKey: "AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
+                                authDomain: "bahar-sports-f2a70.firebaseapp.com",
+                                projectId: "bahar-sports-f2a70",
+                                storageBucket: "bahar-sports-f2a70.firebasestorage.app",
+                                messagingSenderId: "254621686378",
+                                appId: "1:254621686378:web:4edfdf85c40362a51cc813"
+                            });
+                            const auth = getAuth(app);
+                            await signOut(auth);
+                            localStorage.removeItem('loggedInUser');
+                            alert("Logged out successfully!");
+                            window.location.reload();
+                        });
                     });
                 } catch (error) {
                     localStorage.removeItem('loggedInUser');
@@ -1263,10 +1228,9 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         };
     }
-
-    loadFirebaseProducts();
 });
 
 </script>
+<script type="module" src="index.js"></script>
 </body>
 </html>
