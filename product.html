@@ -516,6 +516,7 @@
                 <div class="product-info">
                     <h1 id="productName" class="product-title">Loading...</h1>
                     <div id="productPrice" class="product-price">৳0</div>
+                    <div id="stockMessage" style="margin-top: 8px; font-weight: bold; font-size: 14px;"></div>
                 </div>
 
                 <div class="size-section">
@@ -619,6 +620,7 @@
         import {
             getFirestore,
             collection,
+            getDocs,
             addDoc,
             serverTimestamp
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -642,9 +644,10 @@
         let currentProduct = {};
         let cartProducts = [];
         let grandTotal = 0;
-        let discountPercent = 0; // কুপন ডিসকাউন্ট ট্র্যাক করার জন্য
+        let discountPercent = 0;
+        let productStockStatus = "In Stock"; 
 
-        window.onload = function() {
+        window.onload = async function() {
             const urlParams = new URLSearchParams(window.location.search);
             const nameParam = urlParams.get('name');
             const priceParam = urlParams.get('price');
@@ -660,10 +663,25 @@
 
                 if (namesArr.length === 1) {
                     isMultiple = false;
+                    let pName = decodedNames.trim();
+                    
+                    try {
+                        const querySnapshot = await getDocs(collection(db, "products"));
+                        querySnapshot.forEach((doc) => {
+                            let data = doc.data();
+                            if (data.name.trim().toLowerCase() === pName.toLowerCase()) {
+                                productStockStatus = data.stockStatus || "In Stock";
+                            }
+                        });
+                    } catch (e) {
+                        console.error("Error fetching stock status", e);
+                    }
+
                     currentProduct = {
-                        name: decodedNames.trim(),
+                        name: pName,
                         price: totalVal,
-                        img: decodedImgs.trim()
+                        img: decodedImgs.trim(),
+                        stockStatus: productStockStatus
                     };
                     basePrice = currentProduct.price;
 
@@ -674,6 +692,21 @@
                     document.getElementById('productName').innerText = currentProduct.name;
                     updateDisplayPrice();
                     document.getElementById('productImg').src = currentProduct.img;
+
+                    let stockMsgBox = document.getElementById('stockMessage');
+                    let confirmBtn = document.getElementById('confirmBtn');
+
+                    // Check for Full Stock Out or specific Size Stock out dynamically
+                    if (productStockStatus === "Stock Out") {
+                        stockMsgBox.style.color = "#ef4444";
+                        stockMsgBox.innerText = "❌ This product is completely Stock Out!";
+                        confirmBtn.disabled = true;
+                        confirmBtn.innerText = "Stock Out ❌";
+                    } else if (productStockStatus.includes("Size Stock Out")) {
+                        let outSize = productStockStatus.split(" ")[0]; // Get the size prefix (M, L, XL etc.)
+                        stockMsgBox.style.color = "#f59e0b";
+                        stockMsgBox.innerText = `⚠️ ${outSize} Size is currently Stock Out for this product.`;
+                    }
 
                     renderSizeSelectors();
                 } else {
@@ -713,6 +746,7 @@
         };
 
         window.changeQty = function(amount) {
+            if (productStockStatus === "Stock Out") return;
             let qtyInput = document.getElementById('quantityInput');
             let currentQty = parseInt(qtyInput.value) || 1;
             let newQty = currentQty + amount;
@@ -731,16 +765,39 @@
             let container = document.getElementById('dynamicSizesContainer');
             container.innerHTML = "";
 
+            let checkSize = (size) => {
+                let statusStr = `${size} Size Stock Out`;
+                if (productStockStatus === statusStr) {
+                    return { disabled: 'disabled style="color: #64748b;"', text: `${size} (Stock Out)` };
+                }
+                return { disabled: '', text: size };
+            };
+
             for (let i = 1; i <= qty; i++) {
+                let m = checkSize("M");
+                let l = checkSize("L");
+                let xl = checkSize("XL");
+                let xxl = checkSize("XXL");
+                let xxxl = checkSize("3XL");
+
+                let isFullyDisabled = (productStockStatus === "Stock Out") ? 'disabled' : '';
+
+                // Smartly select the first available size if 'M' is stock out
+                let selectedM = m.disabled ? '' : 'selected';
+                let selectedL = m.disabled && !l.disabled ? 'selected' : '';
+                let selectedXL = m.disabled && l.disabled && !xl.disabled ? 'selected' : '';
+                let selectedXXL = m.disabled && l.disabled && xl.disabled && !xxl.disabled ? 'selected' : '';
+                let selected3XL = m.disabled && l.disabled && xl.disabled && xxl.disabled && !xxxl.disabled ? 'selected' : '';
+
                 container.innerHTML += `
                     <div class="size-row">
                         <span>Item ${i} Size:</span>
-                        <select class="item-size-choice">
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
-                            <option value="3XL">3XL</option>
+                        <select class="item-size-choice" ${isFullyDisabled}>
+                            <option value="M" ${m.disabled} ${selectedM}>${m.text}</option>
+                            <option value="L" ${l.disabled} ${selectedL}>${l.text}</option>
+                            <option value="XL" ${xl.disabled} ${selectedXL}>${xl.text}</option>
+                            <option value="XXL" ${xxl.disabled} ${selectedXXL}>${xxl.text}</option>
+                            <option value="3XL" ${xxxl.disabled} ${selected3XL}>${xxxl.text}</option>
                         </select>
                     </div>
                 `;
@@ -784,23 +841,22 @@
             cartProducts[index].size = newSize;
         };
 
-        // কুপন অ্যাপ্লাই করার ফাংশন
         window.applyCoupon = function() {
             let code = document.getElementById("couponInput").value.trim().toUpperCase();
             let msgBox = document.getElementById("couponMessage");
 
             if (code === "BAHARN") {
-                discountPercent = 10; // ১০% ডিসকাউন্ট
+                discountPercent = 10;
                 msgBox.style.color = "#22c55e";
                 msgBox.innerText = "🎉 Coupon applied successfully! 10% discount added.";
                 updateDisplayPrice();
             } else if (code === "BAHARNN") {
-                discountPercent = 20; // চাইলে অন্য কুপনও যোগ করতে পারেন (২০%)
+                discountPercent = 20;
                 msgBox.style.color = "#22c55e";
                 msgBox.innerText = "🎉 Coupon applied successfully! 20% discount added.";
                 updateDisplayPrice();
             } else if (code === "BAHARNNN") {
-                discountPercent = 30; // চাইলে অন্য কুপনও যোগ করতে পারেন (৩০%)
+                discountPercent = 30;
                 msgBox.style.color = "#22c55e";
                 msgBox.innerText = "🎉 Coupon applied successfully! 30% discount added.";
                 updateDisplayPrice();
@@ -812,7 +868,6 @@
             }
         };
 
-        // প্রাইস আপডেট ও ডিসকাউন্ট ক্যালকুলেশন
         window.updateDisplayPrice = function() {
             if (!isMultiple) {
                 let qty = parseInt(document.getElementById('quantityInput').value) || 1;
@@ -847,6 +902,11 @@
         };
 
         window.sendOrder = async function() {
+            if (productStockStatus === "Stock Out") {
+                alert("This product is currently Stock Out. You cannot place an order.");
+                return;
+            }
+
             const btn = document.getElementById("confirmBtn");
             if (btn.disabled) return;
 
@@ -876,9 +936,17 @@
             if (!isMultiple) {
                 let sizeSelects = document.getElementsByClassName('item-size-choice');
                 let selectedSizesList = [];
+                
                 for (let i = 0; i < sizeSelects.length; i++) {
-                    selectedSizesList.push(sizeSelects[i].value);
+                    let selectedSize = sizeSelects[i].value;
+                    // চেক করবে সিলেক্ট করা সাইজটি স্টক আউট কিনা
+                    if (productStockStatus === `${selectedSize} Size Stock Out`) {
+                        alert(`${selectedSize} Size is currently Stock Out. Please select another size.`);
+                        return;
+                    }
+                    selectedSizesList.push(selectedSize);
                 }
+                
                 let qty = sizeSelects.length;
                 let subTotal = basePrice * qty;
                 let discountVal = (subTotal * discountPercent) / 100;
