@@ -174,8 +174,8 @@ th{
 
     <!-- Login Box -->
     <div class="login" id="loginBox">
-        <input type="email" id="email" placeholder="Admin Email"[cite: 5]>
-        <input type="password" id="password" placeholder="Password"[cite: 5]>
+        <input type="email" id="email" placeholder="Admin Email">
+        <input type="password" id="password" placeholder="Password">
         <button id="loginBtn">Login</button>
     </div>
 
@@ -194,8 +194,8 @@ th{
         <button class="back-btn" onclick="goBack()">⬅️ Back to Menu</button>
         <div class="upload-section">
             <h2>🛍️ Upload New Product</h2>
-            <input type="text" id="prodName" placeholder="Product Name (e.g. Argentina Jersey)"[cite: 5]>
-            <input type="number" id="prodPrice" placeholder="Price (e.g. 750)"[cite: 5]>
+            <input type="text" id="prodName" placeholder="Product Name (e.g. Argentina Jersey)">
+            <input type="number" id="prodPrice" placeholder="Price (e.g. 750)">
             <select id="prodCategory">
                 <option value="Jersey">Jersey</option>
                 <option value="Boots">Boots</option>
@@ -209,9 +209,12 @@ th{
                 <option value="L Size Stock Out">L Size Stock Out (এল সাইজ স্টক আউট)</option>
                 <option value="XL Size Stock Out">XL Size Stock Out (এক্সএল সাইজ স্টক আউট)</option>
                 <option value="XXL Size Stock Out">XXL Size Stock Out (ডাবল এক্সএল সাইজ স্টক আউট)</option>
-                <option value="XXXL Size Stock Out">3XL Size Stock Out (ট্রিপল এক্সএল সাইজ স্টক আউট)</option>
+                <option value="3XL Size Stock Out">3XL Size Stock Out (ট্রিপল এক্সএল সাইজ স্টক আউট)</option>
             </select>
-            <input type="text" id="prodImg" placeholder="Image URL (ImgBB / Direct Link)"[cite: 5]>
+            <!-- ডিসকাউন্ট পার্সেন্টেজ ইনপুট ফিল্ড -->
+            <input type="number" id="prodDiscount" placeholder="Discount Percentage (e.g. 10 for 10%)" value="0">
+            
+            <input type="text" id="prodImg" placeholder="Image URL (ImgBB / Direct Link)">
             <button id="uploadBtn">Upload Product 🚀</button>
         </div>
     </div>
@@ -226,6 +229,7 @@ th{
             <th>Image</th>
             <th>Product Name</th>
             <th>Price</th>
+            <th>Discount (%)</th>
             <th>Stock Status</th>
             <th>Action</th>
         </tr>
