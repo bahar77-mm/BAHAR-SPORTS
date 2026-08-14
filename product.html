@@ -696,14 +696,13 @@
                     let stockMsgBox = document.getElementById('stockMessage');
                     let confirmBtn = document.getElementById('confirmBtn');
 
-                    // Check for Full Stock Out or specific Size Stock out dynamically
                     if (productStockStatus === "Stock Out") {
                         stockMsgBox.style.color = "#ef4444";
                         stockMsgBox.innerText = "❌ This product is completely Stock Out!";
                         confirmBtn.disabled = true;
                         confirmBtn.innerText = "Stock Out ❌";
                     } else if (productStockStatus.includes("Size Stock Out")) {
-                        let outSize = productStockStatus.split(" ")[0]; // Get the size prefix (M, L, XL etc.)
+                        let outSize = productStockStatus.split(" ")[0];
                         stockMsgBox.style.color = "#f59e0b";
                         stockMsgBox.innerText = `⚠️ ${outSize} Size is currently Stock Out for this product.`;
                     }
@@ -782,7 +781,6 @@
 
                 let isFullyDisabled = (productStockStatus === "Stock Out") ? 'disabled' : '';
 
-                // Smartly select the first available size if 'M' is stock out
                 let selectedM = m.disabled ? '' : 'selected';
                 let selectedL = m.disabled && !l.disabled ? 'selected' : '';
                 let selectedXL = m.disabled && l.disabled && !xl.disabled ? 'selected' : '';
@@ -939,7 +937,6 @@
                 
                 for (let i = 0; i < sizeSelects.length; i++) {
                     let selectedSize = sizeSelects[i].value;
-                    // চেক করবে সিলেক্ট করা সাইজটি স্টক আউট কিনা
                     if (productStockStatus === `${selectedSize} Size Stock Out`) {
                         alert(`${selectedSize} Size is currently Stock Out. Please select another size.`);
                         return;
