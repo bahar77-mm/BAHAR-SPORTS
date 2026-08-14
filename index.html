@@ -969,23 +969,33 @@ window.displayProducts = function(products) {
         let disableBtn = "";
         let btnText = "🛒 Add to Cart";
 
-        // এখানে সব ধরনের স্টক স্ট্যাটাস চেক করার ব্যবস্থা করা হলো
+        // স্টক স্ট্যাটাস চেক
         if (prod.stockStatus === "Stock Out") {
             stockBadge = `<span class="badge" style="background:#ef4444;">Stock Out</span>`;
             disableBtn = `disabled style="background:#64748b; cursor:not-allowed;"`;
         } else if (prod.stockStatus && prod.stockStatus.includes("Stock Out")) {
-            // যদি M Size, L Size, XL Size বা অন্য যেকোনো সাইজ স্টক আউট লেখা থাকে, তবে সেটি ডায়নামিকভাবে শো করবে
             stockBadge = `<span class="badge" style="background:#f59e0b;">${prod.stockStatus}</span>`;
+        }
+
+        // ডিসকাউন্ট এবং মূল প্রাইস হ্যান্ডেল করার কোড
+        let priceHTML = "";
+        let effectivePrice = prod.price; // কার্ট ও অর্ডারের জন্য মূল বা ডিসকাউন্টেড দাম
+
+        if (prod.discountPrice && Number(prod.discountPrice) > 0 && Number(prod.discountPrice) < Number(prod.price)) {
+            effectivePrice = prod.discountPrice;
+            priceHTML = `<p class="price"><span style="text-decoration: line-through; color: #94a3b8; font-size: 18px; margin-right: 8px;">৳${prod.price}</span> ৳${prod.discountPrice}</p>`;
+        } else {
+            priceHTML = `<p class="price">৳${prod.price}</p>`;
         }
 
         grid.innerHTML += `
             <div class="card product-card" data-category="${prod.category || 'Jersey'}">
                 ${stockBadge}
-                <a href="product.html?name=${encodeURIComponent(prod.name)}&price=${prod.price}&img=${encodeURIComponent(prod.img)}"><img src="${prod.img}" alt="${prod.name}"></a>
-                <a href="product.html?name=${encodeURIComponent(prod.name)}&price=${prod.price}&img=${encodeURIComponent(prod.img)}" style="text-decoration:none; color:inherit;"><h2>${prod.name}</h2></a>
-                <p class="price">৳${prod.price}</p>
+                <a href="product.html?name=${encodeURIComponent(prod.name)}&price=${effectivePrice}&img=${encodeURIComponent(prod.img)}"><img src="${prod.img}" alt="${prod.name}"></a>
+                <a href="product.html?name=${encodeURIComponent(prod.name)}&price=${effectivePrice}&img=${encodeURIComponent(prod.img)}" style="text-decoration:none; color:inherit;"><h2>${prod.name}</h2></a>
+                ${priceHTML}
                 <div class="card-buttons">
-                    <button class="add-cart-btn" ${disableBtn} onclick="addToCart('${prod.name}', ${prod.price})">${btnText}</button>
+                    <button class="add-cart-btn" ${disableBtn} onclick="addToCart('${prod.name}', ${effectivePrice})">${btnText}</button>
                 </div>
             </div>
         `;
