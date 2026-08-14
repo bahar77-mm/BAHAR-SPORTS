@@ -59,9 +59,11 @@ button:hover {
     gap: 20px;
     justify-content: center;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 .menu-btn {
     flex: 1;
+    min-width: 200px;
     padding: 20px;
     font-size: 18px;
     background: #0f172a;
@@ -183,6 +185,7 @@ th{
         <div class="admin-menu">
             <button class="menu-btn" onclick="showSection('orderSection')">📦 Order Details</button>
             <button class="menu-btn" onclick="showSection('uploadSection')">🛍️ Upload Product</button>
+            <button class="menu-btn" onclick="showSection('manageProductSection')">⚙️ Manage Products & Stock</button>
         </div>
     </div>
 
@@ -198,9 +201,35 @@ th{
                 <option value="Boots">Boots</option>
                 <option value="Accessories">Accessories</option>
             </select>
+            <!-- স্টক স্ট্যাটাস কন্ট্রোল ড্রপডাউন -->
+            <select id="prodStockStatus">
+                <option value="In Stock">In Stock (স্টকে আছে)</option>
+                <option value="Stock Out">Stock Out (সম্পূর্ণ স্টক আউট)</option>
+                <option value="M Size Stock Out">M Size Stock Out (এম সাইজ স্টক আউট)</option>
+            </select>
             <input type="text" id="prodImg" placeholder="Image URL (ImgBB / Direct Link)"[cite: 5]>
             <button id="uploadBtn">Upload Product 🚀</button>
         </div>
+    </div>
+
+    <!-- Manage Products & Stock Section -->
+    <div id="manageProductSection" class="section-content">
+        <button class="back-btn" onclick="goBack()">⬅️ Back to Menu</button>
+        <h2>Manage Existing Products & Stock</h2>
+        <table>
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Stock Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody id="manageProductList">
+        <!-- জাভাস্ক্রিপ্ট দিয়ে এখানে আগের প্রোডাক্টগুলোর তালিকা ও স্টক পরিবর্তনের অপশন লোড হবে -->
+        </tbody>
+        </table>
     </div>
 
     <!-- Order List Section -->
@@ -215,7 +244,7 @@ th{
             <th>Product</th>
             <th>Size</th>
             <th>Address</th>
-            <th>Payment Info</th> <!-- পেমেন্ট তথ্যের নতুন কলাম -->
+            <th>Payment Info</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -230,6 +259,7 @@ th{
         document.getElementById('dashboard').style.display = 'none';
         document.getElementById('uploadSection').style.display = 'none';
         document.getElementById('orderSection').style.display = 'none';
+        document.getElementById('manageProductSection').style.display = 'none';
         
         document.getElementById(sectionId).style.display = 'block';
     }
@@ -237,6 +267,7 @@ th{
     function goBack() {
         document.getElementById('uploadSection').style.display = 'none';
         document.getElementById('orderSection').style.display = 'none';
+        document.getElementById('manageProductSection').style.display = 'none';
         document.getElementById('dashboard').style.display = 'block';
     }
 </script>

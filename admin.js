@@ -5,7 +5,8 @@ import {
     getDocs,
     addDoc,
     doc,
-    deleteDoc 
+    deleteDoc,
+    updateDoc 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { 
     getAuth, 
@@ -43,6 +44,7 @@ document.getElementById("loginBtn").addEventListener("click", function() {
         document.getElementById("loginBox").style.display = "none";
         document.getElementById("dashboard").style.display = "block";
         loadOrders();
+        loadManageProducts(); // অ্যাডমিন লগইন করার পর প্রোডাক্ট লিস্ট লোড হবে
     })
     .catch((error) => {
         alert("Login Failed: " + error.message);
@@ -54,6 +56,7 @@ document.getElementById("uploadBtn").addEventListener("click", async function() 
     let name = document.getElementById("prodName").value.trim();
     let price = Number(document.getElementById("prodPrice").value);
     let category = document.getElementById("prodCategory").value;
+    let stockStatus = document.getElementById("prodStockStatus").value; // স্টক স্ট্যাটাস নেওয়া হলো
     let img = document.getElementById("prodImg").value.trim();
 
     if (!name || !price || !img) {
@@ -66,6 +69,7 @@ document.getElementById("uploadBtn").addEventListener("click", async function() 
             name: name,
             price: price,
             category: category,
+            stockStatus: stockStatus, // ডাটাবেজে স্টক স্ট্যাটাস সেভ হচ্ছে
             img: img,
             createdAt: new Date()
         });
@@ -75,6 +79,7 @@ document.getElementById("uploadBtn").addEventListener("click", async function() 
         document.getElementById("prodName").value = "";
         document.getElementById("prodPrice").value = "";
         document.getElementById("prodImg").value = "";
+        loadManageProducts(); // নতুন প্রোডাক্ট আপলোডের পর লিস্ট আপডেট হবে
 
     } catch (error) {
         alert("❌ Error uploading product: " + error.message);
@@ -90,7 +95,7 @@ async function loadOrders() {
 
         querySnapshot.forEach((documentSnapshot) => {
             let data = documentSnapshot.data();
-            let docId = documentSnapshot.id; // ফায়ারবেসের অটো-জেনারেটেড ডকুমেন্ট আইডি
+            let docId = documentSnapshot.id;
             
             let row = `
                 <tr id="order-row-${docId}">
@@ -112,14 +117,63 @@ async function loadOrders() {
     }
 }
 
+// Load Existing Products for Management & Stock Control
+async function loadManageProducts() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        let manageList = document.getElementById("manageProductList");
+        manageList.innerHTML = "";
+
+        querySnapshot.forEach((documentSnapshot) => {
+            let prod = documentSnapshot.data();
+            let prodId = documentSnapshot.id;
+            let currentStatus = prod.stockStatus || "In Stock";
+
+            let row = `
+                <tr id="prod-row-${prodId}">
+                    <td><img src="${prod.img}" width="50" style="border-radius:5px; object-fit:cover;"></td>
+                    <td>${prod.name}</td>
+                    <td>৳${prod.price}</td>
+                    <td>
+                        <select id="status_${prodId}" style="padding:6px; border-radius:6px;">
+                            <option value="In Stock" ${currentStatus === 'In Stock' ? 'selected' : ''}>In Stock</option>
+                            <option value="Stock Out" ${currentStatus === 'Stock Out' ? 'selected' : ''}>Stock Out</option>
+                            <option value="M Size Stock Out" ${currentStatus === 'M Size Stock Out' ? 'selected' : ''}>M Size Stock Out</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="table-confirm-btn" onclick="updateStockStatus('${prodId}')">Update</button>
+                    </td>
+                </tr>
+            `;
+            manageList.innerHTML += row;
+        });
+    } catch (error) {
+        console.error("Error loading products for management: ", error);
+    }
+}
+
+// Global function to Update Product Stock Status
+window.updateStockStatus = async function(prodId) {
+    let selectedStatus = document.getElementById(`status_${prodId}`).value;
+    try {
+        const prodRef = doc(db, "products", prodId);
+        await updateDoc(prodRef, {
+            stockStatus: selectedStatus
+        });
+        alert("✅ Stock status updated successfully!");
+    } catch (error) {
+        console.error("Error updating stock status: ", error);
+        alert("❌ Failed to update stock status.");
+    }
+};
+
 // Global function to Confirm and Delete Order from Firestore and UI
 window.confirmAndDeleteOrder = async function(docId) {
     if (confirm("Are you sure you want to confirm and delete this order?")) {
         try {
-            // ফায়ারবেস ফায়ারস্টোর থেকে ডকুমেন্ট ডিলিট করা
             await deleteDoc(doc(db, "orders", docId));
             
-            // সফলভাবে ডিলিট হলে টেবিল থেকে রো রিমুভ করা
             let rowElement = document.getElementById(`order-row-${docId}`);
             if (rowElement) {
                 rowElement.remove();
