@@ -57,7 +57,6 @@ document.getElementById("uploadBtn").addEventListener("click", async function() 
     let price = Number(document.getElementById("prodPrice").value);
     let category = document.getElementById("prodCategory").value;
     let stockStatus = document.getElementById("prodStockStatus").value; // স্টক স্ট্যাটাস নেওয়া হলো
-    let discount = Number(document.getElementById("prodDiscount").value) || 0; // ডিসকাউন্ট পার্সেন্টেজ নেওয়া হলো
     let img = document.getElementById("prodImg").value.trim();
 
     if (!name || !price || !img) {
@@ -71,7 +70,6 @@ document.getElementById("uploadBtn").addEventListener("click", async function() 
             price: price,
             category: category,
             stockStatus: stockStatus, // ডাটাবেজে স্টক স্ট্যাটাস সেভ হচ্ছে
-            discount: discount, // ডাটাবেজে ডিসকাউন্ট পার্সেন্টেজ সেভ হচ্ছে
             img: img,
             createdAt: new Date()
         });
@@ -80,7 +78,6 @@ document.getElementById("uploadBtn").addEventListener("click", async function() 
         
         document.getElementById("prodName").value = "";
         document.getElementById("prodPrice").value = "";
-        document.getElementById("prodDiscount").value = "";
         document.getElementById("prodImg").value = "";
         loadManageProducts(); // নতুন প্রোডাক্ট আপলোডের পর লিস্ট আপডেট হবে
 
@@ -131,16 +128,12 @@ async function loadManageProducts() {
             let prod = documentSnapshot.data();
             let prodId = documentSnapshot.id;
             let currentStatus = prod.stockStatus || "In Stock";
-            let currentDiscount = prod.discount || 0;
 
             let row = `
                 <tr id="prod-row-${prodId}">
                     <td><img src="${prod.img}" width="50" style="border-radius:5px; object-fit:cover;"></td>
                     <td>${prod.name}</td>
                     <td>৳${prod.price}</td>
-                    <td>
-                        <input type="number" id="discount_${prodId}" value="${currentDiscount}" style="width: 70px; padding: 6px; border-radius: 6px; text-align: center; border: 1px solid #ccc;"> %
-                    </td>
                     <td>
                         <select id="status_${prodId}" style="padding:6px; border-radius:6px;">
                             <option value="In Stock" ${currentStatus === 'In Stock' ? 'selected' : ''}>In Stock</option>
@@ -164,20 +157,18 @@ async function loadManageProducts() {
     }
 }
 
-// Global function to Update Product Stock Status & Discount
+// Global function to Update Product Stock Status
 window.updateStockStatus = async function(prodId) {
     let selectedStatus = document.getElementById(`status_${prodId}`).value;
-    let selectedDiscount = Number(document.getElementById(`discount_${prodId}`).value) || 0;
     try {
         const prodRef = doc(db, "products", prodId);
         await updateDoc(prodRef, {
-            stockStatus: selectedStatus,
-            discount: selectedDiscount
+            stockStatus: selectedStatus
         });
-        alert("✅ Product updated successfully!");
+        alert("✅ Stock status updated successfully!");
     } catch (error) {
-        console.error("Error updating product: ", error);
-        alert("❌ Failed to update product.");
+        console.error("Error updating stock status: ", error);
+        alert("❌ Failed to update stock status.");
     }
 };
 
@@ -199,4 +190,3 @@ window.confirmAndDeleteOrder = async function(docId) {
         }
     }
 };
-```[cite: 5]

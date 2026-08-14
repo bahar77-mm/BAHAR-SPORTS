@@ -222,7 +222,7 @@ th{
     <!-- Manage Products & Stock Section -->
     <div id="manageProductSection" class="section-content">
         <button class="back-btn" onclick="goBack()">⬅️ Back to Menu</button>
-        <h2>Manage Existing Products, Discount & Stock</h2>
+        <h2>Manage Existing Products & Stock</h2>
         <table>
         <thead>
         <tr>
@@ -235,7 +235,7 @@ th{
         </tr>
         </thead>
         <tbody id="manageProductList">
-        <!-- জাভাস্ক্রিপ্ট দিয়ে এখানে আগের প্রোডাক্টগুলোর তালিকা ও ডিসকাউন্ট অপশন লোড হবে -->
+        <!-- জাভাস্ক্রিপ্ট দিয়ে এখানে আগের প্রোডাক্টগুলোর তালিকা ও স্টক পরিবর্তনের অপশন লোড হবে -->
         </tbody>
         </table>
     </div>
@@ -280,209 +280,6 @@ th{
     }
 </script>
 
-<!-- ফায়ারবেজ এবং অ্যাডমিন লজিক স্ক্রিপ্ট -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { 
-        getFirestore, 
-        collection, 
-        getDocs, 
-        addDoc, 
-        deleteDoc, 
-        doc, 
-        updateDoc, 
-        query, 
-        orderBy 
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-    import { 
-        getAuth, 
-        signInWithEmailAndPassword, 
-        onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
-        authDomain: "bahar-sports-f2a70.firebaseapp.com",
-        projectId: "bahar-sports-f2a70",
-        storageBucket: "bahar-sports-f2a70.firebasestorage.app",
-        messagingSenderId: "254621686378",
-        appId: "1:254621686378:web:4edfdf85c40362a51cc813"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-
-    // Login Logic
-    document.getElementById('loginBtn').addEventListener('click', () => {
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
-
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                alert("Login Successful!");
-            })
-            .catch((error) => {
-                alert("Login Failed: " + error.message);
-            });
-    });
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            document.getElementById('loginBox').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            loadOrders();
-            loadManageProducts();
-        } else {
-            document.getElementById('loginBox').style.display = 'block';
-            document.getElementById('dashboard').style.display = 'none';
-        }
-    });
-
-    // Upload New Product with Discount
-    document.getElementById('uploadBtn').addEventListener('click', async () => {
-        const name = document.getElementById('prodName').value.trim();
-        const price = Number(document.getElementById('prodPrice').value);
-        const category = document.getElementById('prodCategory').value;
-        const stockStatus = document.getElementById('prodStockStatus').value;
-        const discount = Number(document.getElementById('prodDiscount').value) || 0;
-        const img = document.getElementById('prodImg').value.trim();
-
-        if (!name || !price || !img) {
-            alert("Please fill in all required fields!");
-            return;
-        }
-
-        try {
-            await addDoc(collection(db, "products"), {
-                name: name,
-                price: price,
-                category: category,
-                stockStatus: stockStatus,
-                discount: discount,
-                img: img,
-                createdAt: new Date()
-            });
-            alert("Product uploaded successfully!");
-            document.getElementById('prodName').value = "";
-            document.getElementById('prodPrice').value = "";
-            document.getElementById('prodDiscount').value = "0";
-            document.getElementById('prodImg').value = "";
-            loadManageProducts();
-        } catch (error) {
-            alert("Error uploading product: " + error.message);
-        }
-    });
-
-    // Load Orders List
-    async function loadOrders() {
-        const orderList = document.getElementById('orderList');
-        orderList.innerHTML = "";
-        try {
-            const q = query(collection(db, "orders"), orderBy("time", "desc"));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((documentSnap) => {
-                let data = documentSnap.data();
-                orderList.innerHTML += `
-                    <tr>
-                        <td>${data.name || ''}</td>
-                        <td>${data.phone || ''}</td>
-                        <td>${data.product || ''}</td>
-                        <td>${data.size || ''}</td>
-                        <td>${data.address || ''}</td>
-                        <td>${data.payment || ''}</td>
-                        <td><button class="table-confirm-btn" onclick="deleteOrder('${documentSnap.id}')">Delete</button></td>
-                    </tr>
-                `;
-            });
-        } catch (e) {
-            console.error("Error loading orders: ", e);
-        }
-    }
-
-    window.deleteOrder = async function(id) {
-        if (confirm("Are you sure you want to delete this order?")) {
-            try {
-                await deleteDoc(doc(db, "orders", id));
-                loadOrders();
-            } catch (e) {
-                alert("Error deleting order: " + e.message);
-            }
-        }
-    }
-
-    // Load Existing Products for Management & Updating Discount/Stock
-    async function loadManageProducts() {
-        const manageList = document.getElementById('manageProductList');
-        manageList.innerHTML = "";
-        try {
-            const querySnapshot = await getDocs(collection(db, "products"));
-            querySnapshot.forEach((documentSnap) => {
-                let data = documentSnap.data();
-                let productId = documentSnap.id;
-                let currentDiscount = data.discount !== undefined ? data.discount : 0;
-                let currentStock = data.stockStatus || "In Stock";
-
-                manageList.innerHTML += `
-                    <tr>
-                        <td><img src="${data.img}" width="50" height="50" style="object-fit:cover; border-radius:6px;"></td>
-                        <td><b>${data.name}</b></td>
-                        <td>৳${data.price}</td>
-                        <td>
-                            <input type="number" id="disc_${productId}" value="${currentDiscount}" style="width:70px; padding:5px; text-align:center;">
-                        </td>
-                        <td>
-                            <select id="stock_${productId}" style="padding:5px;">
-                                <option value="In Stock" ${currentStock === "In Stock" ? "selected" : ""}>In Stock</option>
-                                <option value="Stock Out" ${currentStock === "Stock Out" ? "selected" : ""}>Stock Out</option>
-                                <option value="M Size Stock Out" ${currentStock === "M Size Stock Out" ? "selected" : ""}>M Size Stock Out</option>
-                                <option value="L Size Stock Out" ${currentStock === "L Size Stock Out" ? "selected" : ""}>L Size Stock Out</option>
-                                <option value="XL Size Stock Out" ${currentStock === "XL Size Stock Out" ? "selected" : ""}>XL Size Stock Out</option>
-                                <option value="XXL Size Stock Out" ${currentStock === "XXL Size Stock Out" ? "selected" : ""}>XXL Size Stock Out</option>
-                                <option value="3XL Size Stock Out" ${currentStock === "3XL Size Stock Out" ? "selected" : ""}>3XL Size Stock Out</option>
-                            </select>
-                        </td>
-                        <td>
-                            <button class="table-confirm-btn" onclick="updateProduct('${productId}')" style="margin-bottom:5px;">Update</button>
-                            <button class="table-confirm-btn" style="background:#ef4444;" onclick="deleteProduct('${productId}')">Delete</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        } catch (e) {
-            console.error("Error loading products: ", e);
-        }
-    }
-
-    // Update Product Discount & Stock Status
-    window.updateProduct = async function(id) {
-        const newDiscount = Number(document.getElementById(`disc_${id}`).value) || 0;
-        const newStock = document.getElementById(`stock_${id}`).value;
-
-        try {
-            const productRef = doc(db, "products", id);
-            await updateDoc(productRef, {
-                discount: newDiscount,
-                stockStatus: newStock
-            });
-            alert("Product updated successfully with new discount and stock!");
-            loadManageProducts();
-        } catch (e) {
-            alert("Error updating product: " + e.message);
-        }
-    }
-
-    // Delete Product
-    window.deleteProduct = async function(id) {
-        if (confirm("Are you sure you want to delete this product?")) {
-            try {
-                await deleteDoc(doc(db, "products", id));
-                loadManageProducts();
-            } catch (e) {
-                alert("Error deleting product: " + e.message);
-            }
-        }
-    }
-</script>
+<script type="module" src="admin.js"></script>
 </body>
 </html>
