@@ -641,8 +641,6 @@
 
         let isMultiple = false;
         let basePrice = 0;
-        let originalPrice = 0; // মূল দাম বা আগের দাম সংরক্ষণ করার জন্য
-        let hasProductDiscount = false; // ডিসকাউন্ট আছে কিনা চেক করার জন্য
         let currentProduct = {};
         let cartProducts = [];
         let grandTotal = 0;
@@ -673,13 +671,6 @@
                             let data = doc.data();
                             if (data.name.trim().toLowerCase() === pName.toLowerCase()) {
                                 productStockStatus = data.stockStatus || "In Stock";
-                                // ফায়ারবেজ থেকে যদি ডিসকাউন্ট পার্সেন্টেজ থাকে তা ফেচ করা
-                                if (data.discount && Number(data.discount) > 0) {
-                                    hasProductDiscount = true;
-                                    let discRate = Number(data.discount);
-                                    originalPrice = totalVal;
-                                    totalVal = originalPrice - (originalPrice * discRate / 100);
-                                }
                             }
                         });
                     } catch (e) {
@@ -689,8 +680,6 @@
                     currentProduct = {
                         name: pName,
                         price: totalVal,
-                        originalPrice: originalPrice,
-                        hasDiscount: hasProductDiscount,
                         img: decodedImgs.trim(),
                         stockStatus: productStockStatus
                     };
@@ -881,13 +870,11 @@
             if (!isMultiple) {
                 let qty = parseInt(document.getElementById('quantityInput').value) || 1;
                 let subTotal = basePrice * qty;
-                let origSubTotal = hasProductDiscount ? (originalPrice * qty) : subTotal;
                 let discountVal = (subTotal * discountPercent) / 100;
                 let finalPrice = subTotal - discountVal;
 
-                if (hasProductDiscount || discountPercent > 0) {
-                    let crossedPrice = hasProductDiscount ? origSubTotal : subTotal;
-                    document.getElementById('productPrice').innerHTML = `<span style="text-decoration: line-through; font-size: 18px; color: #94a3b8;">৳${crossedPrice}</span> ৳${finalPrice}`;
+                if (discountPercent > 0) {
+                    document.getElementById('productPrice').innerHTML = `<span style="text-decoration: line-through; font-size: 18px; color: #94a3b8;">৳${subTotal}</span> ৳${finalPrice}`;
                 } else {
                     document.getElementById('productPrice').innerText = '৳' + subTotal;
                 }
@@ -963,8 +950,7 @@
                 calculatedTotal = subTotal - discountVal;
                 let productName = currentProduct.name ? currentProduct.name : "N/A";
                 
-                let discText = hasProductDiscount ? `, Product Discount Included` : '';
-                finalProductStr = `${productName} (Qty: ${qty}, Total: ৳${calculatedTotal}${discountPercent > 0 ? `, Coupon Discount: ${discountPercent}%` : ''}${discText})`;
+                finalProductStr = `${productName} (Qty: ${qty}, Total: ৳${calculatedTotal}${discountPercent > 0 ? `, Discount: ${discountPercent}%` : ''})`;
                 sizesList = selectedSizesList.join(", ");
             } else {
                 let subTotal = grandTotal;
@@ -1010,7 +996,7 @@
                 
                 window.location.href = successUrl;
 
-            }なか (error) {
+            } catch (error) {
                 btn.disabled = false;
                 btn.innerHTML = "Confirm Order 🚀";
                 alert("Order Failed: " + error.message);
