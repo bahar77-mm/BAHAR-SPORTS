@@ -139,6 +139,10 @@ async function loadManageProducts() {
                             <option value="In Stock" ${currentStatus === 'In Stock' ? 'selected' : ''}>In Stock</option>
                             <option value="Stock Out" ${currentStatus === 'Stock Out' ? 'selected' : ''}>Stock Out</option>
                             <option value="M Size Stock Out" ${currentStatus === 'M Size Stock Out' ? 'selected' : ''}>M Size Stock Out</option>
+                            <option value="L Size Stock Out" ${currentStatus === 'L Size Stock Out' ? 'selected' : ''}>L Size Stock Out</option>
+                            <option value="XL Size Stock Out" ${currentStatus === 'XL Size Stock Out' ? 'selected' : ''}>XL Size Stock Out</option>
+                            <option value="XXL Size Stock Out" ${currentStatus === 'XXL Size Stock Out' ? 'selected' : ''}>XXL Size Stock Out</option>
+                            <option value="3XL Size Stock Out" ${currentStatus === '3XL Size Stock Out' ? 'selected' : ''}>3XL Size Stock Out</option>
                         </select>
                     </td>
                     <td>
