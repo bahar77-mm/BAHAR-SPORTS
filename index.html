@@ -408,7 +408,7 @@ header {
 }
 
 .price{
-    color:#e11d48;
+    color:#000000;
     font-size:25px;
     font-weight:bold;
     margin-bottom:15px;
@@ -567,12 +567,12 @@ footer p{
 
 .btn{
     display:inline-block;
-    margin:15px 8px;
-    padding:14px 30px;
+    margin:10px 6px;
+    padding:10px 20px;
     border-radius:50px;
     text-decoration:none;
     color:white;
-    font-size:18px;
+    font-size:14px;
     transition:.3s;
 }
 
@@ -580,8 +580,13 @@ footer p{
     transform:translateY(-5px);
 }
 
-.order{
-    background:#f97316;
+.fb-btn {
+    background: #1877f2;
+}
+
+
+.wa-btn {
+    background: #25d366;
 }
 
 .color-line{
@@ -908,13 +913,16 @@ footer p{
 Order Your Favourite Jersey Now
 </p>
 
-<a class="btn order" href="order.html">
-CLICK AND ORDER
+<a class="btn order fb-btn" href="https://facebook.com/share/1BhbzDP7f9/?mibextid=wwXIfr">
+FACEBOOK
+</a>
+<a class="btn order wa-btn" href="https://wa.me/8801616568419">
+WHATSAPP
 </a>
 
 <div class="color-line"></div>
 
-<p style="margin-top:25px;color:#60a2f3;">
+<p style="margin-top:25px;color:transparent;">
 © 2026 BAHAR SPORTS
 </p>
 
@@ -984,7 +992,7 @@ window.displayProducts = function(products) {
 
         if (prod.discountPrice && Number(prod.discountPrice) > 0 && Number(prod.discountPrice) < Number(prod.price)) {
             effectivePrice = prod.discountPrice;
-            priceHTML = `<p class="price"><span style="text-decoration: line-through; color: #94a3b8; font-size: 18px; margin-right: 8px;">৳${prod.price}</span> ৳${prod.discountPrice}</p>`;
+            priceHTML = `<p class="price"><span style="text-decoration: line-through; color: #ef4444; font-size: 18px; margin-right: 8px;">৳${prod.price}</span> ৳${prod.discountPrice}</p>`;
         } else {
             priceHTML = `<p class="price">৳${prod.price}</p>`;
         }
