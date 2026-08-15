@@ -17,7 +17,7 @@ import {
 
 
 // =====================================
-// Firebase Configuration
+// FIREBASE CONFIGURATION
 // =====================================
 
 const firebaseConfig = {
@@ -31,11 +31,13 @@ const firebaseConfig = {
 
 
 // =====================================
-// Initialize Firebase
+// INITIALIZE FIREBASE
 // =====================================
 
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
+
 const auth = getAuth(app);
 
 
@@ -43,219 +45,267 @@ const auth = getAuth(app);
 // ADMIN LOGIN
 // =====================================
 
-document.getElementById("loginBtn").addEventListener("click", function() {
+document
+    .getElementById("loginBtn")
+    .addEventListener("click", function () {
 
-    let email =
-        document.getElementById("email").value.trim();
+        const email =
+            document.getElementById("email").value.trim();
 
-    let password =
-        document.getElementById("password").value.trim();
-
-
-    if (!email || !password) {
-
-        alert("Please enter both email and password!");
-
-        return;
-    }
+        const password =
+            document.getElementById("password").value.trim();
 
 
-    signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-    )
+        if (!email || !password) {
 
-    .then(() => {
+            alert(
+                "Please enter both email and password!"
+            );
 
-        alert("✅ Login Successful");
+            return;
+        }
 
-        document.getElementById("loginBox").style.display = "none";
 
-        document.getElementById("dashboard").style.display = "block";
+        signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        )
 
-        loadOrders();
+        .then(() => {
 
-        loadManageProducts();
+            alert("✅ Login Successful");
 
-    })
 
-    .catch((error) => {
+            document.getElementById(
+                "loginBox"
+            ).style.display = "none";
 
-        alert(
-            "Login Failed: " +
-            error.message
-        );
+
+            document.getElementById(
+                "dashboard"
+            ).style.display = "block";
+
+
+            loadOrders();
+
+            loadManageProducts();
+
+        })
+
+        .catch((error) => {
+
+            console.error(
+                "Login Error:",
+                error
+            );
+
+
+            alert(
+                "Login Failed: " +
+                error.message
+            );
+
+        });
 
     });
-
-});
 
 
 // =====================================
 // UPLOAD NEW PRODUCT
 // =====================================
 
-document.getElementById("uploadBtn").addEventListener("click", async function() {
-
-    let name =
-        document.getElementById("prodName").value.trim();
-
-    let price =
-        Number(
-            document.getElementById("prodPrice").value
-        );
+document
+    .getElementById("uploadBtn")
+    .addEventListener("click", async function () {
 
 
-    // Discount Price
-
-    let discountInput =
-        document.getElementById("prodDiscountPrice");
-
-    let discountPrice = null;
-
-
-    if (discountInput) {
-
-        let discountValue =
-            discountInput.value.trim();
+        const name =
+            document
+                .getElementById("prodName")
+                .value
+                .trim();
 
 
-        if (discountValue !== "") {
-
-            discountPrice =
-                Number(discountValue);
-
-        }
-
-    }
+        const price =
+            Number(
+                document
+                    .getElementById("prodPrice")
+                    .value
+            );
 
 
-    let category =
-        document.getElementById("prodCategory").value;
-
-    let stockStatus =
-        document.getElementById("prodStockStatus").value;
-
-    let img =
-        document.getElementById("prodImg").value.trim();
+        const discountInput =
+            document.getElementById(
+                "prodDiscountPrice"
+            );
 
 
-    // Check required fields
-
-    if (!name || !price || !img) {
-
-        alert(
-            "Please fill in all the product fields!"
-        );
-
-        return;
-    }
-
-
-    // Check discount price
-
-    if (
-        discountPrice !== null &&
-        (
-            isNaN(discountPrice) ||
-            discountPrice < 0 ||
-            discountPrice >= price
-        )
-    ) {
-
-        alert(
-            "Discount Price must be less than Regular Price!"
-        );
-
-        return;
-    }
-
-
-    try {
-
-        await addDoc(
-            collection(db, "products"),
-            {
-
-                name: name,
-
-                price: price,
-
-                // Discount saved to Firebase
-
-                discountPrice:
-                    discountPrice,
-
-                category:
-                    category,
-
-                stockStatus:
-                    stockStatus,
-
-                img:
-                    img,
-
-                createdAt:
-                    new Date()
-
-            }
-        );
-
-
-        alert(
-            "✅ Product Uploaded Successfully!"
-        );
-
-
-        // Clear fields
-
-        document.getElementById("prodName").value = "";
-
-        document.getElementById("prodPrice").value = "";
+        let discountPrice = null;
 
 
         if (discountInput) {
 
-            discountInput.value = "";
+            const discountValue =
+                discountInput.value.trim();
+
+
+            if (discountValue !== "") {
+
+                discountPrice =
+                    Number(discountValue);
+
+            }
 
         }
 
 
-        document.getElementById("prodImg").value = "";
+        const category =
+            document.getElementById(
+                "prodCategory"
+            ).value;
 
 
-        // Reload product list
+        const stockStatus =
+            document.getElementById(
+                "prodStockStatus"
+            ).value;
 
-        loadManageProducts();
 
-    }
+        const img =
+            document.getElementById(
+                "prodImg"
+            ).value.trim();
 
-    catch (error) {
 
-        alert(
-            "❌ Error uploading product: "
-            + error.message
-        );
+        // REQUIRED FIELD CHECK
 
-    }
+        if (!name || !price || !img) {
 
-});
-// =====================================
+            alert(
+                "Please fill in all the product fields!"
+            );
+
+            return;
+        }
+
+
+        // DISCOUNT CHECK
+
+        if (
+            discountPrice !== null &&
+            (
+                isNaN(discountPrice) ||
+                discountPrice < 0 ||
+                discountPrice >= price
+            )
+        ) {
+
+            alert(
+                "Discount Price must be less than Regular Price!"
+            );
+
+            return;
+        }
+
+
+        try {
+
+            await addDoc(
+                collection(
+                    db,
+                    "products"
+                ),
+                {
+
+                    name: name,
+
+                    price: price,
+
+                    discountPrice:
+                        discountPrice,
+
+                    category:
+                        category,
+
+                    stockStatus:
+                        stockStatus,
+
+                    img: img,
+
+                    createdAt:
+                        new Date()
+
+                }
+            );
+
+
+            alert(
+                "✅ Product Uploaded Successfully!"
+            );
+
+
+            // CLEAR INPUTS
+
+            document.getElementById(
+                "prodName"
+            ).value = "";
+
+
+            document.getElementById(
+                "prodPrice"
+            ).value = "";
+
+
+            if (discountInput) {
+
+                discountInput.value = "";
+
+            }
+
+
+            document.getElementById(
+                "prodImg"
+            ).value = "";
+
+
+            // RELOAD PRODUCTS
+
+            loadManageProducts();
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Product Upload Error:",
+                error
+            );
+
+
+            alert(
+                "❌ Error uploading product: " +
+                error.message
+            );
+
+        }
+
+    });
+    // =====================================
 // LOAD ORDERS
 // =====================================
 
 async function loadOrders() {
 
     const list =
-        document.getElementById("order-list");
+        document.getElementById("orderList");
 
     if (!list) return;
 
 
     list.innerHTML = `
         <tr>
-            <td colspan="10"
+            <td colspan="9"
                 style="text-align:center;">
                 Loading orders...
             </td>
@@ -278,7 +328,7 @@ async function loadOrders() {
 
             list.innerHTML = `
                 <tr>
-                    <td colspan="10"
+                    <td colspan="9"
                         style="text-align:center;">
                         No orders found.
                     </td>
@@ -298,52 +348,77 @@ async function loadOrders() {
                 docSnap.id;
 
 
-            const status =
-                data.status || "Pending";
+            // Tracking Code
+
+            const trackingCode =
+                data.orderId ||
+                data.trackingCode ||
+                "N/A";
 
 
-            let row = `
+            // Current Status
+
+            const currentStatus =
+                data.status ||
+                "Pending";
+
+
+            const row = `
 
                 <tr id="order-row-${docId}">
 
+                    <!-- Tracking Code -->
+
                     <td>
                         <strong
-                            style="color:#2563eb;">
-                            ${data.orderId || "N/A"}
+                            style="
+                                color:#2563eb;
+                            "
+                        >
+                            ${trackingCode}
                         </strong>
                     </td>
 
+
+                    <!-- Name -->
 
                     <td>
                         ${data.name || "N/A"}
                     </td>
 
 
+                    <!-- Phone -->
+
                     <td>
                         ${data.phone || "N/A"}
                     </td>
 
+
+                    <!-- Product -->
 
                     <td>
                         ${data.product || "N/A"}
                     </td>
 
 
+                    <!-- Size -->
+
                     <td>
                         ${data.size || "N/A"}
                     </td>
 
+
+                    <!-- Address -->
 
                     <td>
                         ${data.address || "N/A"}
                     </td>
 
 
+                    <!-- Payment -->
+
                     <td>
-                        <strong
-                            style="color:#2563eb;">
-                            ${data.payment || "N/A"}
-                        </strong>
+                        ${data.payment || "N/A"}
                     </td>
 
 
@@ -363,54 +438,78 @@ async function loadOrders() {
 
                             <option
                                 value="Pending"
-                                ${status === "Pending"
+                                ${
+                                    currentStatus ===
+                                    "Pending"
                                     ? "selected"
-                                    : ""}>
+                                    : ""
+                                }
+                            >
                                 Pending
                             </option>
 
 
                             <option
                                 value="Confirmed"
-                                ${status === "Confirmed"
+                                ${
+                                    currentStatus ===
+                                    "Confirmed"
                                     ? "selected"
-                                    : ""}>
+                                    : ""
+                                }
+                            >
                                 Confirmed
                             </option>
 
 
                             <option
                                 value="Processing"
-                                ${status === "Processing"
+                                ${
+                                    currentStatus ===
+                                    "Processing"
                                     ? "selected"
-                                    : ""}>
+                                    : ""
+                                }
+                            >
                                 Processing
                             </option>
 
 
                             <option
                                 value="Shipped"
-                                ${status === "Shipped"
+                                ${
+                                    currentStatus ===
+                                    "Shipped"
                                     ? "selected"
-                                    : ""}>
+                                    : ""
+                                }
+                            >
                                 Shipped
                             </option>
 
 
                             <option
                                 value="Delivered"
-                                ${status === "Delivered"
+                                ${
+                                    currentStatus ===
+                                    "Delivered"
                                     ? "selected"
-                                    : ""}>
+                                    : ""
+                                }
+                            >
                                 Delivered
                             </option>
 
 
                             <option
                                 value="Cancelled"
-                                ${status === "Cancelled"
+                                ${
+                                    currentStatus ===
+                                    "Cancelled"
                                     ? "selected"
-                                    : ""}>
+                                    : ""
+                                }
+                            >
                                 Cancelled
                             </option>
 
@@ -429,7 +528,7 @@ async function loadOrders() {
                     </td>
 
 
-                    <!-- EXISTING CONFIRM BUTTON -->
+                    <!-- ACTION -->
 
                     <td>
 
@@ -453,7 +552,6 @@ async function loadOrders() {
 
         });
 
-
     }
 
     catch (error) {
@@ -466,7 +564,7 @@ async function loadOrders() {
 
         list.innerHTML = `
             <tr>
-                <td colspan="10"
+                <td colspan="9"
                     style="
                         text-align:center;
                         color:red;
@@ -530,8 +628,6 @@ async function(docId) {
         );
 
 
-        // Reload order list
-
         loadOrders();
 
     }
@@ -545,7 +641,8 @@ async function(docId) {
 
 
         alert(
-            "❌ Failed to update order status!"
+            "❌ Failed to update order status: " +
+            error.message
         );
 
     }
@@ -611,168 +708,250 @@ async function(docId) {
 
 
         alert(
-            "❌ Failed to delete order!"
+            "❌ Failed to delete order: " +
+            error.message
         );
 
     }
 
 };
-
-
 // =====================================
-// LOAD MANAGE PRODUCTS
+// LOAD PRODUCTS
 // =====================================
 
 async function loadManageProducts() {
 
-    const productList =
-        document.getElementById(
-            "manage-product-list"
-        );
-
-
-    if (!productList) return;
-
-
-    productList.innerHTML = "";
-
-
     try {
 
-        const snapshot =
+        const querySnapshot =
             await getDocs(
-                collection(
-                    db,
-                    "products"
-                )
+                collection(db, "products")
             );
 
 
-        if (snapshot.empty) {
-
-            productList.innerHTML = `
-                <tr>
-                    <td colspan="7"
-                        style="text-align:center;">
-                        No products found.
-                    </td>
-                </tr>
-            `;
-
-            return;
-        }
+        let manageList =
+            document.getElementById(
+                "manageProductList"
+            );
 
 
-        snapshot.forEach((docSnap) => {
-
-            const data =
-                docSnap.data();
-
-            const docId =
-                docSnap.id;
+        manageList.innerHTML = "";
 
 
-            const price =
-                Number(
-                    data.price || 0
-                );
+        querySnapshot.forEach(
+            (documentSnapshot) => {
+
+                let prod =
+                    documentSnapshot.data();
+
+                let prodId =
+                    documentSnapshot.id;
 
 
-            const discountPrice =
-                Number(
-                    data.discountPrice || 0
-                );
+                // Current stock
+
+                let currentStatus =
+                    prod.stockStatus || "In Stock";
 
 
-            const finalPrice =
-                discountPrice > 0
-                    ? discountPrice
-                    : price;
+                // Current discount
+
+                let currentDiscount =
+                    prod.discountPrice ?? "";
 
 
-            const stockStatus =
-                data.stockStatus ||
-                "In Stock";
+                let row = `
+
+                    <tr id="prod-row-${prodId}">
+
+                        <!-- IMAGE -->
+
+                        <td>
+
+                            <img
+                                src="${prod.img}"
+                                width="50"
+                                style="
+                                    border-radius:5px;
+                                    object-fit:cover;
+                                "
+                            >
+
+                        </td>
 
 
-            let row = `
+                        <!-- PRODUCT NAME -->
 
-                <tr>
-
-                    <td>
-
-                        <img
-                            src="${data.img || ""}"
-                            style="
-                                width:60px;
-                                height:60px;
-                                object-fit:cover;
-                                border-radius:8px;
-                            "
-                        >
-
-                    </td>
+                        <td>
+                            ${prod.name}
+                        </td>
 
 
-                    <td>
-                        ${data.name || "N/A"}
-                    </td>
+                        <!-- REGULAR PRICE -->
+
+                        <td>
+                            ৳${prod.price}
+                        </td>
 
 
-                    <td>
-                        ৳${price}
-                    </td>
+                        <!-- DISCOUNT PRICE -->
+
+                        <td>
+
+                            <input
+                                type="number"
+                                id="discount_${prodId}"
+                                class="table-input"
+                                value="${currentDiscount}"
+                                min="0"
+                                max="${Number(prod.price) - 1}"
+                                placeholder="No Discount"
+                            >
+
+                        </td>
 
 
-                    <td>
+                        <!-- STOCK STATUS -->
 
-                        ${
-                            discountPrice > 0
-                            ? `৳${discountPrice}`
-                            : "No Discount"
-                        }
+                        <td>
 
-                    </td>
+                            <select
+                                id="status_${prodId}"
+                                style="
+                                    padding:6px;
+                                    border-radius:6px;
+                                "
+                            >
 
-
-                    <td>
-                        ${data.category || "N/A"}
-                    </td>
-
-
-                    <td>
-                        ${stockStatus}
-                    </td>
-
-
-                    <td>
-
-                        <button
-                            class="table-confirm-btn"
-                            onclick="
-                                deleteProduct('${docId}')
-                            "
-                        >
-                            Delete
-                        </button>
-
-                    </td>
-
-                </tr>
-
-            `;
+                                <option
+                                    value="In Stock"
+                                    ${
+                                        currentStatus ===
+                                        "In Stock"
+                                        ? "selected"
+                                        : ""
+                                    }
+                                >
+                                    In Stock
+                                </option>
 
 
-            productList.innerHTML += row;
+                                <option
+                                    value="Stock Out"
+                                    ${
+                                        currentStatus ===
+                                        "Stock Out"
+                                        ? "selected"
+                                        : ""
+                                    }
+                                >
+                                    Stock Out
+                                </option>
 
-        });
+
+                                <option
+                                    value="M Size Stock Out"
+                                    ${
+                                        currentStatus ===
+                                        "M Size Stock Out"
+                                        ? "selected"
+                                        : ""
+                                    }
+                                >
+                                    M Size Stock Out
+                                </option>
+
+
+                                <option
+                                    value="L Size Stock Out"
+                                    ${
+                                        currentStatus ===
+                                        "L Size Stock Out"
+                                        ? "selected"
+                                        : ""
+                                    }
+                                >
+                                    L Size Stock Out
+                                </option>
+
+
+                                <option
+                                    value="XL Size Stock Out"
+                                    ${
+                                        currentStatus ===
+                                        "XL Size Stock Out"
+                                        ? "selected"
+                                        : ""
+                                    }
+                                >
+                                    XL Size Stock Out
+                                </option>
+
+
+                                <option
+                                    value="XXL Size Stock Out"
+                                    ${
+                                        currentStatus ===
+                                        "XXL Size Stock Out"
+                                        ? "selected"
+                                        : ""
+                                    }
+                                >
+                                    XXL Size Stock Out
+                                </option>
+
+
+                                <option
+                                    value="3XL Size Stock Out"
+                                    ${
+                                        currentStatus ===
+                                        "3XL Size Stock Out"
+                                        ? "selected"
+                                        : ""
+                                    }
+                                >
+                                    3XL Size Stock Out
+                                </option>
+
+                            </select>
+
+                        </td>
+
+
+                        <!-- ACTION -->
+
+                        <td>
+
+                            <button
+                                class="table-confirm-btn"
+                                onclick="
+                                    updateProduct(
+                                        '${prodId}',
+                                        ${Number(prod.price)}
+                                    )
+                                "
+                            >
+                                Update
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+
+                manageList.innerHTML += row;
+
+            }
+        );
 
     }
 
     catch (error) {
 
         console.error(
-            "Error loading products:",
+            "Error loading products for management: ",
             error
         );
 
@@ -782,19 +961,69 @@ async function loadManageProducts() {
 
 
 // =====================================
-// DELETE PRODUCT
+// UPDATE PRODUCT
+// DISCOUNT + STOCK
 // =====================================
 
-window.deleteProduct =
-async function(docId) {
+window.updateProduct =
+async function(
+    prodId,
+    regularPrice
+) {
 
-    const ok =
-        confirm(
-            "Are you sure you want to delete this product?"
+    let discountInput =
+        document.getElementById(
+            `discount_${prodId}`
         );
 
 
-    if (!ok) {
+    let statusInput =
+        document.getElementById(
+            `status_${prodId}`
+        );
+
+
+    if (
+        !discountInput ||
+        !statusInput
+    ) {
+
+        alert(
+            "❌ Product controls not found."
+        );
+
+        return;
+    }
+
+
+    let discountValue =
+        discountInput.value.trim();
+
+
+    let discountPrice =
+        discountValue === ""
+        ? null
+        : Number(discountValue);
+
+
+    let selectedStatus =
+        statusInput.value;
+
+
+    // Discount validation
+
+    if (
+        discountPrice !== null &&
+        (
+            isNaN(discountPrice) ||
+            discountPrice < 0 ||
+            discountPrice >= Number(regularPrice)
+        )
+    ) {
+
+        alert(
+            "Discount Price must be less than Regular Price!"
+        );
 
         return;
     }
@@ -802,19 +1031,39 @@ async function(docId) {
 
     try {
 
-        await deleteDoc(
+        const prodRef =
             doc(
                 db,
                 "products",
-                docId
-            )
+                prodId
+            );
+
+
+        await updateDoc(
+            prodRef,
+            {
+
+                // Save discount
+
+                discountPrice:
+                    discountPrice,
+
+
+                // Save stock
+
+                stockStatus:
+                    selectedStatus
+
+            }
         );
 
 
         alert(
-            "✅ Product deleted successfully!"
+            "✅ Product updated successfully!"
         );
 
+
+        // Reload products
 
         loadManageProducts();
 
@@ -823,205 +1072,136 @@ async function(docId) {
     catch (error) {
 
         console.error(
-            "Delete product error:",
+            "Error updating product: ",
             error
         );
 
 
         alert(
-            "❌ Failed to delete product!"
+            "❌ Failed to update product: "
+            + error.message
         );
 
     }
 
 };
+
+
 // =====================================
-// PAGE INITIALIZATION
+// OLD STOCK UPDATE FUNCTION
+// রাখা হয়েছে যাতে আগের কিছু নষ্ট না হয়
 // =====================================
 
-// If admin panel is already visible,
-// load orders and products.
+window.updateStockStatus =
+async function(prodId) {
 
-document.addEventListener("DOMContentLoaded", function () {
+    let selectedStatus =
+        document.getElementById(
+            `status_${prodId}`
+        ).value;
 
-    const dashboard =
-        document.getElementById("dashboard");
+
+    try {
+
+        const prodRef =
+            doc(
+                db,
+                "products",
+                prodId
+            );
 
 
-    if (
-        dashboard &&
-        dashboard.style.display !== "none"
-    ) {
+        await updateDoc(
+            prodRef,
+            {
 
-        loadOrders();
+                stockStatus:
+                    selectedStatus
 
-        loadManageProducts();
+            }
+        );
+
+
+        alert(
+            "✅ Stock status updated successfully!"
+        );
 
     }
 
-});
+    catch (error) {
+
+        console.error(
+            "Error updating stock status: ",
+            error
+        );
+
+
+        alert(
+            "❌ Failed to update stock status."
+        );
+
+    }
+
+};
 
 
 // =====================================
-// REFRESH ORDERS BUTTON
+// CONFIRM + DELETE ORDER
 // =====================================
 
-const refreshOrdersBtn =
-    document.getElementById(
-        "refreshOrdersBtn"
-    );
+window.confirmAndDeleteOrder =
+async function(docId) {
+
+    if (
+        confirm(
+            "Are you sure you want to confirm and delete this order?"
+        )
+    ) {
+
+        try {
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "orders",
+                    docId
+                )
+            );
 
 
-if (refreshOrdersBtn) {
-
-    refreshOrdersBtn.addEventListener(
-        "click",
-        function () {
-
-            loadOrders();
-
-        }
-    );
-
-}
-
-
-// =====================================
-// REFRESH PRODUCTS BUTTON
-// =====================================
-
-const refreshProductsBtn =
-    document.getElementById(
-        "refreshProductsBtn"
-    );
-
-
-if (refreshProductsBtn) {
-
-    refreshProductsBtn.addEventListener(
-        "click",
-        function () {
-
-            loadManageProducts();
-
-        }
-    );
-
-}
-
-
-// =====================================
-// SEARCH ORDERS
-// =====================================
-
-const orderSearch =
-    document.getElementById(
-        "orderSearch"
-    );
-
-
-if (orderSearch) {
-
-    orderSearch.addEventListener(
-        "input",
-        function () {
-
-            const searchText =
-                this.value
-                    .toLowerCase()
-                    .trim();
-
-
-            const rows =
-                document.querySelectorAll(
-                    "#order-list tr"
+            let rowElement =
+                document.getElementById(
+                    `order-row-${docId}`
                 );
 
 
-            rows.forEach(row => {
+            if (rowElement) {
 
-                const text =
-                    row.innerText
-                        .toLowerCase();
+                rowElement.remove();
+
+            }
 
 
-                if (
-                    text.includes(searchText)
-                ) {
-
-                    row.style.display = "";
-
-                } else {
-
-                    row.style.display =
-                        "none";
-
-                }
-
-            });
+            alert(
+                "✅ Order confirmed and deleted successfully!"
+            );
 
         }
-    );
 
-}
+        catch (error) {
 
-
-// =====================================
-// SEARCH PRODUCTS
-// =====================================
-
-const productSearch =
-    document.getElementById(
-        "productSearch"
-    );
+            console.error(
+                "Error deleting order: ",
+                error
+            );
 
 
-if (productSearch) {
-
-    productSearch.addEventListener(
-        "input",
-        function () {
-
-            const searchText =
-                this.value
-                    .toLowerCase()
-                    .trim();
-
-
-            const rows =
-                document.querySelectorAll(
-                    "#manage-product-list tr"
-                );
-
-
-            rows.forEach(row => {
-
-                const text =
-                    row.innerText
-                        .toLowerCase();
-
-
-                if (
-                    text.includes(searchText)
-                ) {
-
-                    row.style.display = "";
-
-                } else {
-
-                    row.style.display =
-                        "none";
-
-                }
-
-            });
+            alert(
+                "❌ Failed to delete the order."
+            );
 
         }
-    );
 
-}
+    }
 
-
-// =====================================
-// END OF ADMIN.JS
-// =====================================
+};
