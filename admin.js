@@ -1,13 +1,10 @@
-// =====================================
-// FIREBASE SETUP
-// =====================================
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
     getFirestore,
     collection,
     getDocs,
+    addDoc,
     doc,
     deleteDoc,
     updateDoc
@@ -15,11 +12,13 @@ import {
 
 import {
     getAuth,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut
+    signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+
+// =====================================
+// Firebase Configuration
+// =====================================
 
 const firebaseConfig = {
     apiKey: "AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
@@ -31,142 +30,256 @@ const firebaseConfig = {
 };
 
 
+// =====================================
+// Initialize Firebase
+// =====================================
+
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
-
 const auth = getAuth(app);
 
 
 // =====================================
-// LOGIN
+// ADMIN LOGIN
 // =====================================
 
-const loginBox = document.getElementById("loginBox");
-const adminPanel = document.getElementById("adminPanel");
+document.getElementById("loginBtn").addEventListener("click", function() {
 
-const loginBtn = document.getElementById("loginBtn");
+    let email =
+        document.getElementById("email").value.trim();
 
-if (loginBtn) {
-
-    loginBtn.addEventListener("click", async () => {
-
-        const email = document.getElementById("email").value.trim();
-
-        const password = document.getElementById("password").value.trim();
-
-        if (!email || !password) {
-
-            alert("Please enter email and password.");
-
-            return;
-        }
-
-        try {
-
-            await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert("❌ Login failed!");
-
-        }
-
-    });
-
-}
+    let password =
+        document.getElementById("password").value.trim();
 
 
-// =====================================
-// AUTH STATE
-// =====================================
+    if (!email || !password) {
 
-onAuthStateChanged(auth, user => {
+        alert("Please enter both email and password!");
 
-    if (user) {
+        return;
+    }
 
-        if (loginBox) {
-            loginBox.style.display = "none";
-        }
 
-        if (adminPanel) {
-            adminPanel.style.display = "block";
-        }
+    signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+    )
+
+    .then(() => {
+
+        alert("✅ Login Successful");
+
+        document.getElementById("loginBox").style.display = "none";
+
+        document.getElementById("dashboard").style.display = "block";
 
         loadOrders();
 
-        loadProducts();
+        loadManageProducts();
 
-    } else {
+    })
 
-        if (loginBox) {
-            loginBox.style.display = "block";
-        }
+    .catch((error) => {
 
-        if (adminPanel) {
-            adminPanel.style.display = "none";
-        }
+        alert(
+            "Login Failed: " +
+            error.message
+        );
 
-    }
+    });
 
 });
 
 
 // =====================================
-// LOGOUT
+// UPLOAD NEW PRODUCT
 // =====================================
 
-window.logout = async function () {
+document.getElementById("uploadBtn").addEventListener("click", async function() {
 
-    try {
+    let name =
+        document.getElementById("prodName").value.trim();
 
-        await signOut(auth);
+    let price =
+        Number(
+            document.getElementById("prodPrice").value
+        );
 
-    } catch (error) {
 
-        console.error(error);
+    // Discount Price
+
+    let discountInput =
+        document.getElementById("prodDiscountPrice");
+
+    let discountPrice = null;
+
+
+    if (discountInput) {
+
+        let discountValue =
+            discountInput.value.trim();
+
+
+        if (discountValue !== "") {
+
+            discountPrice =
+                Number(discountValue);
+
+        }
 
     }
 
-};
+
+    let category =
+        document.getElementById("prodCategory").value;
+
+    let stockStatus =
+        document.getElementById("prodStockStatus").value;
+
+    let img =
+        document.getElementById("prodImg").value.trim();
 
 
+    // Check required fields
+
+    if (!name || !price || !img) {
+
+        alert(
+            "Please fill in all the product fields!"
+        );
+
+        return;
+    }
+
+
+    // Check discount price
+
+    if (
+        discountPrice !== null &&
+        (
+            isNaN(discountPrice) ||
+            discountPrice < 0 ||
+            discountPrice >= price
+        )
+    ) {
+
+        alert(
+            "Discount Price must be less than Regular Price!"
+        );
+
+        return;
+    }
+
+
+    try {
+
+        await addDoc(
+            collection(db, "products"),
+            {
+
+                name: name,
+
+                price: price,
+
+                // Discount saved to Firebase
+
+                discountPrice:
+                    discountPrice,
+
+                category:
+                    category,
+
+                stockStatus:
+                    stockStatus,
+
+                img:
+                    img,
+
+                createdAt:
+                    new Date()
+
+            }
+        );
+
+
+        alert(
+            "✅ Product Uploaded Successfully!"
+        );
+
+
+        // Clear fields
+
+        document.getElementById("prodName").value = "";
+
+        document.getElementById("prodPrice").value = "";
+
+
+        if (discountInput) {
+
+            discountInput.value = "";
+
+        }
+
+
+        document.getElementById("prodImg").value = "";
+
+
+        // Reload product list
+
+        loadManageProducts();
+
+    }
+
+    catch (error) {
+
+        alert(
+            "❌ Error uploading product: "
+            + error.message
+        );
+
+    }
+
+});
 // =====================================
 // LOAD ORDERS
 // =====================================
 
 async function loadOrders() {
 
-    const list = document.getElementById("order-list");
+    const list =
+        document.getElementById("order-list");
 
     if (!list) return;
 
+
     list.innerHTML = `
         <tr>
-            <td colspan="10" style="text-align:center;">
+            <td colspan="10"
+                style="text-align:center;">
                 Loading orders...
             </td>
         </tr>
     `;
 
+
     try {
 
-        const querySnapshot =
-            await getDocs(collection(db, "orders"));
+        const snapshot =
+            await getDocs(
+                collection(db, "orders")
+            );
+
 
         list.innerHTML = "";
 
-        if (querySnapshot.empty) {
+
+        if (snapshot.empty) {
 
             list.innerHTML = `
                 <tr>
-                    <td colspan="10" style="text-align:center;">
+                    <td colspan="10"
+                        style="text-align:center;">
                         No orders found.
                     </td>
                 </tr>
@@ -176,54 +289,65 @@ async function loadOrders() {
         }
 
 
-        querySnapshot.forEach(docSnap => {
+        snapshot.forEach((docSnap) => {
 
-            const data = docSnap.data();
+            const data =
+                docSnap.data();
 
-            const docId = docSnap.id;
+            const docId =
+                docSnap.id;
 
-            const currentStatus =
+
+            const status =
                 data.status || "Pending";
 
 
-            const row = `
+            let row = `
 
                 <tr id="order-row-${docId}">
 
                     <td>
-                        <strong style="color:#2563eb;">
-                            ${data.orderId || "Old Order"}
+                        <strong
+                            style="color:#2563eb;">
+                            ${data.orderId || "N/A"}
                         </strong>
                     </td>
+
 
                     <td>
                         ${data.name || "N/A"}
                     </td>
 
+
                     <td>
                         ${data.phone || "N/A"}
                     </td>
+
 
                     <td>
                         ${data.product || "N/A"}
                     </td>
 
+
                     <td>
                         ${data.size || "N/A"}
                     </td>
+
 
                     <td>
                         ${data.address || "N/A"}
                     </td>
 
+
                     <td>
-                        <strong style="color:#2563eb;">
-                            ${data.payment || "Cash on Delivery"}
+                        <strong
+                            style="color:#2563eb;">
+                            ${data.payment || "N/A"}
                         </strong>
                     </td>
 
 
-                    <!-- STATUS -->
+                    <!-- ORDER STATUS -->
 
                     <td>
 
@@ -233,36 +357,60 @@ async function loadOrders() {
                                 padding:6px;
                                 border-radius:6px;
                                 border:1px solid #ccc;
+                                margin-bottom:5px;
                             "
                         >
 
-                            <option value="Pending"
-                                ${currentStatus === "Pending" ? "selected" : ""}>
+                            <option
+                                value="Pending"
+                                ${status === "Pending"
+                                    ? "selected"
+                                    : ""}>
                                 Pending
                             </option>
 
-                            <option value="Confirmed"
-                                ${currentStatus === "Confirmed" ? "selected" : ""}>
+
+                            <option
+                                value="Confirmed"
+                                ${status === "Confirmed"
+                                    ? "selected"
+                                    : ""}>
                                 Confirmed
                             </option>
 
-                            <option value="Processing"
-                                ${currentStatus === "Processing" ? "selected" : ""}>
+
+                            <option
+                                value="Processing"
+                                ${status === "Processing"
+                                    ? "selected"
+                                    : ""}>
                                 Processing
                             </option>
 
-                            <option value="Shipped"
-                                ${currentStatus === "Shipped" ? "selected" : ""}>
+
+                            <option
+                                value="Shipped"
+                                ${status === "Shipped"
+                                    ? "selected"
+                                    : ""}>
                                 Shipped
                             </option>
 
-                            <option value="Delivered"
-                                ${currentStatus === "Delivered" ? "selected" : ""}>
+
+                            <option
+                                value="Delivered"
+                                ${status === "Delivered"
+                                    ? "selected"
+                                    : ""}>
                                 Delivered
                             </option>
 
-                            <option value="Cancelled"
-                                ${currentStatus === "Cancelled" ? "selected" : ""}>
+
+                            <option
+                                value="Cancelled"
+                                ${status === "Cancelled"
+                                    ? "selected"
+                                    : ""}>
                                 Cancelled
                             </option>
 
@@ -271,7 +419,9 @@ async function loadOrders() {
 
                         <button
                             class="table-confirm-btn"
-                            onclick="updateOrderStatus('${docId}')"
+                            onclick="
+                                updateOrderStatus('${docId}')
+                            "
                         >
                             Update
                         </button>
@@ -279,13 +429,15 @@ async function loadOrders() {
                     </td>
 
 
-                    <!-- OLD CONFIRM BUTTON -->
+                    <!-- EXISTING CONFIRM BUTTON -->
 
                     <td>
 
                         <button
                             class="table-confirm-btn"
-                            onclick="confirmAndDeleteOrder('${docId}')"
+                            onclick="
+                                confirmAndDeleteOrder('${docId}')
+                            "
                         >
                             Confirm
                         </button>
@@ -296,18 +448,29 @@ async function loadOrders() {
 
             `;
 
+
             list.innerHTML += row;
 
         });
 
 
-    } catch (error) {
+    }
 
-        console.error("Error loading orders:", error);
+    catch (error) {
+
+        console.error(
+            "Error loading orders:",
+            error
+        );
+
 
         list.innerHTML = `
             <tr>
-                <td colspan="10" style="text-align:center;color:red;">
+                <td colspan="10"
+                    style="
+                        text-align:center;
+                        color:red;
+                    ">
                     Failed to load orders.
                 </td>
             </tr>
@@ -322,15 +485,20 @@ async function loadOrders() {
 // UPDATE ORDER STATUS
 // =====================================
 
-window.updateOrderStatus = async function (docId) {
+window.updateOrderStatus =
+async function(docId) {
 
     const statusSelect =
-        document.getElementById(`order-status-${docId}`);
+        document.getElementById(
+            `order-status-${docId}`
+        );
 
 
     if (!statusSelect) {
 
-        alert("Status selector not found.");
+        alert(
+            "❌ Status option not found!"
+        );
 
         return;
     }
@@ -344,7 +512,11 @@ window.updateOrderStatus = async function (docId) {
 
         await updateDoc(
 
-            doc(db, "orders", docId),
+            doc(
+                db,
+                "orders",
+                docId
+            ),
 
             {
                 status: newStatus
@@ -354,25 +526,26 @@ window.updateOrderStatus = async function (docId) {
 
 
         alert(
-            "✅ Order status updated successfully!"
+            "✅ Order status updated!"
         );
 
 
-        // Reload orders
+        // Reload order list
 
         loadOrders();
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
         console.error(
-            "Error updating order status:",
+            "Status update error:",
             error
         );
 
 
         alert(
-            "❌ Failed to update order status."
+            "❌ Failed to update order status!"
         );
 
     }
@@ -384,7 +557,8 @@ window.updateOrderStatus = async function (docId) {
 // CONFIRM + DELETE ORDER
 // =====================================
 
-window.confirmAndDeleteOrder = async function (docId) {
+window.confirmAndDeleteOrder =
+async function(docId) {
 
     const confirmDelete =
         confirm(
@@ -401,7 +575,11 @@ window.confirmAndDeleteOrder = async function (docId) {
     try {
 
         await deleteDoc(
-            doc(db, "orders", docId)
+            doc(
+                db,
+                "orders",
+                docId
+            )
         );
 
 
@@ -422,17 +600,18 @@ window.confirmAndDeleteOrder = async function (docId) {
             "✅ Order confirmed and deleted."
         );
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
         console.error(
-            "Error deleting order:",
+            "Delete order error:",
             error
         );
 
 
         alert(
-            "❌ Failed to delete order."
+            "❌ Failed to delete order!"
         );
 
     }
@@ -441,13 +620,16 @@ window.confirmAndDeleteOrder = async function (docId) {
 
 
 // =====================================
-// LOAD PRODUCTS
+// LOAD MANAGE PRODUCTS
 // =====================================
 
-async function loadProducts() {
+async function loadManageProducts() {
 
     const productList =
-        document.getElementById("product-list");
+        document.getElementById(
+            "manage-product-list"
+        );
+
 
     if (!productList) return;
 
@@ -459,79 +641,117 @@ async function loadProducts() {
 
         const snapshot =
             await getDocs(
-                collection(db, "products")
+                collection(
+                    db,
+                    "products"
+                )
             );
 
 
-        snapshot.forEach(docSnap => {
+        if (snapshot.empty) {
+
+            productList.innerHTML = `
+                <tr>
+                    <td colspan="7"
+                        style="text-align:center;">
+                        No products found.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        snapshot.forEach((docSnap) => {
 
             const data =
                 docSnap.data();
 
-
-            const id =
+            const docId =
                 docSnap.id;
 
 
             const price =
-                Number(data.price || 0);
+                Number(
+                    data.price || 0
+                );
 
 
-            const discount =
-                Number(data.discount || 0);
+            const discountPrice =
+                Number(
+                    data.discountPrice || 0
+                );
 
 
-            const stock =
-                Number(data.stock || 0);
+            const finalPrice =
+                discountPrice > 0
+                    ? discountPrice
+                    : price;
 
 
-            let finalPrice =
-                price;
+            const stockStatus =
+                data.stockStatus ||
+                "In Stock";
 
 
-            if (discount > 0) {
-
-                finalPrice =
-                    price -
-                    (price * discount / 100);
-
-            }
-
-
-            const row = `
+            let row = `
 
                 <tr>
+
+                    <td>
+
+                        <img
+                            src="${data.img || ""}"
+                            style="
+                                width:60px;
+                                height:60px;
+                                object-fit:cover;
+                                border-radius:8px;
+                            "
+                        >
+
+                    </td>
+
 
                     <td>
                         ${data.name || "N/A"}
                     </td>
 
+
                     <td>
                         ৳${price}
                     </td>
 
-                    <td>
-                        ${discount}%
-                    </td>
 
                     <td>
-                        ৳${Math.round(finalPrice)}
+
+                        ${
+                            discountPrice > 0
+                            ? `৳${discountPrice}`
+                            : "No Discount"
+                        }
+
                     </td>
 
+
                     <td>
-                        ${stock}
+                        ${data.category || "N/A"}
                     </td>
+
+
+                    <td>
+                        ${stockStatus}
+                    </td>
+
 
                     <td>
 
                         <button
-                            onclick="editProduct('${id}')"
-                        >
-                            Edit
-                        </button>
-
-                        <button
-                            onclick="deleteProduct('${id}')"
+                            class="table-confirm-btn"
+                            onclick="
+                                deleteProduct('${docId}')
+                            "
                         >
                             Delete
                         </button>
@@ -547,8 +767,9 @@ async function loadProducts() {
 
         });
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
         console.error(
             "Error loading products:",
@@ -564,13 +785,16 @@ async function loadProducts() {
 // DELETE PRODUCT
 // =====================================
 
-window.deleteProduct = async function (id) {
+window.deleteProduct =
+async function(docId) {
 
-    if (
-        !confirm(
+    const ok =
+        confirm(
             "Are you sure you want to delete this product?"
-        )
-    ) {
+        );
+
+
+    if (!ok) {
 
         return;
     }
@@ -579,52 +803,225 @@ window.deleteProduct = async function (id) {
     try {
 
         await deleteDoc(
-            doc(db, "products", id)
+            doc(
+                db,
+                "products",
+                docId
+            )
         );
 
 
         alert(
-            "✅ Product deleted successfully."
+            "✅ Product deleted successfully!"
         );
 
 
-        loadProducts();
+        loadManageProducts();
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
-        console.error(error);
+        console.error(
+            "Delete product error:",
+            error
+        );
+
 
         alert(
-            "❌ Failed to delete product."
+            "❌ Failed to delete product!"
         );
 
     }
 
 };
+// =====================================
+// PAGE INITIALIZATION
+// =====================================
+
+// If admin panel is already visible,
+// load orders and products.
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const dashboard =
+        document.getElementById("dashboard");
+
+
+    if (
+        dashboard &&
+        dashboard.style.display !== "none"
+    ) {
+
+        loadOrders();
+
+        loadManageProducts();
+
+    }
+
+});
 
 
 // =====================================
-// EDIT PRODUCT
+// REFRESH ORDERS BUTTON
 // =====================================
 
-window.editProduct = function (id) {
-
-    alert(
-        "Edit product function can be connected with your existing product editor."
+const refreshOrdersBtn =
+    document.getElementById(
+        "refreshOrdersBtn"
     );
 
-};
 
+if (refreshOrdersBtn) {
 
-// =====================================
-// INITIAL LOAD
-// =====================================
+    refreshOrdersBtn.addEventListener(
+        "click",
+        function () {
 
-if (auth.currentUser) {
+            loadOrders();
 
-    loadOrders();
-
-    loadProducts();
+        }
+    );
 
 }
+
+
+// =====================================
+// REFRESH PRODUCTS BUTTON
+// =====================================
+
+const refreshProductsBtn =
+    document.getElementById(
+        "refreshProductsBtn"
+    );
+
+
+if (refreshProductsBtn) {
+
+    refreshProductsBtn.addEventListener(
+        "click",
+        function () {
+
+            loadManageProducts();
+
+        }
+    );
+
+}
+
+
+// =====================================
+// SEARCH ORDERS
+// =====================================
+
+const orderSearch =
+    document.getElementById(
+        "orderSearch"
+    );
+
+
+if (orderSearch) {
+
+    orderSearch.addEventListener(
+        "input",
+        function () {
+
+            const searchText =
+                this.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const rows =
+                document.querySelectorAll(
+                    "#order-list tr"
+                );
+
+
+            rows.forEach(row => {
+
+                const text =
+                    row.innerText
+                        .toLowerCase();
+
+
+                if (
+                    text.includes(searchText)
+                ) {
+
+                    row.style.display = "";
+
+                } else {
+
+                    row.style.display =
+                        "none";
+
+                }
+
+            });
+
+        }
+    );
+
+}
+
+
+// =====================================
+// SEARCH PRODUCTS
+// =====================================
+
+const productSearch =
+    document.getElementById(
+        "productSearch"
+    );
+
+
+if (productSearch) {
+
+    productSearch.addEventListener(
+        "input",
+        function () {
+
+            const searchText =
+                this.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const rows =
+                document.querySelectorAll(
+                    "#manage-product-list tr"
+                );
+
+
+            rows.forEach(row => {
+
+                const text =
+                    row.innerText
+                        .toLowerCase();
+
+
+                if (
+                    text.includes(searchText)
+                ) {
+
+                    row.style.display = "";
+
+                } else {
+
+                    row.style.display =
+                        "none";
+
+                }
+
+            });
+
+        }
+    );
+
+}
+
+
+// =====================================
+// END OF ADMIN.JS
+// =====================================
