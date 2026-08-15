@@ -899,6 +899,16 @@
             document.getElementById('sizeModal').style.display = 'none';
         };
 
+        // ORDER TRACKING CODE
+        function generateOrderTrackingCode() {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            let code = "BS-";
+            for (let i = 0; i < 7; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
         window.sendOrder = async function() {
             if (productStockStatus === "Stock Out") {
                 alert("This product is currently Stock Out. You cannot place an order.");
@@ -969,13 +979,18 @@
             btn.innerHTML = "⏳ Processing...";
 
             try {
+                // Create a permanent tracking code for this order
+                let orderId = generateOrderTrackingCode();
+
                 await addDoc(collection(db, "orders"), {
+                    orderId: orderId,
                     name: name,
                     phone: phone,
                     product: finalProductStr,
                     size: sizesList,
                     address: address,
                     payment: paymentInfoStr,
+                    status: "Pending",
                     time: serverTimestamp()
                 });
 
@@ -992,7 +1007,7 @@
                     }
                 );
 
-                let successUrl = `success.html?name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&product=${encodeURIComponent(finalProductStr)}&size=${encodeURIComponent(sizesList)}&address=${encodeURIComponent(address)}&payment=${encodeURIComponent(paymentInfoStr)}`;
+                let successUrl = `success.html?name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&product=${encodeURIComponent(finalProductStr)}&size=${encodeURIComponent(sizesList)}&address=${encodeURIComponent(address)}&payment=${encodeURIComponent(paymentInfoStr)}&orderId=${encodeURIComponent(orderId)}`;
                 
                 window.location.href = successUrl;
 

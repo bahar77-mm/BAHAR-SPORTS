@@ -70,6 +70,49 @@
             color: var(--text-main);
             text-align: right;
         }
+        .tracking-box {
+            background: rgba(37, 99, 235, 0.10);
+            border: 1px solid rgba(56, 189, 248, 0.30);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .tracking-label {
+            color: var(--text-sub);
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .tracking-code {
+            color: var(--accent-color);
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 7px;
+        }
+
+        .tracking-note {
+            color: var(--text-sub);
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .track-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #16a34a;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .track-btn:hover { background: #15803d; }
+
         .home-btn {
             display: block;
             width: 100%;
@@ -120,6 +163,13 @@
             </div>
         </div>
 
+        <div class="tracking-box">
+            <div class="tracking-label">YOUR ORDER TRACKING CODE</div>
+            <div class="tracking-code" id="resOrderId">-</div>
+            <div class="tracking-note">Save this code to track your order later.</div>
+            <a href="tracking.html" id="trackBtn" class="track-btn">📦 Track My Order</a>
+        </div>
+
         <a href="index.html" class="home-btn">Back to Home 🏠</a>
     </div>
 
@@ -132,6 +182,15 @@
         document.getElementById('resSize').innerText = params.get('size') || 'N/A';
         document.getElementById('resAddress').innerText = params.get('address') || 'N/A';
         document.getElementById('resPayment').innerText = params.get('payment') || 'Cash on Delivery';
+
+        // Show the tracking code generated when the order was placed
+        const orderId = params.get('orderId') || 'N/A';
+        document.getElementById('resOrderId').innerText = orderId;
+
+        if (orderId !== 'N/A') {
+            document.getElementById('trackBtn').href =
+                'tracking.html?id=' + encodeURIComponent(orderId);
+        }
     </script>
 </body>
 </html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAHAR SPORTS - Track Order</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#0f172a,#2563eb,#9333ea);padding:20px}
+.box{width:100%;max-width:480px;background:white;padding:30px;border-radius:25px;box-shadow:0 15px 40px rgba(0,0,0,.3)}
+h2{text-align:center;color:#1e293b;margin-bottom:7px;font-size:30px}
+.sub{text-align:center;color:#64748b;font-size:13px;margin-bottom:22px}
+input{width:100%;padding:14px;border:1px solid #cbd5e1;border-radius:12px;font-size:16px;outline:none;text-transform:uppercase}
+.track-btn{width:100%;padding:14px;margin-top:12px;border:0;border-radius:50px;background:linear-gradient(135deg,#f97316,#ec4899);color:white;font-size:18px;font-weight:bold;cursor:pointer}
+.info{margin-top:22px;padding:18px;background:#f8fafc;border-radius:15px;border:1px solid #e2e8f0}
+.order-id{text-align:center;color:#2563eb;font-size:23px;font-weight:bold;letter-spacing:2px;margin-bottom:16px}
+.detail{display:flex;justify-content:space-between;gap:15px;padding:8px 0;border-bottom:1px solid #e2e8f0;font-size:14px}
+.detail span:first-child{color:#64748b}.detail span:last-child{text-align:right;font-weight:bold;color:#1e293b}
+.timeline{margin-top:20px}.step{display:flex;align-items:center;gap:12px;margin:17px 0;color:#94a3b8;font-weight:bold}
+.circle{width:32px;height:32px;border-radius:50%;display:flex;justify-content:center;align-items:center;background:#e2e8f0;flex-shrink:0}
+.step.active{color:#2563eb}.step.active .circle{background:#2563eb;color:white}
+.step.cancelled{color:#dc2626}.step.cancelled .circle{background:#dc2626;color:white}
+.message{text-align:center;color:#64748b;margin-top:18px;font-size:14px}
+.back{display:block;text-align:center;margin-top:20px;color:#2563eb;text-decoration:none;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>BAHAR SPORTS</h2>
+<p class="sub">Track your order using your Tracking Code.</p>
+<input id="orderId" placeholder="Enter Tracking Code (e.g. BS-7K2M8P)">
+<button class="track-btn" id="trackBtn">📦 TRACK ORDER</button>
+<div id="result"></div>
+<a class="back" href="index.html">← Back to Home</a>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore,collection,query,where,getDocs} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyCyqVbz009_W67poKQgjHLuGsLQTUFHtHw",
+authDomain:"bahar-sports-f2a70.firebaseapp.com",
+projectId:"bahar-sports-f2a70",
+storageBucket:"bahar-sports-f2a70.firebasestorage.app",
+messagingSenderId:"254621686378",
+appId:"1:254621686378:web:4edfdf85c40362a51cc813"
+};
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+const statuses=["Pending","Confirmed","Processing","Shipped","Delivered"];
+
+function esc(v){
+return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+
+function showOrder(d){
+const status=d.status||"Pending";
+let html=`<div class="info">
+<div class="order-id">${esc(d.orderId||"N/A")}</div>
+<div class="detail"><span>Customer</span><span>${esc(d.name||"N/A")}</span></div>
+<div class="detail"><span>Phone</span><span>${esc(d.phone||"N/A")}</span></div>
+<div class="detail"><span>Product</span><span>${esc(d.product||"N/A")}</span></div>
+<div class="detail"><span>Size</span><span>${esc(d.size||"N/A")}</span></div>
+<div class="detail"><span>Address</span><span>${esc(d.address||"N/A")}</span></div>
+<div class="detail"><span>Payment</span><span>${esc(d.payment||"Cash on Delivery")}</span></div>
+<div class="timeline">`;
+
+if(status==="Cancelled"){
+html+=`<div class="step cancelled"><div class="circle">✕</div><div>Order Cancelled</div></div>`;
+}else{
+let current=statuses.indexOf(status);
+if(current<0)current=0;
+statuses.forEach((s,i)=>{
+html+=`<div class="step ${i<=current?"active":""}"><div class="circle">${i<=current?"✓":"○"}</div><div>${s}</div></div>`;
+});
+}
+html+=`</div><div class="message">Current Status: <strong>${esc(status)}</strong></div></div>`;
+document.getElementById("result").innerHTML=html;
+}
+
+async function trackOrder(){
+const id=document.getElementById("orderId").value.trim().toUpperCase();
+const result=document.getElementById("result");
+if(!id){alert("Please enter your Tracking Code.");return;}
+result.innerHTML='<div class="message">⏳ Searching order...</div>';
+try{
+const q=query(collection(db,"orders"),where("orderId","==",id));
+const snap=await getDocs(q);
+if(snap.empty){
+result.innerHTML='<div class="message" style="color:#dc2626">❌ Order not found.<br>Please check your Tracking Code.</div>';
+return;
+}
+snap.forEach(s=>showOrder(s.data()));
+}catch(e){
+console.error(e);
+result.innerHTML='<div class="message" style="color:#dc2626">❌ Failed to load order details.</div>';
+}
+}
+document.getElementById("trackBtn").addEventListener("click",trackOrder);
+const urlId=new URLSearchParams(location.search).get("id");
+if(urlId){document.getElementById("orderId").value=urlId.toUpperCase();trackOrder();}
+</script>
+</body>
+</html>
