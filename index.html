@@ -6,27 +6,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BAHAR SPORTS</title>
+<title>ROXY</title>
 
 <style>
 
-/* DARK / LIGHT THEME VARIABLES */
+/* AKASHI (SKY BLUE) & BLACK THEME VARIABLES */
 :root {
-    --bg-color: #f8fafc;
-    --card-bg: rgba(255, 255, 255, 0.85);
-    --text-primary: #111827;
-    --text-secondary: #475569;
-    --shadow-color: rgba(0,0,0,0.12);
-    --input-bg: #ffffff;
+    --bg-color: #050b14;
+    --card-bg: rgba(13, 27, 42, 0.85);
+    --text-primary: #f0f9ff;
+    --text-secondary: #7dd3fc;
+    --shadow-color: rgba(0, 194, 255, 0.15);
+    --input-bg: #0b192c;
+    --accent-sky: #38bdf8;
+    --accent-glow: rgba(56, 189, 248, 0.3);
 }
 
-[data-theme="dark"] {
-    --bg-color: #030712;
-    --card-bg: rgba(15, 23, 42, 0.85);
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --shadow-color: rgba(0,0,0,0.6);
-    --input-bg: #0f172a;
+[data-theme="light"] {
+    --bg-color: #f0f9ff;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --text-primary: #0f172a;
+    --text-secondary: #0369a1;
+    --shadow-color: rgba(0,0,0,0.1);
+    --input-bg: #ffffff;
+    --accent-sky: #0284c7;
+    --accent-glow: rgba(2, 132, 199, 0.2);
 }
 
 *{
@@ -34,11 +38,10 @@
     padding:0;
     box-sizing:border-box;
     font-family:'Arial',sans-serif;
-    -webkit-tap-highlight-color: transparent !important; /* মোবাইলের নীল টাচ ওভারলে ১০০% বন্ধ করতে */
+    -webkit-tap-highlight-color: transparent !important;
     -webkit-touch-callout: none;
 }
 
-/* ফোকাস বা ক্লিকে নীল আউটলাইন বা বর্ডার স্থায়ীভাবে বন্ধ করতে */
 button:focus, a:focus, input:focus, select:focus, textarea:focus, *:focus {
     outline: none !important;
 }
@@ -51,7 +54,7 @@ body{
     min-height: 100vh;
 }
 
-/* HIGH-INTENSITY STADIUM FLOODLIGHT ATMOSPHERE OVERLAY */
+/* AKASHI & BLACK STADIUM FLOODLIGHT ATMOSPHERE OVERLAY */
 body::before {
     content: "";
     position: fixed;
@@ -60,41 +63,28 @@ body::before {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.5), transparent 45%),
-        radial-gradient(circle at 85% 10%, rgba(6, 182, 212, 0.45), transparent 45%),
-        radial-gradient(circle at 50% 90%, rgba(29, 78, 216, 0.35), transparent 55%);
+        radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.25), transparent 45%),
+        radial-gradient(circle at 85% 10%, rgba(14, 165, 233, 0.2), transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(2, 132, 199, 0.15), transparent 55%);
     pointer-events: none;
     z-index: 1;
 }
 
-[data-theme="dark"] body::before {
-    background: 
-        radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.7), transparent 50%),
-        radial-gradient(circle at 85% 10%, rgba(14, 165, 233, 0.65), transparent 50%),
-        radial-gradient(circle at 50% 90%, rgba(37, 99, 235, 0.5), transparent 60%);
-}
-
-/* TOP NAVIGATION BAR (Thicker with Soft Glass Effect & No Shadow) */
 .top-nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background: rgba(15, 23, 42, 0.25);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(5, 11, 20, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.2);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 22px 20px;
     z-index: 1000;
-    box-shadow: none;
-}
-
-[data-theme="dark"] .top-nav {
-    background: rgba(2, 6, 23, 0.35);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .top-nav .nav-left, .top-nav .nav-right {
@@ -103,7 +93,6 @@ body::before {
     gap: 8px;
 }
 
-/* NAVBAR CENTER LOGO (Bigger, No Shadow, With Animation) */
 .nav-center-logo {
     display: flex;
     align-items: center;
@@ -116,7 +105,7 @@ body::before {
 .nav-logo {
     max-height: 65px;
     width: auto;
-    filter: none;
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
     animation: navBrand 2s infinite alternate;
 }
 
@@ -126,7 +115,7 @@ body::before {
 }
 
 .nav-btn {
-    background: #031439;
+    background: #0284c7;
     color: white;
     border: none;
     padding: 10px 18px;
@@ -139,19 +128,21 @@ body::before {
     align-items: center;
     gap: 6px;
     text-decoration: none;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
 }
 
 .nav-btn:hover {
-    background: #1d4ed8;
+    background: #38bdf8;
+    color: #030712;
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6);
 }
 
 .nav-btn.cart-btn-top {
-    background: linear-gradient(135deg, #0d0238);
+    background: linear-gradient(135deg, #0284c7, #0369a1);
     position: relative;
 }
 
-/* HEADER SEARCH ICON BESIDE CART */
 .nav-search-btn {
     background: transparent;
     border: none;
@@ -165,7 +156,7 @@ body::before {
 }
 
 .nav-search-btn:hover {
-    background: #1d4ed8;
+    background: rgba(56, 189, 248, 0.2);
     transform: translateY(-2px);
 }
 
@@ -173,9 +164,9 @@ body::before {
     width: 20px;
     height: 20px;
     object-fit: contain;
+    filter: invert(1);
 }
 
-/* POPUP SEARCH BAR STYLING */
 .popup-search-container {
     position: absolute;
     top: 100%;
@@ -183,10 +174,10 @@ body::before {
     background: var(--card-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(56, 189, 248, 0.3);
     padding: 10px 15px;
     border-radius: 50px;
-    box-shadow: 0 10px 25px var(--shadow-color);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
     display: none;
     z-index: 1100;
     width: 260px;
@@ -208,24 +199,22 @@ body::before {
     outline: none;
 }
 
-/* CART BADGE COUNT */
 .cart-badge {
     position: absolute;
     top: -5px;
     right: -5px;
-    background: #ef4444;
-    color: white;
+    background: #38bdf8;
+    color: #030712;
     font-size: 10px;
     padding: 2px 6px;
     border-radius: 50%;
     font-weight: bold;
 }
 
-/* PREMIUM HEADER WITH VIDEO BACKGROUND (Pushed Downwards) */
 header {
     position: relative;
     margin-top: 85px;
-    height: 380px;
+    height: 180px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -234,51 +223,34 @@ header {
     color: white;
     overflow: hidden;
     z-index: 2;
-    background: #020617;
+    background: linear-gradient(135deg, #030712, #0b192c);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.2);
 }
 
-/* VIDEO BACKGROUND STYLES */
-.header-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    transform: translate(-50%, -50%);
-    object-fit: cover;
-    z-index: 1;
-}
-
-/* VIDEO OVERLAY */
 .header-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(2, 6, 23, 0.60);
+    background: rgba(3, 7, 18, 0.65);
     z-index: 2;
     pointer-events: none;
 }
 
-/* HEADER CONTENT */
 .header-content {
     position: relative;
     z-index: 3;
 }
 
-/* SUB TITLE */
 .header-content p {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: bold;
     letter-spacing: 3px;
-    color: #e0f2fe;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+    color: #38bdf8;
+    text-shadow: 0 2px 10px rgba(56, 189, 248, 0.5);
 }
 
-/* CATEGORY TABS */
 .category-container{
     display:flex;
     justify-content:center;
@@ -291,23 +263,24 @@ header {
 }
 
 .cat-btn{
-    padding:8px 18px;
-    border:none;
+    padding:8px 20px;
+    border:1px solid rgba(56, 189, 248, 0.3);
     background: var(--card-bg);
     color: var(--text-primary);
     font-weight:bold;
     border-radius:50px;
     cursor:pointer;
-    box-shadow:0 4px 10px var(--shadow-color);
+    box-shadow:0 4px 15px var(--shadow-color);
     transition:.3s;
 }
 
 .cat-btn:hover, .cat-btn.active{
-    background:#2563eb;
+    background:#0284c7;
     color:white;
+    border-color: #38bdf8;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
 }
 
-/* TRUST FEATURES SECTION */
 .features-section{
     max-width:1100px;
     margin:20px auto 10px;
@@ -323,25 +296,24 @@ header {
     background: var(--card-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding:10px 12px;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    padding:12px 15px;
     border-radius:14px;
     text-align:center;
-    box-shadow:0 5px 15px var(--shadow-color);
+    box-shadow:0 5px 20px rgba(0,0,0,0.4);
 }
 
 .feature-card h3{
-    font-size:10px;
-    color: var(--text-primary);
+    font-size:11px;
+    color: #38bdf8;
     margin-bottom:5px;
 }
 
 .feature-card p{
-    font-size:8px;
-    color: var(--text-secondary);
+    font-size:9px;
+    color: var(--text-primary);
 }
 
-/* PRODUCTS GRID */
 .products{
     max-width:1200px;
     margin:auto;
@@ -353,24 +325,23 @@ header {
     z-index: 2;
 }
 
-/* PRODUCT CARD - GLASSMORPHISM & BORDER GLOW */
 .card{
     background: var(--card-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius:10px;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius:12px;
     overflow:hidden;
     position:relative;
-    box-shadow:0 15px 35px var(--shadow-color);
+    box-shadow:0 15px 35px rgba(0,0,0,0.5);
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease;
     text-align:center;
 }
 
 .card:hover{
     transform:translateY(-12px);
-    border-color: rgba(37, 99, 235, 0.8);
-    box-shadow:0 22px 45px rgba(37, 99, 235, 0.25), 0 0 25px rgba(37, 99, 235, 0.2);
+    border-color: #38bdf8;
+    box-shadow:0 22px 45px rgba(2, 132, 199, 0.3), 0 0 25px rgba(56, 189, 248, 0.25);
 }
 
 .card img{
@@ -384,7 +355,6 @@ header {
     transform: scale(1.08);
 }
 
-/* BADGE */
 .badge{
     position:absolute;
     top:15px;
@@ -398,8 +368,8 @@ header {
     z-index:5;
 }
 
-.badge.best{ background:#ef4444; }
-.badge.new{ background:#10b981; }
+.badge.best{ background:#0284c7; }
+.badge.new{ background:#38bdf8; color: #030712; }
 
 .card h2{
     padding:15px 15px 5px;
@@ -408,13 +378,12 @@ header {
 }
 
 .price{
-    color:#000000;
+    color:#38bdf8;
     font-size:25px;
     font-weight:bold;
     margin-bottom:15px;
 }
 
-/* BUTTONS AREA IN CARD */
 .card-buttons{
     display:flex;
     flex-direction:column;
@@ -426,7 +395,7 @@ header {
     display:block;
     padding:12px 20px;
     border-radius:50px;
-    background:#061a44;
+    background:#0284c7;
     color:white;
     font-size:15px;
     font-weight:bold;
@@ -435,13 +404,15 @@ header {
     border: none;
     cursor: pointer;
     width: 100%;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
 }
 
 .add-cart-btn:hover {
-    background:#1d4ed8;
+    background:#38bdf8;
+    color: #030712;
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6);
 }
 
-/* SIDE DRAWER (CART ONLY) */
 .drawer-overlay {
     position: fixed;
     top: 0;
@@ -449,9 +420,10 @@ header {
     width: 100%;
     max-width: 380px;
     height: 100%;
-    background: #0f172a;
+    background: #030712;
     color: white;
-    box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+    border-left: 1px solid rgba(56, 189, 248, 0.2);
+    box-shadow: -5px 0 25px rgba(0,0,0,0.8);
     z-index: 2000;
     transition: 0.4s ease;
     padding: 20px;
@@ -467,19 +439,20 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.2);
     padding-bottom: 15px;
     margin-bottom: 15px;
 }
 
 .drawer-header h2 {
     font-size: 20px;
+    color: #38bdf8;
 }
 
 .close-drawer {
     font-size: 24px;
     cursor: pointer;
-    color: #94a3b8;
+    color: #7dd3fc;
 }
 
 .drawer-content {
@@ -494,7 +467,8 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #1e293b;
+    background: #0b192c;
+    border: 1px solid rgba(56, 189, 248, 0.15);
     padding: 12px;
     border-radius: 12px;
 }
@@ -502,6 +476,7 @@ header {
 .drawer-item div h4 {
     font-size: 14px;
     margin-bottom: 4px;
+    color: #f0f9ff;
 }
 
 .drawer-item div p {
@@ -518,7 +493,7 @@ header {
 }
 
 .drawer-footer {
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(56, 189, 248, 0.2);
     padding-top: 15px;
     margin-top: 15px;
 }
@@ -529,13 +504,14 @@ header {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 12px;
+    color: #f0f9ff;
 }
 
 .checkout-btn {
     width: 100%;
     padding: 12px;
-    background: linear-gradient(135deg,#f97316,#ec4899);
-    color: white;
+    background: linear-gradient(135deg, #0284c7, #38bdf8);
+    color: #030712;
     border: none;
     border-radius: 50px;
     font-size: 16px;
@@ -544,21 +520,23 @@ header {
     text-align: center;
     text-decoration: none;
     display: block;
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
 }
 
-/* FOOTER */
 footer{
-    background:#020617;
+    background:#030712;
     color:white;
     padding:40px 20px 20px;
     margin-top:40px;
     text-align:center;
     position: relative;
     z-index: 2;
+    border-top: 1px solid rgba(56, 189, 248, 0.2);
 }
 
 footer h2{
     font-size:30px;
+    color: #38bdf8;
 }
 
 footer p{
@@ -581,12 +559,11 @@ footer p{
 }
 
 .fb-btn {
-    background: #1877f2;
+    background: #0284c7;
 }
 
-
 .wa-btn {
-    background: #25d366;
+    background: #10b981;
 }
 
 .color-line{
@@ -596,28 +573,28 @@ footer p{
     border-radius:20px;
     background:linear-gradient(
         90deg,
-        #110571,
-        #2563eb
+        #030712,
+        #38bdf8,
+        #030712
     );
 }
 
-/* SIDEBAR MENU */
 .sidebar{
     position:fixed;
     top:0;
     left:-260px;
     width:240px;
     height:100%;
-    background:#0f172a;
+    background:#030712;
+    border-right: 1px solid rgba(56, 189, 248, 0.2);
     padding-top:20px;
     transition:.3s;
     z-index:2001;
 }
-.sidebar a{display:block;color:#fff;text-decoration:none;padding:15px 20px;font-size:17px;cursor:pointer;}
-.sidebar a:hover{background:#2563eb}
+.sidebar a{display:block;color:#f0f9ff;text-decoration:none;padding:15px 20px;font-size:17px;cursor:pointer;}
+.sidebar a:hover{background:rgba(56, 189, 248, 0.2); color:#38bdf8;}
 .sidebar.open{left:0}
 
-/* OWNER MODAL / POPUP */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -625,14 +602,14 @@ footer p{
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.75);
     z-index: 3000;
     justify-content: center;
     align-items: center;
 }
 
 .modal-card {
-    background: #0f172a;
+    background: #0b192c;
     width: 90%;
     max-width: 380px;
     padding: 25px;
@@ -640,8 +617,8 @@ footer p{
     text-align: center;
     color: white;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    border: 1px solid rgba(56, 189, 248, 0.3);
 }
 
 .close-modal {
@@ -649,7 +626,7 @@ footer p{
     top: 12px;
     right: 15px;
     font-size: 22px;
-    color: #94a3b8;
+    color: #7dd3fc;
     cursor: pointer;
 }
 
@@ -659,12 +636,13 @@ footer p{
     border-radius: 15px;
     object-fit: cover;
     margin-bottom: 12px;
+    border: 2px solid #38bdf8;
 }
 
-.modal-card h3 { color: #94a3b8; font-size: 14px; }
-.modal-card h2 { color: #ffffff; font-size: 22px; margin: 5px 0; }
+.modal-card h3 { color: #7dd3fc; font-size: 14px; }
+.modal-card h2 { color: #f0f9ff; font-size: 22px; margin: 5px 0; }
 .modal-card p { color: #38bdf8; font-size: 15px; margin: 4px 0; }
-.modal-card span { color: #fbbf24; font-size: 14px; font-weight: bold; display: block; margin-top: 8px; }
+.modal-card span { color: #38bdf8; font-size: 14px; font-weight: bold; display: block; margin-top: 8px; }
 
 .modal-card .social-icons {
     margin-top: 15px;
@@ -677,9 +655,9 @@ footer p{
     width: 36px;
     height: 36px;
     margin-bottom: 0;
+    border: none;
 }
 
-/* FLOATING CHAT BUTTON */
 .floating-chat{
     position:fixed;
     bottom:20px;
@@ -691,7 +669,7 @@ footer p{
     width:55px;
     height:55px;
     border-radius:50%;
-    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    box-shadow:0 8px 20px rgba(56, 189, 248, 0.4);
     transition:.3s;
 }
 
@@ -699,9 +677,6 @@ footer p{
     transform:scale(1.1);
 }
 
-/* ============================================================ */
-/* MOBILE RESPONSIVE OPTIMIZATION                                */
-/* ============================================================ */
 @media(max-width:768px){
     .top-nav {
         padding: 16px 10px;
@@ -717,7 +692,7 @@ footer p{
     }
 
     header {
-        height: 240px;
+        height: 140px;
         margin-top: 75px;
     }
 
@@ -792,7 +767,7 @@ footer p{
         <button class="nav-btn" onclick="document.getElementById('sidebar').classList.add('open')">☰ Menu</button>
     </div>
     <div class="nav-center-logo">
-        <img src="images/blogo.PNG" alt="BAHAR SPORTS Logo" class="nav-logo">
+        <img src="images/blogo.PNG" alt="ROXY Logo" class="nav-logo">
     </div>
     <div class="nav-right">
         <div style="position: relative;">
@@ -812,21 +787,12 @@ footer p{
     <a href="javascript:void(0)" onclick="document.getElementById('sidebar').classList.remove('open')">✖ Close</a>
     <a href="index.html">🏠 Home</a>
     
-    <!-- এখানে id="sidebarLoginBtn" যোগ করা হয়েছে -->
     <a href="Login.html" id="sidebarLoginBtn">👤 Login / Register</a>
     
     <a href="javascript:void(0)" onclick="toggleTheme()">🌓 Dark/Light Mode</a>
-    <a href="javascript:void(0)" onclick="toggleSound()" id="soundMenuBtn">🔊 Play Sound</a>
-    <a href="tracking.html">📦 Track Order</a>
     <a href="https://bahar77-mm.github.io/BAHAR-SPORTS/admin.html">⚙️ Admin Panel</a>
     <a href="javascript:void(0)" onclick="openOwnerModal()">👤 Owner Info</a>
 </div>
-
-<!-- BACKGROUND AUDIO ELEMENT -->
-<audio id="bgSound" loop>
-    <source src="images/sound.mpeg" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
 
 <!-- OWNER INFO POPUP MODAL -->
 <div id="ownerModal" class="modal-overlay">
@@ -836,8 +802,8 @@ footer p{
         <h3>Owner</h3>
         <h2>HABIBUL BAHAR</h2>
         <p>📞 01616568419</p>
-        <p>🏪 BAHAR SPORTS</p>
-        <span>Trusted Online Jersey Seller</span>
+        <p>🏪 ROXY</p>
+        <span>Trusted Online Seller</span>
         <div class="social-icons">
             <a href="https://wa.me/8801616568419" target="_blank">
                 <img src="images/whatsapp.png" alt="WhatsApp">
@@ -850,22 +816,18 @@ footer p{
 </div>
 
 <header>
-    <video autoplay muted loop playsinline class="header-video">
-        <source src="images/4k.MP4" type="video/mp4">
-        Your browser does not support HTML5 video.
-    </video>
-
     <div class="header-overlay"></div>
 
     <div class="header-content">
-        <p>© 2026 BAHAR SPORTS All RIGHT RESERVED.</p>
+        <p>© 2026 ROXY All RIGHT RESERVED.</p>
     </div>
 </header>
 
 <!-- CATEGORY TABS FILTER -->
 <div class="category-container">
-    <button class="cat-btn active" onclick="filterCategory('Jersey', this)">All Jersey</button>
-    <button class="cat-btn" onclick="filterCategory('Accessories', this)">Others Item</button>
+    <button class="cat-btn active" onclick="filterCategory('Shirt', this)">Shirt</button>
+    <button class="cat-btn" onclick="filterCategory('PANT', this)">PANT</button>
+    <button class="cat-btn" onclick="filterCategory('T SHIRT', this)">T SHIRT</button>
 </div>
 
 <!-- TRUST FEATURES -->
@@ -884,7 +846,7 @@ footer p{
     </div>
 </section>
 
-<!-- ফায়ারবেস থেকে প্রোডাক্ট লোড হওয়ার জন্য ডাইনামিক প্রোডাক্ট গ্রিড -->
+<!-- ডাইনামিক প্রোডাক্ট গ্রিড -->
 <section class="products" id="productGrid">
 </section>
 
@@ -910,7 +872,7 @@ footer p{
 <h2>Contact Us</h2>
 
 <p>
-Order Your Favourite Jersey Now
+Order Your Favourite Item Now
 </p>
 
 <a class="btn order fb-btn" href="https://facebook.com/share/1BhbzDP7f9/?mibextid=wwXIfr">
@@ -923,7 +885,7 @@ WHATSAPP
 <div class="color-line"></div>
 
 <p style="margin-top:25px;color:transparent;">
-© 2026 BAHAR SPORTS
+© 2026 ROXY
 </p>
 
 </footer>
@@ -978,7 +940,6 @@ window.displayProducts = function(products) {
         let disableBtn = "";
         let btnText = "🛒 Add to Cart";
 
-        // স্টক স্ট্যাটাস চেক
         if (prod.stockStatus === "Stock Out") {
             stockBadge = `<span class="badge" style="background:#ef4444;">Stock Out</span>`;
             disableBtn = `disabled style="background:#64748b; cursor:not-allowed;"`;
@@ -986,9 +947,8 @@ window.displayProducts = function(products) {
             stockBadge = `<span class="badge" style="background:#f59e0b;">${prod.stockStatus}</span>`;
         }
 
-        // ডিসকাউন্ট এবং মূল প্রাইস হ্যান্ডেল করার কোড
         let priceHTML = "";
-        let effectivePrice = prod.price; // কার্ট ও অর্ডারের জন্য মূল বা ডিসকাউন্টেড দাম
+        let effectivePrice = prod.price;
 
         if (prod.discountPrice && Number(prod.discountPrice) > 0 && Number(prod.discountPrice) < Number(prod.price)) {
             effectivePrice = prod.discountPrice;
@@ -998,7 +958,7 @@ window.displayProducts = function(products) {
         }
 
         grid.innerHTML += `
-            <div class="card product-card" data-category="${prod.category || 'Jersey'}">
+            <div class="card product-card" data-category="${prod.category || 'Shirt'}">
                 ${stockBadge}
                 <a href="product.html?name=${encodeURIComponent(prod.name)}&price=${effectivePrice}&img=${encodeURIComponent(prod.img)}"><img src="${prod.img}" alt="${prod.name}"></a>
                 <a href="product.html?name=${encodeURIComponent(prod.name)}&price=${effectivePrice}&img=${encodeURIComponent(prod.img)}" style="text-decoration:none; color:inherit;"><h2>${prod.name}</h2></a>
@@ -1018,7 +978,7 @@ window.filterCategory = function(category, btn) {
     }
     btn.classList.add('active');
 
-    let filtered = allProducts.filter(p => (p.category || 'Jersey') === category);
+    let filtered = allProducts.filter(p => (p.category || 'Shirt') === category);
     displayProducts(filtered);
 }
 
@@ -1037,41 +997,21 @@ let cart = [];
 function toggleTheme() {
     const currentTheme = document.body.getAttribute('data-theme');
     
-    if (currentTheme === 'dark') {
+    if (currentTheme === 'light') {
         document.body.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-    } else {
-        document.body.setAttribute('data-theme', 'dark');
         localStorage.setItem('theme', 'dark');
+    } else {
+        document.body.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
     }
 }
 
 (function loadTheme() {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.setAttribute('data-theme', 'dark');
+    if (savedTheme === 'light') {
+        document.body.setAttribute('data-theme', 'light');
     }
 })();
-
-let isPlaying = false;
-function toggleSound() {
-    let sound = document.getElementById('bgSound');
-    let soundBtn = document.getElementById('soundMenuBtn');
-
-    if (isPlaying) {
-        sound.pause();
-        soundBtn.innerHTML = "🔊 Play Sound";
-        isPlaying = false;
-    } else {
-        sound.play().then(() => {
-            soundBtn.innerHTML = "🔇 Stop Sound";
-            isPlaying = true;
-        }).catch(error => {
-            console.log("Audio play failed: ", error);
-            alert("Please check the audio file path or interact with the page first.");
-        });
-    }
-}
 
 function togglePopupSearch() {
     let searchBox = document.getElementById('popupSearchBox');
@@ -1095,7 +1035,7 @@ function updateCartUI() {
     document.getElementById('cartCount').innerText = cart.length;
 
     if (cart.length === 0) {
-        container.innerHTML = "<p style='text-align:center;color:#94a3b8;margin-top:20px;'>Your cart is empty.</p>";
+        container.innerHTML = "<p style='text-align:center;color:#7dd3fc;margin-top:20px;'>Your cart is empty.</p>";
         document.getElementById('cartTotalPrice').innerText = "৳0";
         return;
     }
@@ -1162,7 +1102,6 @@ window.onclick = function(event) {
     }
 }
 
-// লগইন করা থাকলে সাইডবারের নাম পরিবর্তন এবং নামের ওপর ক্লিক করলে লগআউট করার স্ক্রিপ্ট
 window.addEventListener('DOMContentLoaded', () => {
     let savedUser = localStorage.getItem('loggedInUser');
     let loginBtn = document.getElementById('sidebarLoginBtn');
